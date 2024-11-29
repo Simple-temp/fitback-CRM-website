@@ -78,11 +78,15 @@ const ProductsShowPage = () => {
         formData.append("productname", values.productname);
         formData.append("quantity", values.quantity);
         formData.append("discount", values.discount);
-        formData.append("image1", values.image1);
+          // Check if a new file is selected
+        if (values.image1 && values.image1 instanceof File) {
+          formData.append("image1", values.image1);
+        } 
 
         const response = await axios.put(
           `https://qwikit1.pythonanywhere.com/product/${getUserToUpdate.id}`,
-          formData
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
         );
         console.log("Server response:", response.data);
         toast.success("Product Updated successfully", { theme: "colored" });
@@ -91,7 +95,7 @@ const ProductsShowPage = () => {
       } catch (err) {
         console.error("Error:", err.response?.data || err.message);
         toast.error(
-          `Error creating product: ${err.response?.data?.message || "Unknown error"}`,
+          `Error product updating: ${err.response?.data?.message || "Unknown error"}`,
           { theme: "colored" }
         );
       }
@@ -202,17 +206,6 @@ const ProductsShowPage = () => {
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <label htmlFor="quantity">Quantity</label>
-                <TextField
-                  id="quantity"
-                  name="quantity"
-                  variant="outlined"
-                  value={formik.values.quantity}
-                  onChange={formik.handleChange}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
                 <label htmlFor="discount">Discount</label>
                 <TextField
                   id="discount"
@@ -232,6 +225,17 @@ const ProductsShowPage = () => {
                   onChange={(event) => {
                     formik.setFieldValue("image1", event.currentTarget.files[0]);
                   }}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <label htmlFor="quantity">Quantity</label>
+                <TextField
+                  id="quantity"
+                  name="quantity"
+                  variant="outlined"
+                  value={formik.values.quantity}
+                  onChange={formik.handleChange}
                   fullWidth
                 />
               </Grid>
@@ -259,15 +263,15 @@ const ProductsShowPage = () => {
       <TableContainer
         component={Paper}
         sx={{
-          overflowX: "auto", // Enable horizontal scrolling
-          maxHeight: "90vh", // Add a max height for better responsiveness
+          overflowX: "auto", 
+          maxHeight: "90vh", 
         }}
       >
         <Table
           sx={{
             minWidth: 850,
             "@media (max-width: 768px)": {
-              minWidth: "100%", // Allow shrinkage on smaller screens
+              minWidth: "100%", 
             },
           }}
           size="small"
@@ -279,7 +283,7 @@ const ProductsShowPage = () => {
               <TableCell>Category</TableCell>
               <TableCell>Product Brand</TableCell>
               <TableCell>Product Name</TableCell>
-              <TableCell>Discount (Taka)</TableCell>
+              <TableCell>Discount</TableCell>
               <TableCell>Image</TableCell>
               <TableCell>Quantity</TableCell>
               <TableCell>Update</TableCell>
@@ -301,7 +305,7 @@ const ProductsShowPage = () => {
                 <TableCell>{item.category}</TableCell>
                 <TableCell>{item.productbrand}</TableCell>
                 <TableCell>{item.productname}</TableCell>
-                <TableCell>{item.discount}</TableCell>
+                <TableCell>{item.discount}-(Taka)</TableCell>
                 <TableCell>
                   <img src={item.image1} alt="Product" style={{ width: "150px", height: "100px", borderRadius: "4px", }} />
                 </TableCell>

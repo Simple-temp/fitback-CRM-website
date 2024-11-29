@@ -1,9 +1,9 @@
-import { Button, TextField } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 
 const CreatePublicUser = () => {
   // Validation Schema
@@ -23,27 +23,47 @@ const CreatePublicUser = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
+      user_FUId: "",
       phonenumber: "",
       password: "",
       email: "",
       address: "",
+      city: "",
+      gender: "",
+      bloodgroup: "",
+      fmoney: "",
+      fcoins: "",
+      age: "",
+      image: "",
+      bloodpressure: "",
       height: "",
       weight: "",
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const { height, weight, ...otherValues } = values;
 
-        const dataToSubmit = {
-          ...otherValues,
-          height: [{ value: height, timestamp: new Date().toISOString() }],
-          weight: [{ value: weight, timestamp: new Date().toISOString() }],
-        };
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("user_FUId", values.user_FUId);
+        formData.append("phonenumber", values.phonenumber);
+        formData.append("password", values.password);
+        formData.append("email", values.email);
+        formData.append("address", values.address);
+        formData.append("city", values.city);
+        formData.append("gender", values.gender);
+        formData.append("bloodgroup", values.bloodgroup);
+        formData.append("fmoney", values.fmoney);
+        formData.append("fcoins", values.fcoins);
+        formData.append("age", values.age);
+        formData.append("image", values.image);
+        formData.append("height", JSON.stringify([{ value: values.height, timestamp: new Date().toISOString() }]));
+        formData.append("weight", JSON.stringify([{ value: values.weight, timestamp: new Date().toISOString() }]));
+        formData.append("bloodpressure", JSON.stringify([{ value: values.bloodpressure }]));        
 
         const response = await axios.post(
           `https://qwikit1.pythonanywhere.com/userProfile/new`,
-          dataToSubmit
+          formData
         );
         console.log(response.data);
         toast.success("User Created successfully", { theme: "colored" });
@@ -55,13 +75,17 @@ const CreatePublicUser = () => {
 
   return (
     <div>
-    <ToastContainer position="bottom-center" autoClose={2000} theme="colored"/>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        theme="colored"
+      />
       <h2>Create a new user</h2>
       <form
         onSubmit={formik.handleSubmit}
-        className="max-w-xxl mx-auto bg-white p-6 rounded-lg shadow-md"
+        className="max-w-[1100px] mx-auto bg-white p-6 rounded-lg shadow-md"
       >
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <TextField
             id="name"
             label="Name"
@@ -74,8 +98,19 @@ const CreatePublicUser = () => {
             className="w-full"
           />
           <TextField
+            id="user_FUId"
+            label="User FUId"
+            name="user_FUId"
+            variant="outlined"
+            value={formik.values.user_FUId}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
             id="phonenumber"
-            label="Phonenumber"
+            label="Phone Number"
             name="phonenumber"
             variant="outlined"
             value={formik.values.phonenumber}
@@ -122,6 +157,106 @@ const CreatePublicUser = () => {
             name="address"
             variant="outlined"
             value={formik.values.address}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="city"
+            label="City"
+            name="city"
+            variant="outlined"
+            value={formik.values.city}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <FormControl
+            fullWidth
+            margin="normal"
+            error={formik.touched.gender && Boolean(formik.errors.gender)}
+          >
+            <InputLabel id="gender">Gender</InputLabel>
+            <Select
+              labelId="gender"
+              id="gender"
+              name="gender"
+              value={formik.values.gender}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              label="gender"
+            >
+              <MenuItem value="Female">Female</MenuItem>
+              <MenuItem value="Male">Male</MenuItem>
+            </Select>
+            {formik.touched.gender && formik.errors.gender && (
+              <p className="text-red-500 text-sm">{formik.errors.gender}</p>
+            )}
+          </FormControl>
+          <TextField
+            id="bloodgroup"
+            label="Blood Group"
+            name="bloodgroup"
+            variant="outlined"
+            value={formik.values.bloodgroup}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="fmoney"
+            label="Family Money"
+            name="fmoney"
+            variant="outlined"
+            value={formik.values.fmoney}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="fcoins"
+            label="Family Coins"
+            name="fcoins"
+            variant="outlined"
+            value={formik.values.fcoins}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="age"
+            label="Age"
+            name="age"
+            variant="outlined"
+            value={formik.values.age}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="image"
+            name="image"
+            type="file"
+            variant="outlined"
+            onChange={(event) => {
+              formik.setFieldValue("image", event.currentTarget.files[0]);
+            }}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="bloodpressure"
+            label="Blood Pressure"
+            name="bloodpressure"
+            variant="outlined"
+            value={formik.values.bloodpressure}
             onChange={formik.handleChange}
             fullWidth
             margin="normal"

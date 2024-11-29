@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Modal, Box, TextField, Grid } from "@mui/material";
+import { Modal, Box, TextField, Grid, InputLabel, Select, MenuItem, FormControl } from "@mui/material";
 
 const style = {
   maxWidth: "800px",
@@ -231,15 +231,30 @@ const OrderShowPage = () => {
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <label htmlFor="paymentmethod">Payment Method</label>
-                <TextField
-                  id="paymentmethod"
-                  name="paymentmethod"
-                  variant="outlined"
-                  value={formik.values.paymentmethod}
-                  onChange={formik.handleChange}
+                <FormControl
                   fullWidth
-                />
+                  margin="normal"
+                  error={formik.touched.paymentmethod && Boolean(formik.errors.paymentmethod)}
+                >
+                  <InputLabel id="paymentmethod">Payment Method</InputLabel>
+                  <Select
+                    labelId="paymentmethod"
+                    id="paymentmethod"
+                    name="paymentmethod"
+                    value={formik.values.paymentmethod}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    label="paymentmethod"
+                  >
+                    <MenuItem value="Cash_on_delivery">Cash on Delivery</MenuItem>
+                    <MenuItem value="Stripe">Stripe</MenuItem>
+                    <MenuItem value="Paypal">Paypal</MenuItem>
+                    <MenuItem value="Bkash">Bkash</MenuItem>
+                  </Select>
+                  {formik.touched.paymentmethod && formik.errors.category && (
+                    <p className="text-red-500 text-sm">{formik.errors.paymentmethod}</p>
+                  )}
+               </FormControl>
               </Grid>
             </Grid>
             <Box mt={2} textAlign="right">

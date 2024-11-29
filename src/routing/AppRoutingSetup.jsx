@@ -22,6 +22,7 @@ import CreateHrUser from '@/userRoutes/CreateHrUser';
 import ProductsCreatePage from '@/productRoutes/ProductsCreatePage';
 import ProductsShowPage from '@/productRoutes/ProductsShowPage';
 import OrderShowPage from '@/orderRoutes/OrderShowPage';
+import TrashPage from '@/trash';
 
 
 const AppRoutingSetup = () => {
@@ -118,8 +119,11 @@ const AppRoutingSetup = () => {
               <Route path="/product/page" element={<ProductsShowPage />} />
 
               {/* This is Order Routes */}
-
               <Route path="/orders/page" element={<OrderShowPage />} />
+
+              {/* This is Trash Routes */}
+              <Route path="/trash" element={<TrashPage/>}
+            />
 
             </Route>
           </Route>

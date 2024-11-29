@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
@@ -28,13 +28,36 @@ const CreateHrUser = () => {
       password: "",
       email: "",
       address: "",
-      experience: "",
-      user_type : ""
+      user_FUId: "",
+      nickname: "",
+      city: "",
+      gender: "",
+      bloodgroup: "",
+      image: "",
+      age: "",
+      about: "",
+      user_type : "",
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
         const { ...otherValues } = values;
+
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("user_FUId", values.user_FUId);
+        formData.append("phonenumber", values.phonenumber);
+        formData.append("password", values.password);
+        formData.append("email", values.email);
+        formData.append("address", values.address);
+        formData.append("city", values.city);
+        formData.append("gender", values.gender);
+        formData.append("bloodgroup", values.bloodgroup);
+        formData.append("experience", values.experience);
+        formData.append("age", values.age);
+        formData.append("image", values.image);
+        formData.append("user_type", values.user_type || "HR");
+        formData.append("nickname", values.nickname);
 
         const dataToSubmit = {
           ...otherValues,
@@ -45,7 +68,7 @@ const CreateHrUser = () => {
 
         const response = await axios.post(
           `https://qwikit1.pythonanywhere.com/hRProfile/new`,
-          dataToSubmit
+          formData
         );
         console.log(response.data);
         toast.success("User Created successfully", { theme: "colored" });
@@ -65,7 +88,7 @@ const CreateHrUser = () => {
         onSubmit={formik.handleSubmit}
         className="max-w-xxl mx-auto bg-white p-6 rounded-lg shadow-md"
       >
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <TextField
             id="name"
             label="Name"
@@ -142,6 +165,96 @@ const CreateHrUser = () => {
             margin="normal"
             className="w-full"
           />
+
+          <TextField
+            id="user_FUId"
+            label="user_FUId"
+            name="user_FUId"
+            variant="outlined"
+            value={formik.values.user_FUId}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="nickname"
+            label="nickname"
+            name="nickname"
+            variant="outlined"
+            value={formik.values.nickname}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="city"
+            label="city"
+            name="city"
+            variant="outlined"
+            value={formik.values.city}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="bloodgroup"
+            label="bloodgroup"
+            name="bloodgroup"
+            variant="outlined"
+            value={formik.values.bloodgroup}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="age"
+            label="age"
+            name="age"
+            variant="outlined"
+            value={formik.values.age}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="image"
+            name="image"
+            variant="outlined"
+            type="file"
+            onChange={(event) => {
+              formik.setFieldValue("image", event.currentTarget.files[0]);
+            }}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <FormControl
+            fullWidth
+            margin="normal"
+            error={formik.touched.gender && Boolean(formik.errors.gender)}
+          >
+            <InputLabel id="gender">Gender</InputLabel>
+            <Select
+              labelId="gender"
+              id="gender"
+              name="gender"
+              value={formik.values.gender}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              label="gender"
+            >
+              <MenuItem value="Female">Female</MenuItem>
+              <MenuItem value="Male">Male</MenuItem>
+            </Select>
+            {formik.touched.gender && formik.errors.gender && (
+              <p className="text-red-500 text-sm">{formik.errors.gender}</p>
+            )}
+          </FormControl>
         </div>
         <div className="flex justify-end mt-4">
           <Button

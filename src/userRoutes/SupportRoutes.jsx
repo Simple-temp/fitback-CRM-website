@@ -12,14 +12,17 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Box, Modal, TextField } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Modal, Select, TextField } from "@mui/material";
+
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 900,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -78,6 +81,16 @@ const SupportRoutes = () => {
       email: "",
       address: "",
       experience: "",
+      user_FUId: "",
+      nickname: "",
+      city: "",
+      gender: "",
+      postcode: "",
+      bloodgroup: "",
+      image: "",
+      age: "",
+      digrees: "",
+      about: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -91,9 +104,30 @@ const SupportRoutes = () => {
           address: values.address,
           experience: values.experience,
         };
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("user_FUId", values.user_FUId);
+        formData.append("phonenumber", values.phonenumber);
+        formData.append("password", values.password);
+        formData.append("email", values.email);
+        formData.append("address", values.address);
+        formData.append("city", values.city);
+        formData.append("gender", values.gender);
+        formData.append("bloodgroup", values.bloodgroup);
+        formData.append("experience", values.experience);
+        formData.append("digrees", values.digrees);
+        formData.append("age", values.age);
+        formData.append("image", values.image);
+        formData.append("postcode", values.postcode);
+        formData.append("user_type", values.user_type || "Desk");
+        formData.append("nickname", values.nickname);
+        formData.append("about", values.about);
+
+        console.log(updatedUserData)
+
         const response = await axios.put(
           `https://qwikit1.pythonanywhere.com/supportProfile/${getUserToUpdate.id}`,
-          updatedUserData
+          formData
         );
         console.log("User updated successfully:", response.data);
         toast.success("User updated successfully", { theme: "colored" });
@@ -129,6 +163,10 @@ const SupportRoutes = () => {
         email: getUserToUpdate.email || "",
         address: getUserToUpdate.address || "",
         experience: getUserToUpdate.experience || "",
+        nickname: getUserToUpdate.nickname || "",
+        city: getUserToUpdate.city || "",
+        postcode: getUserToUpdate.postcode || "",
+        age: getUserToUpdate.age || "",
       });
     }
   }, [getUserToUpdate]);
@@ -169,85 +207,229 @@ const SupportRoutes = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <form onSubmit={formik.handleSubmit}>
+        <form
+        onSubmit={formik.handleSubmit}
+        className="max-w-xxl mx-auto bg-white p-6 rounded-lg shadow-md"
+      >
+        <div className="grid grid-cols-3 gap-4">
           <TextField
-              id="name"
-              name="name"
-              variant="outlined"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              id="phonenumber"
-              name="phonenumber"
-              variant="outlined"
-              value={formik.values.phonenumber}
+            id="name"
+            label="Name"
+            name="name"
+            variant="outlined"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="phonenumber"
+            label="Phonenumber"
+            name="phonenumber"
+            variant="outlined"
+            value={formik.values.phonenumber}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              formik.touched.phonenumber && Boolean(formik.errors.phonenumber)
+            }
+            helperText={formik.touched.phonenumber && formik.errors.phonenumber}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="password"
+            label="Password"
+            name="password"
+            variant="outlined"
+            type="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="email"
+            label="Email"
+            name="email"
+            variant="outlined"
+            type="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="experience"
+            label="Experience"
+            name="experience"
+            variant="outlined"
+            value={formik.values.experience}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="address"
+            label="Address"
+            name="address"
+            variant="outlined"
+            value={formik.values.address}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+
+          <TextField
+            id="user_FUId"
+            label="user_FUId"
+            name="user_FUId"
+            variant="outlined"
+            value={formik.values.user_FUId}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="nickname"
+            label="nickname"
+            name="nickname"
+            variant="outlined"
+            value={formik.values.nickname}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="city"
+            label="city"
+            name="city"
+            variant="outlined"
+            value={formik.values.city}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="postcode"
+            label="postcode"
+            name="postcode"
+            variant="outlined"
+            value={formik.values.postcode}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="bloodgroup"
+            label="bloodgroup"
+            name="bloodgroup"
+            variant="outlined"
+            value={formik.values.bloodgroup}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="age"
+            label="age"
+            name="age"
+            variant="outlined"
+            value={formik.values.age}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="digrees"
+            label="digrees"
+            name="digrees"
+            variant="outlined"
+            value={formik.values.digrees}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="about"
+            label="about"
+            name="about"
+            variant="outlined"
+            value={formik.values.about}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <TextField
+            id="image"
+            name="image"
+            variant="outlined"
+            type="file"
+            onChange={(event) => {
+              formik.setFieldValue("image", event.currentTarget.files[0]);
+            }}
+            fullWidth
+            margin="normal"
+            className="w-full"
+          />
+          <FormControl
+            fullWidth
+            margin="normal"
+            error={formik.touched.gender && Boolean(formik.errors.gender)}
+          >
+            <InputLabel id="gender">Gender</InputLabel>
+            <Select
+              labelId="gender"
+              id="gender"
+              name="gender"
+              value={formik.values.gender}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={
-                formik.touched.phonenumber && Boolean(formik.errors.phonenumber)
-              }
-              helperText={
-                formik.touched.phonenumber && formik.errors.phonenumber
-              }
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              id="password"
-              name="password"
-              variant="outlined"
-              type="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              id="email"
-              name="email"
-              variant="outlined"
-              type="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              id="address"
-              name="address"
-              variant="outlined"
-              value={formik.values.address}
-              onChange={formik.handleChange}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              id="experience"
-              name="experience"
-              variant="outlined"
-              value={formik.values.experience}
-              onChange={formik.handleChange}
-              fullWidth
-              margin="normal"
-            />
-            <Button variant="outlined" color="secondary" onClick={handleClose}>
-              Close
-            </Button>{" "}
-            <Button
-              type="submit"
-              variant="contained"
-              color="success"
-              style={{ marginLeft: "10px" }}
+              label="gender"
             >
-              Update
-            </Button>
-          </form>
+              <MenuItem value="Female">Female</MenuItem>
+              <MenuItem value="Male">Male</MenuItem>
+            </Select>
+            {formik.touched.gender && formik.errors.gender && (
+              <p className="text-red-500 text-sm">{formik.errors.gender}</p>
+            )}
+          </FormControl>
+        </div>
+        <div className="flex justify-end mt-4">
+        <Button
+                variant="outlined"
+                color="secondary"
+                onClick={handleClose}
+              >
+                Close
+              </Button>{" "}
+          <Button
+            type="submit"
+            variant="contained"
+            color="success"
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
+          >
+            Create
+          </Button>
+        </div>
+      </form>
         </Box>
       </Modal>
       <TableContainer component={Paper}>
@@ -256,9 +438,19 @@ const SupportRoutes = () => {
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
+              <TableCell align="center">Image</TableCell>
               <TableCell align="center">Phone</TableCell>
+              <TableCell align="center">Email</TableCell>
               <TableCell align="center">Address</TableCell>
               <TableCell align="center">Experience</TableCell>
+              <TableCell align="center">Nickname</TableCell>
+              <TableCell align="center">City</TableCell>
+              <TableCell align="center">Gender</TableCell>
+              <TableCell align="center">Postcode</TableCell>
+              <TableCell align="center">Blood Group</TableCell>
+              <TableCell align="center">Age</TableCell>
+              <TableCell align="center">Degrees</TableCell>
+              <TableCell align="center">About</TableCell>
               <TableCell align="center">Update</TableCell>
               <TableCell align="center">Delete</TableCell>
             </TableRow>
@@ -271,15 +463,35 @@ const SupportRoutes = () => {
               >
                 <TableCell>{item.id}</TableCell>
                 <TableCell>{item.name}</TableCell>
+                <TableCell>
+                  <img
+                    src={item.image}
+                    alt="Avater"
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      borderRadius: "4px",
+                    }}
+                  />
+                </TableCell>
                 <TableCell>{item.phonenumber}</TableCell>
+                <TableCell>{item.email}</TableCell>
                 <TableCell>{item.address}</TableCell>
                 <TableCell>{item.experience}</TableCell>
+                <TableCell>{item.nickname}</TableCell>
+                <TableCell>{item.city}</TableCell>
+                <TableCell>{item.gender}</TableCell>
+                <TableCell>{item.postcode}</TableCell>
+                <TableCell>{item.bloodgroup}</TableCell>
+                <TableCell>{item.age}</TableCell>
+                <TableCell>{item.digrees}</TableCell>
+                <TableCell>{item.about}</TableCell>
                 <TableCell align="center">
                   <Button
                     color="secondary"
                     onClick={() => controlHandleClick(item.id)}
                   >
-                    Update user
+                    <BorderColorIcon/>
                   </Button>
                 </TableCell>
                 <TableCell align="center">
@@ -288,7 +500,7 @@ const SupportRoutes = () => {
                     color="error"
                     onClick={() => deleteUser(item.id)}
                   >
-                    Delete
+                    <DeleteForeverIcon/>
                   </Button>
                 </TableCell>
               </TableRow>
