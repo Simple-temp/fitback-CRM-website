@@ -117,11 +117,14 @@ const DietationRoutes = () => {
         formData.append("experience", values.experience);
         formData.append("digrees", values.digrees);
         formData.append("age", values.age);
-        formData.append("image", values.image);
         formData.append("postcode", values.postcode);
         formData.append("user_type", values.user_type || "Dietitian");
         formData.append("nickname", values.nickname);
         formData.append("about", values.about);
+        // Check if a new file is selected
+          if(values.image && values.image instanceof File) {
+             formData.append("image", values.image);
+        }
 
         const response = await axios.put(
           `https://qwikit1.pythonanywhere.com/dietitianProfile/${getUserToUpdate.id}`,
@@ -159,6 +162,7 @@ const DietationRoutes = () => {
         email: getUserToUpdate.email || "",
         address: getUserToUpdate.address || "",
         experience: getUserToUpdate.experience || "",
+        user_type:  getUserToUpdate.user_type || "",
       });
     }
   }, [getUserToUpdate]);
@@ -436,6 +440,7 @@ const DietationRoutes = () => {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
+              <TableCell>Account Type</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Image</TableCell>
               <TableCell align="center">Phone</TableCell>
@@ -453,6 +458,7 @@ const DietationRoutes = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell>{item.id}</TableCell>
+                <TableCell>{item.user_type}</TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>
                   <img

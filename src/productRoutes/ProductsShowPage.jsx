@@ -12,8 +12,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Modal, Box, TextField, Grid } from "@mui/material";
+import { Modal, Box, TextField, FormControl, InputLabel, Select, MenuItem,} from "@mui/material";
 import "./Product.css";
+
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 const style = {
   maxWidth: "800px",
@@ -68,6 +71,10 @@ const ProductsShowPage = () => {
       quantity: "",
       discount: "",
       image1: "",
+      size: "",
+      details: "",
+      origin: "",
+      reviews: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -78,10 +85,18 @@ const ProductsShowPage = () => {
         formData.append("productname", values.productname);
         formData.append("quantity", values.quantity);
         formData.append("discount", values.discount);
-          // Check if a new file is selected
+        formData.append("size", values.size);
+        formData.append("details", values.details);
+        formData.append("origin", values.origin);
+        formData.append("reviews", values.reviews);
+        formData.append(
+          "reviews",
+          JSON.stringify(values.reviews ? [values.reviews] : [])
+        );
+        // Check if a new file is selected
         if (values.image1 && values.image1 instanceof File) {
           formData.append("image1", values.image1);
-        } 
+        }
 
         const response = await axios.put(
           `https://qwikit1.pythonanywhere.com/product/${getUserToUpdate.id}`,
@@ -126,6 +141,10 @@ const ProductsShowPage = () => {
         quantity: getUserToUpdate.quantity || "",
         discount: getUserToUpdate.discount || "",
         image1: getUserToUpdate.image1 || "",
+        size: getUserToUpdate.size || "",
+        details: getUserToUpdate.details || "",
+        origin: getUserToUpdate.origin || "",
+        reviews: getUserToUpdate.reviews || "",
       });
     }
   }, [getUserToUpdate]);
@@ -170,108 +189,166 @@ const ProductsShowPage = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={4}>
-                <label htmlFor="category">Category</label>
-                <TextField
+          <form
+            onSubmit={formik.handleSubmit}
+            className="max-w-xxl mx-auto bg-white p-6 rounded-lg shadow-md"
+          >
+            <div className="grid grid-cols-3 gap-4">
+              {/* Category Field */}
+              <FormControl
+                fullWidth
+                margin="normal"
+                error={
+                  formik.touched.category && Boolean(formik.errors.category)
+                }
+              >
+                <InputLabel id="category-label">Category</InputLabel>
+                <Select
+                  labelId="category-label"
                   id="category"
                   name="category"
-                  variant="outlined"
                   value={formik.values.category}
                   onChange={formik.handleChange}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <label htmlFor="productbrand">Product Brand</label>
-                <TextField
-                  id="productbrand"
-                  name="productbrand"
-                  variant="outlined"
-                  value={formik.values.productbrand}
-                  onChange={formik.handleChange}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <label htmlFor="productname">Product Name</label>
-                <TextField
-                  id="productname"
-                  name="productname"
-                  variant="outlined"
-                  value={formik.values.productname}
-                  onChange={formik.handleChange}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <label htmlFor="discount">Discount</label>
-                <TextField
-                  id="discount"
-                  name="discount"
-                  variant="outlined"
-                  value={formik.values.discount}
-                  onChange={formik.handleChange}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <label htmlFor="image1">Image Link</label>
-                <TextField
-                  id="image1"
-                  name="image1"
-                  type="file"
-                  onChange={(event) => {
-                    formik.setFieldValue("image1", event.currentTarget.files[0]);
-                  }}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <label htmlFor="quantity">Quantity</label>
-                <TextField
-                  id="quantity"
-                  name="quantity"
-                  variant="outlined"
-                  value={formik.values.quantity}
-                  onChange={formik.handleChange}
-                  fullWidth
-                />
-              </Grid>
-            </Grid>
-            <Box mt={2} textAlign="right">
+                  onBlur={formik.handleBlur}
+                  label="Category"
+                >
+                  <MenuItem value="car">Car</MenuItem>
+                  <MenuItem value="bike">Bike</MenuItem>
+                  <MenuItem value="bicycle">Bicycle</MenuItem>
+                  <MenuItem value="bag">Bag</MenuItem>
+                </Select>
+                {formik.touched.category && formik.errors.category && (
+                  <p className="text-red-500 text-sm">
+                    {formik.errors.category}
+                  </p>
+                )}
+              </FormControl>
+              <TextField
+                label="Product Brand"
+                id="productbrand"
+                name="productbrand"
+                variant="outlined"
+                value={formik.values.productbrand}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Product Name"
+                id="productname"
+                name="productname"
+                variant="outlined"
+                value={formik.values.productname}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Quantity"
+                id="quantity"
+                name="quantity"
+                variant="outlined"
+                value={formik.values.quantity}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Discount"
+                id="discount"
+                name="discount"
+                variant="outlined"
+                value={formik.values.discount}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                id="image1"
+                name="image1"
+                type="file"
+                variant="outlined"
+                onChange={(event) => {
+                  formik.setFieldValue("image1", event.currentTarget.files[0]);
+                }}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Size"
+                id="size"
+                name="size"
+                variant="outlined"
+                value={formik.values.size}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Details"
+                id="details"
+                name="details"
+                variant="outlined"
+                multiline
+                rows={4}
+                value={formik.values.details}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Origin"
+                id="origin"
+                name="origin"
+                variant="outlined"
+                value={formik.values.origin}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Reviews"
+                id="reviews"
+                name="reviews"
+                variant="outlined"
+                value={formik.values.reviews}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+              />
+            </div>
+            <div className="flex justify-end mt-4">
               <Button
                 variant="outlined"
                 color="secondary"
                 onClick={handleClose}
               >
                 Close
-              </Button>
+              </Button>{" "}
               <Button
                 type="submit"
                 variant="contained"
                 color="success"
-                sx={{ marginLeft: "10px" }}
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
               >
                 Update
               </Button>
-            </Box>
+            </div>
           </form>
         </Box>
       </Modal>
       <TableContainer
         component={Paper}
         sx={{
-          overflowX: "auto", 
-          maxHeight: "90vh", 
+          overflowX: "auto",
+          maxHeight: "90vh",
         }}
       >
         <Table
           sx={{
             minWidth: 850,
             "@media (max-width: 768px)": {
-              minWidth: "100%", 
+              minWidth: "100%",
             },
           }}
           size="small"
@@ -283,48 +360,56 @@ const ProductsShowPage = () => {
               <TableCell>Category</TableCell>
               <TableCell>Product Brand</TableCell>
               <TableCell>Product Name</TableCell>
+              <TableCell>Size</TableCell>
+              <TableCell>Origin</TableCell>
+              <TableCell>Details</TableCell>
               <TableCell>Discount</TableCell>
               <TableCell>Image</TableCell>
               <TableCell>Quantity</TableCell>
+              <TableCell>Reviews</TableCell>
               <TableCell>Update</TableCell>
               <TableCell>Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {getData.map((item) => (
-              <TableRow
-                key={item.id}
-                sx={{
-                  "&:last-child td, &:last-child th": { border: 0 },
-                  "@media (max-width: 768px)": {
-                    fontSize: "0.85rem", // Smaller font for mobile screens
-                  },
-                }}
-              >
+              <TableRow key={item.id}>
                 <TableCell>{item.id}</TableCell>
                 <TableCell>{item.category}</TableCell>
                 <TableCell>{item.productbrand}</TableCell>
                 <TableCell>{item.productname}</TableCell>
-                <TableCell>{item.discount}-(Taka)</TableCell>
+                <TableCell>{item.size}</TableCell>
+                <TableCell>{item.origin}</TableCell>
+                <TableCell>{item.details}</TableCell>
+                <TableCell>{item.discount} (Taka)</TableCell>
                 <TableCell>
-                  <img src={item.image1} alt="Product" style={{ width: "150px", height: "100px", borderRadius: "4px", }} />
+                  <img
+                    src={item.image1}
+                    alt="Product"
+                    style={{
+                      width: "150px",
+                      height: "100px",
+                      borderRadius: "4px",
+                    }}
+                  />
                 </TableCell>
                 <TableCell>{item.quantity}</TableCell>
-                <TableCell>
+                <TableCell>{item.reviews}</TableCell>
+                <TableCell align="center">
                   <Button
                     color="secondary"
                     onClick={() => controlHandleClick(item.id)}
                   >
-                    Update Product
+                    <BorderColorIcon />
                   </Button>
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                   <Button
                     variant="outlined"
                     color="error"
                     onClick={() => deleteUser(item.id)}
                   >
-                    Delete
+                    <DeleteForeverIcon />
                   </Button>
                 </TableCell>
               </TableRow>

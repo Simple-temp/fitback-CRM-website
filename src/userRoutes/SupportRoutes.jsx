@@ -117,17 +117,20 @@ const SupportRoutes = () => {
         formData.append("experience", values.experience);
         formData.append("digrees", values.digrees);
         formData.append("age", values.age);
-        formData.append("image", values.image);
         formData.append("postcode", values.postcode);
-        formData.append("user_type", values.user_type || "Desk");
+        formData.append("user_type", values.user_type || "Support");
         formData.append("nickname", values.nickname);
         formData.append("about", values.about);
-
+        // Check if a new file is selected
+        if (values.image && values.image instanceof File) {
+          formData.append("image", values.image);
+        }
         console.log(updatedUserData)
 
         const response = await axios.put(
           `https://qwikit1.pythonanywhere.com/supportProfile/${getUserToUpdate.id}`,
-          formData
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
         );
         console.log("User updated successfully:", response.data);
         toast.success("User updated successfully", { theme: "colored" });
@@ -167,6 +170,9 @@ const SupportRoutes = () => {
         city: getUserToUpdate.city || "",
         postcode: getUserToUpdate.postcode || "",
         age: getUserToUpdate.age || "",
+        gender: getUserToUpdate.gender || "",        
+        bloodgroup: getUserToUpdate.bloodgroup || "",
+        about: getUserToUpdate.about || "",
       });
     }
   }, [getUserToUpdate]);
@@ -426,7 +432,7 @@ const SupportRoutes = () => {
             color="success"
             className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
           >
-            Create
+            Update
           </Button>
         </div>
       </form>

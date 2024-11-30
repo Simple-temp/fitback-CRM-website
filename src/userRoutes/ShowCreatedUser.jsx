@@ -16,8 +16,9 @@ import TextField from "@mui/material/TextField";
 import { ToastContainer, toast } from "react-toastify";
 import PropTypes from "prop-types";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 
 const style = {
@@ -88,7 +89,10 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
         formData.append("fmoney", values.fmoney);
         formData.append("fcoins", values.fcoins);
         formData.append("age", values.age);
-        formData.append("image", values.image);
+        // Check if a new file is selected
+        if (values.image && values.image instanceof File) {
+          formData.append("image", values.image);
+        }
         formData.append(
           "height",
           JSON.stringify(
@@ -109,11 +113,12 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
         const response = await axios.put(
           `https://qwikit1.pythonanywhere.com/userProfile/${getUserToUpdate.id}`,
           formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
         );
         console.log("User updated successfully:", response.data);
+        toast.success("User updated successfully");
         fetchAllUserData();
         handleClose();
-        toast.success("User updated successfully");
       } catch (error) {
         console.error(error);
       }
@@ -493,11 +498,22 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
                       : "No weight data"}
                   </TableCell>
                   <TableCell align="center">
-                    <EditIcon onClick={() => controlHandleClick(item.id)} />
-                  </TableCell>
-                  <TableCell align="center">
-                    <DeleteForeverIcon onClick={() => deleteUser(item.id)} />
-                  </TableCell>
+                  <Button
+                    color="secondary"
+                    onClick={() => controlHandleClick(item.id)}
+                  >
+                    <BorderColorIcon/>
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => deleteUser(item.id)}
+                  >
+                    <DeleteForeverIcon/>
+                  </Button>
+                </TableCell>
                 </TableRow>
               ))}
             </TableBody>

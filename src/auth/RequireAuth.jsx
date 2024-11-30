@@ -5,7 +5,6 @@ import { useAuthContext } from './useAuthContext';
 const RequireAuth = () => {
   const loggedInUser = localStorage.getItem("loggedInUser");
   const userParse = JSON.parse(loggedInUser)
-  console.log(userParse)
 
   const {
     auth,

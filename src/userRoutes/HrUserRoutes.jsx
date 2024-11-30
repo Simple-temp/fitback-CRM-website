@@ -113,8 +113,11 @@ const HrUserRoutes = () => {
       formData.append("bloodgroup", values.bloodgroup);
       formData.append("experience", values.experience);
       formData.append("age", values.age);
-      formData.append("image", values.image);
       formData.append("nickname", values.nickname);
+      // Check if a new file is selected
+      if (values.image && values.image instanceof File) {
+        formData.append("image", values.image);
+      }
 
       try {
         const updatedUserData = {
@@ -130,7 +133,8 @@ const HrUserRoutes = () => {
 
         const response = await axios.put(
           `https://qwikit1.pythonanywhere.com/hRProfile/${getUserToUpdate.id}`,
-          formData
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
         );
         console.log("User updated successfully:", response.data);
         toast.success("User updated successfully", { theme: "colored" });
@@ -171,7 +175,7 @@ const HrUserRoutes = () => {
         postcode: getUserToUpdate.postcode || "",
         age: getUserToUpdate.age || "",
         gender: getUserToUpdate.gender || "",
-        bloodgroup: getUserToUpdate.gender || "",
+        bloodgroup: getUserToUpdate.bloodgroup || "",
       });
     }
   }, [getUserToUpdate]);

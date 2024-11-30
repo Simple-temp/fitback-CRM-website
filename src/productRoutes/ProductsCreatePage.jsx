@@ -1,4 +1,13 @@
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  Switch,
+  TextField,
+} from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
@@ -19,6 +28,11 @@ const ProductsCreatePage = () => {
       quantity: "",
       discount: "",
       image1: "",
+      size: "",
+      details: "",
+      origin: "",
+      availablestatus: true,
+      reviews: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -30,6 +44,14 @@ const ProductsCreatePage = () => {
         formData.append("quantity", values.quantity);
         formData.append("discount", values.discount);
         formData.append("image1", values.image1);
+        formData.append("size", values.size);
+        formData.append("details", values.details);
+        formData.append("origin", values.origin);
+        formData.append("reviews", values.reviews);
+        formData.append(
+          "reviews",
+          JSON.stringify(values.reviews ? [values.reviews] : [])
+        );
 
         const response = await axios.post(
           `https://qwikit1.pythonanywhere.com/product/new`,
@@ -60,7 +82,8 @@ const ProductsCreatePage = () => {
         onSubmit={formik.handleSubmit}
         className="max-w-xxl mx-auto bg-white p-6 rounded-lg shadow-md"
       >
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
+          {/* Category Field */}
           <FormControl
             fullWidth
             margin="normal"
@@ -133,6 +156,60 @@ const ProductsCreatePage = () => {
             onChange={(event) => {
               formik.setFieldValue("image1", event.currentTarget.files[0]);
             }}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Size"
+            id="size"
+            name="size"
+            variant="outlined"
+            value={formik.values.size}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Details"
+            id="details"
+            name="details"
+            variant="outlined"
+            multiline
+            rows={4}
+            value={formik.values.details}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Origin"
+            id="origin"
+            name="origin"
+            variant="outlined"
+            value={formik.values.origin}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+          />
+          <FormControlLabel
+            control={
+              <Switch
+                id="availablestatus"
+                name="availablestatus"
+                checked={formik.values.availablestatus}
+                onChange={formik.handleChange}
+                color="primary"
+              />
+            }
+            label="Available Status"
+          />
+          <TextField
+            label="Reviews"
+            id="reviews"
+            name="reviews"
+            variant="outlined"
+            value={formik.values.reviews}
+            onChange={formik.handleChange}
             fullWidth
             margin="normal"
           />

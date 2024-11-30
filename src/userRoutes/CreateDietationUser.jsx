@@ -50,7 +50,6 @@ const CreateDietationUser = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const { ...otherValues } = values;
         const formData = new FormData();
         formData.append("name", values.name);
         formData.append("user_FUId", values.user_FUId);
@@ -69,13 +68,6 @@ const CreateDietationUser = () => {
         formData.append("user_type", values.user_type || "Dietitian");
         formData.append("nickname", values.nickname);
         formData.append("about", values.about);
-
-        const dataToSubmit = {
-          ...otherValues,
-          user_type: "Dietitian",
-        };
-
-        console.log(dataToSubmit);
 
         const response = await axios.post(
           `https://qwikit1.pythonanywhere.com/dietitianProfile/new`,

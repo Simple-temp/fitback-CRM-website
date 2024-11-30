@@ -1,3 +1,6 @@
+const loggedInUser = localStorage.getItem("loggedInUser");
+const userParse = JSON.parse(loggedInUser);
+console.log("User type:", userParse?.user_type);
 
 export const MENU_SIDEBAR = [
   {
@@ -132,105 +135,69 @@ export const MENU_SIDEBAR = [
     ],
   },
 
-// This is User Managment Options
-  {
+  //===========================================Start the code===================================
+
+  // Admin User Management Options
+  userParse?.user_type === "Admin" && {
     title: "User Management",
     icon: "profile-circle",
     children: [
       {
         title: "Public",
         children: [
-          {
-            title: "Manage Public",
-            path: "/admin/page",
-          },
-          {
-            title: "Create Public",
-            path: "/admin/create/page",
-          },
+          { title: "Manage Public", path: "/admin/page" },
+          { title: "Create Public", path: "/admin/create/page" },
         ],
       },
       {
         title: "Dietitian",
         children: [
-          {
-            title: "Manage Dietitian",
-            path: "/dietitian/page",
-          },
-          {
-            title: "Create Dietitian",
-            path: "/dietitian/create/page",
-          },
+          { title: "Manage Dietitian", path: "/dietitian/page" },
+          { title: "Create Dietitian", path: "/dietitian/create/page" },
         ],
       },
       {
         title: "Desk",
         children: [
-          {
-            title: "Manage Desk",
-            path: "/desk/page",
-          },
-          {
-            title: "Create Desk",
-            path: "/desk/create/page",
-          },
+          { title: "Manage Desk", path: "/desk/page" },
+          { title: "Create Desk", path: "/desk/create/page" },
         ],
       },
       {
         title: "Support",
         children: [
-          {
-            title: "Manage Support",
-            path: "/support/page",
-          },
-          {
-            title: "Create Support",
-            path: "/support/create/page",
-          },
+          { title: "Manage Support", path: "/support/page" },
+          { title: "Create Support", path: "/support/create/page" },
         ],
       },
       {
         title: "HR",
         children: [
-          {
-            title: "Manage HR",
-            path: "/hr/page",
-          },
-          {
-            title: "Create HR",
-            path: "/hr/create/page",
-          },
+          { title: "Manage HR", path: "/hr/page" },
+          { title: "Create HR", path: "/hr/create/page" },
         ],
       },
     ],
   },
 
-  // This is end
-
-  // Start Product Management
-
+  // Product Management
+  userParse?.user_type === "Admin" &&
   {
     title: "Products Management",
-    icon:  "profile-circle",
+    icon: "profile-circle",
     children: [
       {
         title: "Products",
         children: [
-          {
-            title: "Manage Products",
-            path: "/product/page",
-          },
-          {
-            title: "Create Products",
-            path: "/product/create/page",
-          },
+          { title: "Manage Products", path: "/product/page" },
+          { title: "Create Products", path: "/product/create/page" },
         ],
       },
     ],
   },
 
-  // Start Order Management
-
+  // Order Management
+  userParse?.user_type === "Admin" && 
   {
     title: "Orders Management",
     icon: "profile-circle",
@@ -238,14 +205,31 @@ export const MENU_SIDEBAR = [
       {
         title: "Orders",
         children: [
-          {
-            title: "Manage Orders",
-            path: "/orders/page",
-          },
+          { title: "Manage Orders", path: "/orders/page" },
         ],
       },
     ],
   },
+
+
+ // Dietitian Management Options
+  userParse?.user_type === "Dietitian" &&      
+  {
+    title: "Bill Management",
+    icon: "profile-circle",
+    children: [
+      {
+        title: "Bill Manage",
+        children: [
+          { title: "User", path: "#" },
+          { title: "Reset", path: "#" },
+          { title: "Asthetic", path: "#" },
+        ],
+      },
+    ],
+  },
+
+//===========================================End the code===================================
 
   {
     title: "My Account",

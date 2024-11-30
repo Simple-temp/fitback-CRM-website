@@ -125,11 +125,14 @@ const DeskRoutes = () => {
         formData.append("experience", values.experience);
         formData.append("digrees", values.digrees);
         formData.append("age", values.age);
-        formData.append("image", values.image);
         formData.append("postcode", values.postcode);
         formData.append("user_type", values.user_type || "Desk");
         formData.append("nickname", values.nickname);
         formData.append("about", values.about);
+        // Check if a new file is selected
+           if(values.image && values.image instanceof File) {
+            formData.append("image", values.image);
+        }
 
         const response = await axios.put(
           `https://qwikit1.pythonanywhere.com/deskProfile/${getUserToUpdate.id}`,
@@ -175,6 +178,9 @@ const DeskRoutes = () => {
         city: getUserToUpdate.city || "",
         postcode: getUserToUpdate.postcode || "",
         age: getUserToUpdate.age || "",
+        gender: getUserToUpdate.gender || "",        
+        bloodgroup: getUserToUpdate.bloodgroup || "",
+        about: getUserToUpdate.about || "",
       });
     }
   }, [getUserToUpdate]);
