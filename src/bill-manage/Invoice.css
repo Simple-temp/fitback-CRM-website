@@ -1,0 +1,342 @@
+.invoice-img {
+    background-image: url("../public/img/invoice.png");
+    width: 100%;
+    height: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 2px solid #000;
+    padding-bottom: 30px;
+    margin: 0 auto;
+  }
+
+  .main-container {
+    max-width: 800px;
+    padding: 30px;
+  }
+  
+  input,
+  textarea {
+    background: transparent;
+  }
+  
+  .invoice-body {
+    margin-top: 140px;
+  }
+  
+  .invoice-title {
+    text-align: center;
+    font-weight: 800;
+    font-size: 25px;
+  }
+  
+  .invoice-header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  
+  .header-col1 {
+    padding-left: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .header-col2 {
+    padding-right: 80px;
+    text-align: right;
+  }
+  
+  .invoice-table {
+    margin-top: 30px;
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .invoice-table th,
+  .invoice-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .amount-info {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .innter-payment {
+    display: flex;
+  }
+  
+  .text {
+    width: 90%;
+  }
+  
+  .amount-row {
+    display: flex;
+    width: 40%;
+  }
+  
+  .signature-section {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .note-section {
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
+  
+  textarea {
+    width: 100%;
+  }
+
+  .amount-details{
+    width: 110px
+  }
+
+  .invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+  }
+  
+  .invoice-table th,
+  .invoice-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .invoice-table input {
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0;
+  }
+  
+  
+  /* Responsive Styles */
+
+  @media (max-width: 768px) {
+    .invoice-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  
+    .invoice-table th,
+    .invoice-table td {
+      display: inline-block;
+      text-align: left;
+    }
+  
+    .invoice-table th {
+      position: absolute;
+      left: -9999px;
+    }
+  
+    .invoice-table td {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding-left: 50%;
+    }
+  
+    .invoice-table td:before {
+      content: attr(data-label);
+      position: absolute;
+      left: 10px;
+      font-weight: bold;
+    }
+  
+    .invoice-table input {
+      width: 90%; /* Adjust input width for small screens */
+    }
+  }
+  
+  /* Medium devices (tablets) */
+  @media (max-width: 1024px) {
+    .invoice-img {
+      width: 90%;
+    }
+  
+    .invoice-title {
+      font-size: 22px;
+    }
+  
+    .invoice-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .header-col1,
+    .header-col2 {
+      padding-left: 0;
+      padding-right: 0;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  
+    .invoice-table th,
+    .invoice-table td {
+      font-size: 14px;
+    }
+  
+    .amount-info {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .amount-row {
+      width: 100%;
+    }
+  
+    .signature-section {
+      flex-direction: column;
+      width: 100%;
+    }
+  
+    .note-section {
+      padding-bottom: 20px;
+    }
+  }
+  
+  /* Small devices (mobiles) */
+  @media (max-width: 768px) {
+    .invoice-img {
+      width: 100%;
+    }
+  
+    .invoice-title {
+      font-size: 18px;
+    }
+  
+    .invoice-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .header-col1,
+    .header-col2 {
+      padding-left: 0;
+      padding-right: 0;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  
+    .invoice-table th,
+    .invoice-table td {
+      font-size: 12px;
+      padding: 5px;
+    }
+  
+    .amount-info {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .amount-row {
+      width: 100%;
+    }
+  
+    .signature-section {
+      flex-direction: column;
+      width: 100%;
+    }
+  
+    .note-section {
+      padding-bottom: 20px;
+    }
+  }
+  
+  /* Extra small devices (very small screens) */
+  @media (max-width: 480px) {
+    .invoice-img {
+      width: 100%;
+    }
+  
+    .invoice-title {
+      font-size: 16px;
+    }
+  
+    .invoice-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .header-col1,
+    .header-col2 {
+      padding-left: 0;
+      padding-right: 0;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .invoice-table th,
+    .invoice-table td {
+      font-size: 10px;
+      padding: 5px;
+    }
+  
+    .amount-info {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .amount-row {
+      width: 100%;
+    }
+  
+    .signature-section {
+      flex-direction: column;
+      width: 100%;
+    }
+  
+    .note-section {
+      padding-bottom: 15px;
+    }
+  
+    .amount-row input,
+    .signature-section input,
+    .note-section textarea {
+      font-size: 12px;
+    }
+  }
+  
+  /* Table responsiveness */
+  @media (max-width: 480px) {
+    .invoice-table {
+      width: 100%;
+      display: block;
+      overflow-x: auto;
+    }
+  
+    .invoice-table th,
+    .invoice-table td {
+      display: block;
+      text-align: right;
+      width: 100%;
+    }
+  
+    .invoice-table th {
+      position: absolute;
+      left: -9999px;
+    }
+  
+    .invoice-table td {
+      text-align: left;
+      position: relative;
+      padding-left: 50%;
+    }
+  
+    .invoice-table td:before {
+      content: attr(data-label);
+      position: absolute;
+      left: 10px;
+      font-weight: bold;
+    }
+  }
+  

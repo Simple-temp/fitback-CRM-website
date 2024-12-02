@@ -23,6 +23,8 @@ import ProductsCreatePage from '@/productRoutes/ProductsCreatePage';
 import ProductsShowPage from '@/productRoutes/ProductsShowPage';
 import OrderShowPage from '@/orderRoutes/OrderShowPage';
 import TrashPage from '@/trash';
+import MoneyRecept from '@/bill-manage/MoneyRecept';
+import Invoice from '@/bill-manage/Invoice';
 
 
 const AppRoutingSetup = () => {
@@ -114,6 +116,11 @@ const AppRoutingSetup = () => {
               <Route path="/hr/page" element={<HrUserRoutes />} />
               <Route path="/hr/create/page" element={<CreateHrUser />} />
 
+              {/* This is Money Recept Routes */}
+              <Route path="/moneyrecept/page" element={<MoneyRecept />} />
+              {/* This is Invoice Routes */}
+              <Route path="/invoice/page" element={<Invoice />} />
+
               {/* This is Products Routes */}
               <Route path="/product/create/page" element={<ProductsCreatePage />} />
               <Route path="/product/page" element={<ProductsShowPage />} />
@@ -123,6 +130,7 @@ const AppRoutingSetup = () => {
 
               {/* This is Trash Routes */}
               <Route path="/trash" element={<TrashPage/>}
+              
             />
 
             </Route>
