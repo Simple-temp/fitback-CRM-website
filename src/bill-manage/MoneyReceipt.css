@@ -1,0 +1,161 @@
+.receipt-container{
+    /* background-color: rgb(254, 254, 254); */
+    background-image: url("../public/img/invoice2.png");
+    width: 100%;
+    height: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 1px solid #000;
+    padding-bottom: 30px;
+    margin: 0 auto;
+    position: relative;
+    padding-left: 30px;
+    padding-bottom: 30px;
+}
+
+.container{
+    width: 800px;
+    margin: auto;
+}
+
+.title{
+    margin-top: 100px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 29px;
+    width: 350px;
+    background-color: #ee426d;
+    position: absolute;
+    right: 0;
+    color: aliceblue;
+    padding: 19px 0;
+    border-radius: 50px 0 0 50px;
+    -webkit-border-radius: 50px 0 0 50px;
+    -moz-border-radius: 50px 0 0 50px;
+    -ms-border-radius: 50px 0 0 50px;
+    -o-border-radius: 50px 0 0 50px;
+}
+
+.header-part{
+    margin-top: 150px;
+    margin-bottom: 50px;
+}
+
+.form-row-header{
+    margin-top:50px;
+    display: flex;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: 600;
+}
+.form-row-header input {
+    width: 100px
+}
+
+.form-row-date label{
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.form-row-header {
+    width: 400px;
+    background-color: #ffe4eb;
+    padding: 13px 13px;
+    margin: auto;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
+}
+
+.form-row-date{
+    margin-bottom: 70px;
+    position: relative;
+}
+
+.form-row-date::before{
+    content: "";
+    background-color:#ee426d;
+    height: 2px;
+    width: 450px;
+    position: absolute;
+    margin-top: -20px;
+}
+
+.full{
+    width: 100%;
+}
+.form-row-full{
+    display: flex;
+}
+.recipt-body input{
+    padding: 9px 0;
+    margin: 8px 0 ;
+}
+:focus{
+    outline: none;
+}
+
+.form-row-full label{
+    margin-top: 15px;
+    margin-right: 6px;
+}
+
+.footer-part{
+    margin-top: 50px;
+    display: flex;
+}
+
+.footer-part input{
+    margin: 2px 0;
+    padding: 9px 0;
+}
+
+.footer-part label{
+    margin-right: 5px;
+}
+
+.footer-part .form-row{
+    margin: 7px 0;
+}
+
+.footer-part .form-row input{
+    padding: 8px 0px;
+}
+
+.form-row-footer{
+    margin-top: 40px;
+    border-bottom: 1px solid #000;
+    width: 100px;
+}
+
+.form-row-footer2{
+    margin-top: 40px;
+    border-bottom: 1px solid #000;
+    width: 200px;
+}
+
+.download-btn{
+    margin-top: 20px;
+}
+.footer-row{
+    display: flex;
+    justify-content: space-between;
+}
+
+.payment-methods label{
+    margin-right: 13px;
+}
+
+.another{
+    margin-right: 7px;
+}
+
+.border-for-input{
+    border-bottom: 1px solid #000;
+}
+
+.form-row1{
+    margin-top: 11px;
+}

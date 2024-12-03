@@ -7,8 +7,16 @@ import axios from "axios";
 const Invoice = () => {
   const [customerData, setCustomerData] = useState({});
   const [customerID, setCustomerID] = useState("");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
 
   const handleDownloadPDF = () => {
+    // Temporarily update the payment method text to show only the selected method
+    const paymentMethods = document.querySelector(".payment-methods");
+    const originalContent = paymentMethods.innerHTML;
+
+    // Show only the selected payment method
+    paymentMethods.innerHTML = `<label>${selectedPaymentMethod}</label>`;
+
     const element = document.querySelector(".main-container");
     html2canvas(element, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
@@ -18,11 +26,14 @@ const Invoice = () => {
 
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
       pdf.save("invoice.pdf");
+
+      // Restore the original content
+      paymentMethods.innerHTML = originalContent;
     });
   };
 
   const handleBlur = async () => {
-    if (!customerID.trim()) return; // Ensure the input is not empty
+    if (!customerID.trim()) return;
 
     try {
       const response = await axios.get(
@@ -34,14 +45,16 @@ const Invoice = () => {
     }
   };
 
+  const handlePaymentMethodChange = (e) => {
+    setSelectedPaymentMethod(e.target.value);
+  };
+
   return (
     <div className="main-container invoice-img">
       <div className="invoice-container">
         <div className="invoice-body">
-          {/* Invoice Title */}
           <h2 className="invoice-title">Invoice</h2>
 
-          {/* Header Section */}
           <div className="invoice-header">
             <div className="header-col1">
               <div className="header-group1">
@@ -85,9 +98,9 @@ const Invoice = () => {
                 />
               </div>
               <div className="header-group2">
-              <label>Advisor:</label>
+                <label>Advisor:</label>
                 <select name="options" id="options">
-                <option value="">--Select---</option>
+                  <option value="">--Select---</option>
                   <option value="Advisor1">Advisor 1</option>
                   <option value="Advisor2">Advisor 2</option>
                   <option value="Advisor3">Advisor 3</option>
@@ -97,7 +110,6 @@ const Invoice = () => {
             </div>
           </div>
 
-          {/* Table Section */}
           <table className="invoice-table">
             <thead>
               <tr>
@@ -140,19 +152,36 @@ const Invoice = () => {
           </table>
 
           <div className="amount-info">
-            {/* Payment Section */}
             <div className="payment-section">
               <div className="innter-payment">
                 <label>Payment Received By:</label>
                 <div className="payment-methods">
                   <label>
-                    <input type="checkbox" /> Cash
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="Cash"
+                      onChange={handlePaymentMethodChange}
+                    />{" "}
+                    Cash
                   </label>
                   <label>
-                    <input type="checkbox" /> Card
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="Card"
+                      onChange={handlePaymentMethodChange}
+                    />{" "}
+                    Card
                   </label>
                   <label>
-                    <input type="checkbox" /> Bkash
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="Bkash"
+                      onChange={handlePaymentMethodChange}
+                    />{" "}
+                    Bkash
                   </label>
                 </div>
               </div>
@@ -161,7 +190,6 @@ const Invoice = () => {
                 placeholder="Enter amount in words"
                 className="text"
               ></textarea>
-              {/* Disclaimer */}
               <div className="disclaimer">
                 <p>
                   *** We don’t take responsibility unless all guidelines are
@@ -185,26 +213,29 @@ const Invoice = () => {
                     placeholder="0.00"
                     className="amount-details"
                     value={customerData.vat}
-                  /> <br />
-
+                  />{" "}
+                  <br />
                   <input
                     type="number"
                     placeholder="0.00"
                     className="amount-details"
                     value={customerData.deliverycharge}
-                  /> <br />
+                  />{" "}
+                  <br />
                   <input
                     type="number"
                     placeholder="0.00"
                     className="amount-details"
                     value={customerData.totalprice}
-                  /> <br />
+                  />{" "}
+                  <br />
                   <input
                     type="number"
                     placeholder="0.00"
                     className="amount-details"
                     value={customerData.totalMRP}
-                  /> <br />
+                  />{" "}
+                  <br />
                   <input
                     type="number"
                     placeholder="0.00"
@@ -216,7 +247,6 @@ const Invoice = () => {
             </div>
           </div>
 
-          {/* Footer Section */}
           <div className="footer-section">
             <div className="signature-section">
               <div>
@@ -234,7 +264,6 @@ const Invoice = () => {
             </div>
           </div>
 
-          {/* Notes Section */}
           <div className="note-section">
             <label>Note:</label> <br />
             <textarea
