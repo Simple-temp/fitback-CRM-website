@@ -1,11 +1,15 @@
-
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import "./Invoice.css";
+import { useState } from "react";
+import axios from "axios";
 
 const Invoice = () => {
+  const [customerData, setCustomerData] = useState({});
+  const [customerID, setCustomerID] = useState("");
+
   const handleDownloadPDF = () => {
-    const element = document.querySelector(".invoice-container");
+    const element = document.querySelector(".main-container");
     html2canvas(element, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
@@ -15,6 +19,19 @@ const Invoice = () => {
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
       pdf.save("invoice.pdf");
     });
+  };
+
+  const handleBlur = async () => {
+    if (!customerID.trim()) return; // Ensure the input is not empty
+
+    try {
+      const response = await axios.get(
+        `https://qwikit1.pythonanywhere.com/orderFitbackProduct/${customerID}`
+      );
+      setCustomerData(response.data);
+    } catch (err) {
+      console.log("Error fetching customer data:", err);
+    }
   };
 
   return (
@@ -29,28 +46,53 @@ const Invoice = () => {
             <div className="header-col1">
               <div className="header-group1">
                 <label>Bill To:</label>
-                <input type="text" placeholder="" />
+                <input
+                  type="text"
+                  placeholder=""
+                  value={customerData.username}
+                />
               </div>
               <div className="header-group1">
                 <label>Phone:</label>
-                <input type="text" placeholder="" />
+                <input
+                  type="text"
+                  placeholder=""
+                  value={customerData.phonenumber}
+                />
               </div>
             </div>
             <div className="header-col2">
               <div className="header-group2">
                 <label>Date:</label>
+                <input
+                  type="text"
+                  placeholder=""
+                  value={customerData.orderdate}
+                />
               </div>
               <div className="header-group2">
                 <label>Invoice No:</label>
-                <input type="text" placeholder="" />
+                <input type="text" placeholder="" value={customerData.userid} />
               </div>
               <div className="header-group2">
                 <label>Customer ID:</label>
-                <input type="text" placeholder="" />
+                <input
+                  type="text"
+                  placeholder=""
+                  value={customerID}
+                  onChange={(e) => setCustomerID(e.target.value)}
+                  onBlur={handleBlur}
+                />
               </div>
               <div className="header-group2">
-                <label>Advisor:</label>
-                <input type="text" placeholder="" />
+              <label>Advisor:</label>
+                <select name="options" id="options">
+                <option value="">--Select---</option>
+                  <option value="Advisor1">Advisor 1</option>
+                  <option value="Advisor2">Advisor 2</option>
+                  <option value="Advisor3">Advisor 3</option>
+                  <option value="Advisor4">Advisor 4</option>
+                </select>
               </div>
             </div>
           </div>
@@ -76,13 +118,21 @@ const Invoice = () => {
                     <input type="text" placeholder="Enter description" />
                   </td>
                   <td>
-                    <input type="number" placeholder="0" />
+                    <input
+                      type="number"
+                      placeholder="0"
+                      value={customerData.totalquantity}
+                    />
                   </td>
                   <td>
                     <input type="number" placeholder="0.00" />
                   </td>
                   <td>
-                    <input type="number" placeholder="0.00" />
+                    <input
+                      type="number"
+                      placeholder="0.00"
+                      value={customerData.totalproductamount}
+                    />
                   </td>
                 </tr>
               ))}
@@ -107,7 +157,10 @@ const Invoice = () => {
                 </div>
               </div>
               <label>In Words:</label> <br />
-              <textarea placeholder="Enter amount in words" className="text"></textarea>
+              <textarea
+                placeholder="Enter amount in words"
+                className="text"
+              ></textarea>
               {/* Disclaimer */}
               <div className="disclaimer">
                 <p>
@@ -119,24 +172,46 @@ const Invoice = () => {
             </div>
             <div className="amount-section">
               <div className="amount-row">
-                <label>Subtotal:</label>
-                <input type="number" placeholder="0.00" className="amount-details" />
-              </div>
-              <div className="amount-row">
-                <label>Discount:</label>
-                <input type="number" placeholder="0.00" className="amount-details" />
-              </div>
-              <div className="amount-row">
-                <label>TotalAmount:</label>
-                <input type="number" placeholder="0.00" className="amount-details" />
-              </div>
-              <div className="amount-row">
-                <label>Paid Amount: </label>
-                <input type="number" placeholder="0.00" className="amount-details" />
-              </div>
-              <div className="amount-row">
-                <label>Due Amount: </label>
-                <input type="number" placeholder="0.00" className="amount-details" />
+                <div className="left">
+                  <label>Subtotal:</label>
+                  <label>Discount:</label>
+                  <label>TotalAmount:</label>
+                  <label>PaidAmount: </label>
+                  <label>DueAmount: </label>
+                </div>
+                <div className="right">
+                  <input
+                    type="number"
+                    placeholder="0.00"
+                    className="amount-details"
+                    value={customerData.vat}
+                  /> <br />
+
+                  <input
+                    type="number"
+                    placeholder="0.00"
+                    className="amount-details"
+                    value={customerData.deliverycharge}
+                  /> <br />
+                  <input
+                    type="number"
+                    placeholder="0.00"
+                    className="amount-details"
+                    value={customerData.totalprice}
+                  /> <br />
+                  <input
+                    type="number"
+                    placeholder="0.00"
+                    className="amount-details"
+                    value={customerData.totalMRP}
+                  /> <br />
+                  <input
+                    type="number"
+                    placeholder="0.00"
+                    className="amount-details"
+                    value={customerData.suppertotalamount}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -162,7 +237,10 @@ const Invoice = () => {
           {/* Notes Section */}
           <div className="note-section">
             <label>Note:</label> <br />
-            <textarea placeholder="Add any notes"></textarea>
+            <textarea
+              placeholder="Add any notes"
+              value={customerData.orderstatus}
+            ></textarea>
           </div>
         </div>
       </div>
