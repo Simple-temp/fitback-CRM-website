@@ -5,3 +5,7 @@
 
 /* Demos */
 @import "demos/demo1";
+
+.logo{
+    width: 160px;
+}

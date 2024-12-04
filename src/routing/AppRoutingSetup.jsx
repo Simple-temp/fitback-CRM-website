@@ -25,6 +25,7 @@ import OrderShowPage from '@/orderRoutes/OrderShowPage';
 import TrashPage from '@/trash';
 import MoneyRecept from '@/bill-manage/MoneyRecept';
 import Invoice from '@/bill-manage/Invoice';
+import OrderDetails from '@/orderRoutes/OrderDetails';
 
 
 const AppRoutingSetup = () => {
@@ -127,6 +128,7 @@ const AppRoutingSetup = () => {
 
               {/* This is Order Routes */}
               <Route path="/orders/page" element={<OrderShowPage />} />
+              <Route path="/orders/page/:id" element={<OrderDetails />} />
 
               {/* This is Trash Routes */}
               <Route path="/trash" element={<TrashPage/>}

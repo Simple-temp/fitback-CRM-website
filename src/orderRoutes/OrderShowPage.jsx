@@ -12,7 +12,21 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Modal, Box, TextField, Grid, InputLabel, Select, MenuItem, FormControl } from "@mui/material";
+import {
+  Modal,
+  Box,
+  TextField,
+  Grid,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControl,
+} from "@mui/material";
+
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DetailsIcon from "@mui/icons-material/Details";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   maxWidth: "800px",
@@ -26,6 +40,8 @@ const style = {
 };
 
 const OrderShowPage = () => {
+
+  const navigate = useNavigate()
   const [getData, setGetData] = useState([]);
 
   // modal code
@@ -234,7 +250,10 @@ const OrderShowPage = () => {
                 <FormControl
                   fullWidth
                   margin="normal"
-                  error={formik.touched.paymentmethod && Boolean(formik.errors.paymentmethod)}
+                  error={
+                    formik.touched.paymentmethod &&
+                    Boolean(formik.errors.paymentmethod)
+                  }
                 >
                   <InputLabel id="paymentmethod">Payment Method</InputLabel>
                   <Select
@@ -246,15 +265,19 @@ const OrderShowPage = () => {
                     onBlur={formik.handleBlur}
                     label="paymentmethod"
                   >
-                    <MenuItem value="Cash_on_delivery">Cash on Delivery</MenuItem>
+                    <MenuItem value="Cash_on_delivery">
+                      Cash on Delivery
+                    </MenuItem>
                     <MenuItem value="Stripe">Stripe</MenuItem>
                     <MenuItem value="Paypal">Paypal</MenuItem>
                     <MenuItem value="Bkash">Bkash</MenuItem>
                   </Select>
                   {formik.touched.paymentmethod && formik.errors.category && (
-                    <p className="text-red-500 text-sm">{formik.errors.paymentmethod}</p>
+                    <p className="text-red-500 text-sm">
+                      {formik.errors.paymentmethod}
+                    </p>
                   )}
-               </FormControl>
+                </FormControl>
               </Grid>
             </Grid>
             <Box mt={2} textAlign="right">
@@ -307,6 +330,7 @@ const OrderShowPage = () => {
               <TableCell align="left">Payment Method</TableCell>
               <TableCell align="center">Update</TableCell>
               <TableCell align="center">Delete</TableCell>
+              <TableCell align="center">Details</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -334,7 +358,7 @@ const OrderShowPage = () => {
                     color="secondary"
                     onClick={() => controlHandleClick(item.id)}
                   >
-                    Update Product
+                    <BorderColorIcon />
                   </Button>
                 </TableCell>
                 <TableCell align="center">
@@ -343,8 +367,13 @@ const OrderShowPage = () => {
                     color="error"
                     onClick={() => deleteUser(item.id)}
                   >
-                    Delete
+                    <DeleteForeverIcon />
                   </Button>
+                </TableCell>
+                <TableCell align="center">
+                    <Button variant="outlined" color="error" onClick={()=>navigate(`${item.id}`)}>
+                      <DetailsIcon />
+                    </Button>
                 </TableCell>
               </TableRow>
             ))}
