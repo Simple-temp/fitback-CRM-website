@@ -36,26 +36,29 @@ const Invoice = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
-  const [filterData, setFilterData] = useState([]); 
-  const [ getFilteredNumber , setGetFilterredNumber] = useState({})
-  const [ getNewUser, SetGetNewUser ] = useState([])
-  const [ newUserByNumber, setNewUserByNumber ] = useState({})
+  const [filterData, setFilterData] = useState([]);
+  const [getFilteredNumber, setGetFilterredNumber] = useState({});
+  const [getNewUser, SetGetNewUser] = useState([]);
+  const [newUserByNumber, setNewUserByNumber] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
   // fetch the new user data
 
-  useEffect(()=>{
-    fetchAllPublicUser()
-  },[getNewUser])
-  const fetchAllPublicUser = async () =>{
+  useEffect(() => {
+    fetchAllPublicUser();
+  }, [getNewUser]);
+  const fetchAllPublicUser = async () => {
     try {
-      const response = await axios.get( `https://qwikit1.pythonanywhere.com/userProfile/`,);
+      const response = await axios.get(
+        `https://qwikit1.pythonanywhere.com/userProfile/`
+      );
       console.log(response.data);
-      SetGetNewUser(response.data)
+      SetGetNewUser(response.data);
     } catch (err) {
       console.error(err);
     }
-  }
-
+  };
 
   // Function to generate PDF
   const handleDownloadPDF = () => {
@@ -80,41 +83,72 @@ const Invoice = () => {
     });
   };
 
-  useEffect(()=>{
-    fetchAllOder()
-  },[])
+  useEffect(() => {
+    fetchAllOder();
+  }, []);
 
-  const fetchAllOder = async () =>{
-    const response = await axios.get( `https://qwikit1.pythonanywhere.com/orderFitbackProduct` );
-    setFilterData(response.data)
-  }
+  const fetchAllOder = async () => {
+    const response = await axios.get(
+      `https://qwikit1.pythonanywhere.com/orderFitbackProduct`
+    );
+    setFilterData(response.data);
+  };
 
   // Handle blur event to fetch customer data
-  const [showAlert, setShowAlert] = useState(false);
+
+  const handleChange = (e) => {
+    const input = e.target.value;
+    setPhoneNumber(input);
+
+    // Remove error message if the input is valid
+    if (/^01\d{9}$/.test(input)) {
+      setErrorMessage("");
+    } else if (input.length !== 11) {
+      setErrorMessage(
+        "Invalid phone number. It must start with '01' and contain 11 digits in total."
+      );
+    }
+  };
+
   const handleBlur = async () => {
-
     try {
+      setErrorMessage("");
 
-      if(customerID){
-        const response = await axios.get( `https://qwikit1.pythonanywhere.com/orderFitbackProduct/${customerID}` );
-        setCustomerData(response.data)
-        if(!response.data){
-            setShowAlert(true); 
-            return;
+      if (customerID) {
+        const response = await axios.get(
+          `https://qwikit1.pythonanywhere.com/orderFitbackProduct/${customerID}`
+        );
+        setCustomerData(response.data);
+        fetchAllOder();
+        if (!response.data) {
+          setShowAlert(true);
+          return;
         }
       }
-      if(phoneNumber) {
-        console.log(phoneNumber)
-        const filteredProducts = filterData.find((order) => order.phonenumber === phoneNumber);
-        const filtereNewUserByNumber = getNewUser.find((user) => user.phonenumber === phoneNumber);
+      if (phoneNumber) {
+        const phoneRegex = /^01\d{9}$/;
+        if (!phoneRegex.test(phoneNumber)) {
+          setErrorMessage(
+            "Invalid phone number. It must start with '01' and contain 11 digits in total."
+          );
+          return;
+        }
+        console.log(phoneNumber);
+        const filteredProducts = filterData.find(
+          (order) => order.phonenumber === phoneNumber
+        );
+        const filtereNewUserByNumber = getNewUser.find(
+          (user) => user.phonenumber === phoneNumber
+        );
         setGetFilterredNumber(filteredProducts); // Set the filtered data
-        setNewUserByNumber(filtereNewUserByNumber) // Set the filtered data
-        if(!filteredProducts && !filtereNewUserByNumber){
-          setShowAlert(true); 
+        setNewUserByNumber(filtereNewUserByNumber); // Set the filtered data
+        fetchAllPublicUser();
+        if (!filteredProducts && !filtereNewUserByNumber) {
+          setShowAlert(true);
           return;
         }
         console.log(JSON.stringify(filteredProducts));
-      } 
+      }
     } catch (err) {
       console.log("Error fetching customer data:", err);
     }
@@ -206,7 +240,6 @@ const Invoice = () => {
     setSelectedPaymentMethod(e.target.value);
   };
 
-
   return (
     <div className="main-container invoice-img">
       <ToastContainer
@@ -219,9 +252,18 @@ const Invoice = () => {
           severity="warning"
           onClose={() => setShowAlert(false)}
           action={
-            <Button color="inherit" size="small" onClick={handleOpenModal}>
-              Create New User
-            </Button>
+            <>
+              <Button color="inherit" size="small" onClick={handleOpenModal}>
+                Create New User
+              </Button>
+              <Button
+                color="inherit"
+                size="small"
+                onClick={() => setShowAlert(false)}
+              >
+                Close
+              </Button>
+            </>
           }
         >
           No customer data found. Would you like to create a new user?
@@ -263,7 +305,7 @@ const Invoice = () => {
                 label="Phone Number"
                 name="phonenumber"
                 variant="outlined"
-                value={formik.values.phonenumber}
+                value={formik.values.phonenumber || phoneNumber}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 error={
@@ -465,7 +507,12 @@ const Invoice = () => {
                 <input
                   type="text"
                   placeholder=""
-                  value={customerData?.username|| getFilteredNumber?.username || newUserByNumber?.name || ""}
+                  value={
+                    customerData?.username ||
+                    getFilteredNumber?.username ||
+                    newUserByNumber?.name ||
+                    ""
+                  }
                   readOnly
                 />
               </div>
@@ -475,9 +522,12 @@ const Invoice = () => {
                   type="text"
                   placeholder=""
                   value={phoneNumber || customerData?.phonenumber || ""}
-                  onChange={(e)=>setPhoneNumber(e.target.value)}
+                  onChange={handleChange}
                   onBlur={handleBlur}
                 />
+                {errorMessage && (
+                  <p className="error-message">{errorMessage}</p>
+                )}
               </div>
             </div>
             <div className="header-col2">
@@ -486,7 +536,11 @@ const Invoice = () => {
                 <input
                   type="text"
                   placeholder=""
-                  value={customerData?.orderdate || getFilteredNumber?.orderdate || ""}
+                  value={
+                    customerData?.orderdate ||
+                    getFilteredNumber?.orderdate ||
+                    ""
+                  }
                 />
               </div>
               <div className="header-group2">
@@ -494,7 +548,12 @@ const Invoice = () => {
                 <input
                   type="text"
                   placeholder=""
-                  value={customerData.userid || getFilteredNumber?.userid || newUserByNumber?.userid || ""}
+                  value={
+                    customerData.userid ||
+                    getFilteredNumber?.userid ||
+                    newUserByNumber?.userid ||
+                    ""
+                  }
                 />
               </div>
               <div className="header-group2">
@@ -502,7 +561,9 @@ const Invoice = () => {
                 <input
                   type="text"
                   placeholder=""
-                  value={customerID || getFilteredNumber ? getFilteredNumber.id : ""}
+                  value={
+                    customerID || getFilteredNumber ? getFilteredNumber.id : ""
+                  }
                   onChange={(e) => setCustomerID(e.target.value)}
                   onBlur={handleBlur}
                 />
@@ -543,7 +604,11 @@ const Invoice = () => {
                     <input
                       type="number"
                       placeholder="0"
-                      value={customerData.totalquantity || getFilteredNumber?.totalquantity || ""}
+                      value={
+                        customerData.totalquantity ||
+                        getFilteredNumber?.totalquantity ||
+                        ""
+                      }
                       readOnly
                     />
                   </td>
@@ -554,7 +619,11 @@ const Invoice = () => {
                     <input
                       type="number"
                       placeholder="0.00"
-                      value={customerData.totalproductamount || getFilteredNumber?.totalproductamount || ""}
+                      value={
+                        customerData.totalproductamount ||
+                        getFilteredNumber?.totalproductamount ||
+                        ""
+                      }
                       readOnly
                     />
                   </td>
@@ -624,35 +693,49 @@ const Invoice = () => {
                     type="number"
                     placeholder="0.00"
                     className="amount-details"
-                    value={customerData.vat || getFilteredNumber?.vat ||""}
+                    value={customerData.vat || getFilteredNumber?.vat || ""}
                   />{" "}
                   <br />
                   <input
                     type="number"
                     placeholder="0.00"
                     className="amount-details"
-                    value={customerData.deliverycharge ||  getFilteredNumber?.deliverycharge ||""}
+                    value={
+                      customerData.deliverycharge ||
+                      getFilteredNumber?.deliverycharge ||
+                      ""
+                    }
                   />{" "}
                   <br />
                   <input
                     type="number"
                     placeholder="0.00"
                     className="amount-details"
-                    value={customerData.totalprice || getFilteredNumber?.totalprice || ""}
+                    value={
+                      customerData.totalprice ||
+                      getFilteredNumber?.totalprice ||
+                      ""
+                    }
                   />{" "}
                   <br />
                   <input
                     type="number"
                     placeholder="0.00"
                     className="amount-details"
-                    value={customerData.totalMRP || getFilteredNumber?.totalMRP || ""}
+                    value={
+                      customerData.totalMRP || getFilteredNumber?.totalMRP || ""
+                    }
                   />{" "}
                   <br />
                   <input
                     type="number"
                     placeholder="0.00"
                     className="amount-details"
-                    value={customerData.suppertotalamount || getFilteredNumber?.suppertotalamount || ""}
+                    value={
+                      customerData.suppertotalamount ||
+                      getFilteredNumber?.suppertotalamount ||
+                      ""
+                    }
                   />
                 </div>
               </div>
@@ -680,7 +763,9 @@ const Invoice = () => {
             <label>Note:</label> <br />
             <textarea
               placeholder="Add any notes"
-              value={customerData.orderstatus || getFilteredNumber?.orderstatus || ""}
+              value={
+                customerData.orderstatus || getFilteredNumber?.orderstatus || ""
+              }
             ></textarea>
           </div>
         </div>

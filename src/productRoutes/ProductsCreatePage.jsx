@@ -103,6 +103,7 @@ const ProductsCreatePage = () => {
               <MenuItem value="bike">Bike</MenuItem>
               <MenuItem value="bicycle">Bicycle</MenuItem>
               <MenuItem value="bag">Bag</MenuItem>
+              <MenuItem value="food">Food</MenuItem>
             </Select>
             {formik.touched.category && formik.errors.category && (
               <p className="text-red-500 text-sm">{formik.errors.category}</p>
