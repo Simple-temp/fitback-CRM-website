@@ -124,6 +124,7 @@ const OrderDetails = () => {
         </div>
         <div className="order-details-row">
           <h3>Customer Information</h3>
+          <p>Name: {orderData.username}</p>
           <p>Address: {orderData.address}</p>
           <p>Total Quantity: {orderData.totalquantity}</p>
           <p>Delivery Charge: {orderData.deliverycharge} BDT</p>

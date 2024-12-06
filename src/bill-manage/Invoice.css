@@ -144,8 +144,17 @@
   }
   
   .header-group2:nth-child(4){
-    margin-right: 108px;
+    margin-right: 11px;
   }
+
+  .custom-select {
+    text-align: center; 
+    text-align-last: center; 
+    width: 200px; 
+    padding: 5px; 
+    font-size: 16px; 
+  }
+  
   
   /* Responsive Styles */
 

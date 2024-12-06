@@ -75,10 +75,10 @@ const Teams = () => {
       };
     } catch (error) {
       console.error('Failed to fetch data:', error);
-      enqueueSnackbar('An error occurred while fetching data. Please try again later', {
-        variant: 'solid',
-        state: 'danger'
-      });
+      // enqueueSnackbar('An error occurred while fetching data. Please try again later', {
+      //   variant: 'solid',
+      //   state: 'danger'
+      // });
       return {
         data: [],
         totalCount: 0
