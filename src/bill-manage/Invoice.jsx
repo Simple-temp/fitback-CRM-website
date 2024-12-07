@@ -31,15 +31,21 @@ const style = {
 };
 
 const Invoice = () => {
-  const [customerData, setCustomerData] = useState({});
+  const [customerData, setCustomerData] = useState([]);
+  const [getOrderDataByCUstermerID , setgetOrderDataByCUstermerID] = useState({})
   const [customerID, setCustomerID] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+//===================
   const [openModal, setOpenModal] = useState(false);
+//===================
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+//===================
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [filterData, setFilterData] = useState([]);
   const [getFilteredNumber, setGetFilterredNumber] = useState({});
+//===================
   const [getNewUser, SetGetNewUser] = useState([]);
   const [newUserByNumber, setNewUserByNumber] = useState({});
+//===================
   const [errorMessage, setErrorMessage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
 
@@ -53,7 +59,6 @@ const Invoice = () => {
       const response = await axios.get(
         `https://qwikit1.pythonanywhere.com/userProfile/`
       );
-      console.log(response.data);
       SetGetNewUser(response.data);
     } catch (err) {
       console.error(err);
@@ -92,6 +97,7 @@ const Invoice = () => {
       `https://qwikit1.pythonanywhere.com/orderFitbackProduct`
     );
     setFilterData(response.data);
+    setCustomerData(response.data);
   };
 
   // Handle blur event to fetch customer data
@@ -115,12 +121,12 @@ const Invoice = () => {
       setErrorMessage("");
 
       if (customerID) {
-        const response = await axios.get(
-          `https://qwikit1.pythonanywhere.com/orderFitbackProduct/${customerID}`
-        );
-        setCustomerData(response.data);
+        console.log(customerData)
+        const GetOrderByCustomerID = customerData.find((order)=> order.userid === customerID)
+        setgetOrderDataByCUstermerID(GetOrderByCustomerID);
+        console.log(customerID, GetOrderByCustomerID)
         fetchAllOder();
-        if (!response.data) {
+        if (!GetOrderByCustomerID) {
           setShowAlert(true);
           return;
         }
@@ -511,9 +517,9 @@ const Invoice = () => {
                     customerData?.username ||
                     getFilteredNumber?.username ||
                     newUserByNumber?.name ||
+                    getOrderDataByCUstermerID?.username ||
                     ""
                   }
-                  readOnly
                 />
               </div>
               <div className="header-group1">
@@ -521,7 +527,7 @@ const Invoice = () => {
                 <input
                   type="text"
                   placeholder=""
-                  value={phoneNumber || customerData?.phonenumber || ""}
+                  value={phoneNumber || customerData?.phonenumber || getOrderDataByCUstermerID?.phonenumber || ""}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
@@ -539,6 +545,7 @@ const Invoice = () => {
                   value={
                     customerData?.orderdate ||
                     getFilteredNumber?.orderdate ||
+                    getOrderDataByCUstermerID?.orderdate ||
                     ""
                   }
                 />
@@ -552,6 +559,7 @@ const Invoice = () => {
                     customerData.userid ||
                     getFilteredNumber?.userid ||
                     newUserByNumber?.userid ||
+                    getOrderDataByCUstermerID?.userid ||
                     ""
                   }
                 />
@@ -562,7 +570,7 @@ const Invoice = () => {
                   type="text"
                   placeholder=""
                   value={
-                    customerID || getFilteredNumber ? getFilteredNumber.id : ""
+                    customerID || getFilteredNumber ? getFilteredNumber.id : "N/A"
                   }
                   onChange={(e) => setCustomerID(e.target.value)}
                   onBlur={handleBlur}
@@ -607,9 +615,9 @@ const Invoice = () => {
                       value={
                         customerData.totalquantity ||
                         getFilteredNumber?.totalquantity ||
+                        getOrderDataByCUstermerID?.totalquantity ||
                         ""
                       }
-                      readOnly
                     />
                   </td>
                   <td>
@@ -622,9 +630,9 @@ const Invoice = () => {
                       value={
                         customerData.totalproductamount ||
                         getFilteredNumber?.totalproductamount ||
+                        getOrderDataByCUstermerID?.totalproductamount ||
                         ""
                       }
-                      readOnly
                     />
                   </td>
                 </tr>
@@ -693,7 +701,7 @@ const Invoice = () => {
                     type="number"
                     placeholder="0.00"
                     className="amount-details"
-                    value={customerData.vat || getFilteredNumber?.vat || ""}
+                    value={customerData.vat ||  getOrderDataByCUstermerID?.vat ||getFilteredNumber?.vat || ""}
                   />{" "}
                   <br />
                   <input
@@ -703,6 +711,7 @@ const Invoice = () => {
                     value={
                       customerData.deliverycharge ||
                       getFilteredNumber?.deliverycharge ||
+                      getOrderDataByCUstermerID?.deliverycharge ||
                       ""
                     }
                   />{" "}
@@ -714,6 +723,7 @@ const Invoice = () => {
                     value={
                       customerData.totalprice ||
                       getFilteredNumber?.totalprice ||
+                      getOrderDataByCUstermerID?.totalprice ||
                       ""
                     }
                   />{" "}
@@ -723,7 +733,7 @@ const Invoice = () => {
                     placeholder="0.00"
                     className="amount-details"
                     value={
-                      customerData.totalMRP || getFilteredNumber?.totalMRP || ""
+                      customerData.totalMRP || getFilteredNumber?.totalMRP || getOrderDataByCUstermerID?.totalMRP ||""
                     }
                   />{" "}
                   <br />
@@ -734,6 +744,7 @@ const Invoice = () => {
                     value={
                       customerData.suppertotalamount ||
                       getFilteredNumber?.suppertotalamount ||
+                      getOrderDataByCUstermerID?.suppertotalamount ||
                       ""
                     }
                   />
@@ -764,7 +775,7 @@ const Invoice = () => {
             <textarea
               placeholder="Add any notes"
               value={
-                customerData.orderstatus || getFilteredNumber?.orderstatus || ""
+                customerData.orderstatus || getFilteredNumber?.orderstatus || getOrderDataByCUstermerID?.orderstatus ||""
               }
             ></textarea>
           </div>
