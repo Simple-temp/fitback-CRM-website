@@ -170,6 +170,11 @@ textarea {
   display: flex;
 }
 
+.select-branch{
+  color: #ff006a;
+  font-weight: 600;
+}
+
 /* Responsive Styles */
 
 @media (max-width: 768px) {
