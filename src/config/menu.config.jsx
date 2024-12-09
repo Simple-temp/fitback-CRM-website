@@ -218,10 +218,24 @@ export const MENU_SIDEBAR = [
           icon: "profile-circle",
           children: [
             {
-              title: "Bill Manage",
+              title: "Fitback",
               children: [
                 { title: "Money Recept", path: "/moneyrecept/page" },
                 { title: "Invoice", path: "/invoice/page" },
+              ],
+            },
+            {
+              title: "Reset",
+              children: [
+                { title: "Money Recept", path: "/reset/moneyrecept/page" },
+                { title: "Invoice", path: "/reset/invoice/page" },
+              ],
+            },
+            {
+              title: "Asthetic",
+              children: [
+                { title: "Money Recept", path: "/asthetic/moneyrecept/page" },
+                { title: "Invoice", path: "/asthetic/invoice/page" },
               ],
             },
           ],

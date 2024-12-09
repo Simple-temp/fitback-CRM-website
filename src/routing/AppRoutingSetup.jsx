@@ -26,6 +26,10 @@ import TrashPage from '@/trash';
 import MoneyRecept from '@/bill-manage/MoneyRecept';
 import Invoice from '@/bill-manage/Invoice';
 import OrderDetails from '@/orderRoutes/OrderDetails';
+import ResetInvoice from '@/bill-manage/ResetInvoice';
+import ResetMoneyRecipt from '@/bill-manage/ResetMoneyRecipt';
+import AstheticInvoice from '@/bill-manage/AstheticInvoice';
+import AtheticMoneReceipt from '@/bill-manage/AtheticMoneReceipt';
 
 
 const AppRoutingSetup = () => {
@@ -121,6 +125,10 @@ const AppRoutingSetup = () => {
               <Route path="/moneyrecept/page" element={<MoneyRecept />} />
               {/* This is Invoice Routes */}
               <Route path="/invoice/page" element={<Invoice />} />
+              <Route path="/reset/invoice/page" element={<ResetInvoice />} />
+              <Route path="/reset/moneyrecept/page" element={<ResetMoneyRecipt />} />
+              <Route path="/asthetic/invoice/page" element={<AstheticInvoice />} />
+              <Route path="/asthetic/moneyrecept/page" element={<AtheticMoneReceipt />} />
 
               {/* This is Products Routes */}
               <Route path="/product/create/page" element={<ProductsCreatePage />} />

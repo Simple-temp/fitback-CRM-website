@@ -30,7 +30,7 @@ const style = {
   p: 4,
 };
 
-const Invoice = () => {
+const ResetInvoice = () => {
   const [customerData, setCustomerData] = useState([]);
   const [getOrderDataByCUstermerID, setgetOrderDataByCUstermerID] = useState(
     {}
@@ -870,4 +870,26 @@ const Invoice = () => {
   );
 };
 
-export default Invoice;
+export default ResetInvoice;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

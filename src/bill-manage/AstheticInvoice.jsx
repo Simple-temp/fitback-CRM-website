@@ -30,7 +30,7 @@ const style = {
   p: 4,
 };
 
-const Invoice = () => {
+const AstheticInvoice = () => {
   const [customerData, setCustomerData] = useState([]);
   const [getOrderDataByCUstermerID, setgetOrderDataByCUstermerID] = useState(
     {}
@@ -870,4 +870,8 @@ const Invoice = () => {
   );
 };
 
-export default Invoice;
+export default AstheticInvoice;
+
+
+
+
