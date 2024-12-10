@@ -164,6 +164,7 @@ function MoneyRecept() {
       bloodpressure: "",
       height: "",
       weight: "",
+      usertype:""
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -182,6 +183,7 @@ function MoneyRecept() {
         formData.append("fcoins", values.fcoins);
         formData.append("age", values.age);
         formData.append("image", values.image);
+        formData.append("usertype", values.usertype || "Fitback");
         formData.append(
           "height",
           JSON.stringify([
@@ -516,12 +518,6 @@ function MoneyRecept() {
         <div className="header-part">
           <div className="form-row-date">
             <label>Date:</label>
-            {/* <input
-              type="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-            /> */}
           </div>
 
           <div className="form-row-header">

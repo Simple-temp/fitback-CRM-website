@@ -5,8 +5,8 @@ import axios from "axios";
 import "./Invoice.css";
 import { ToastContainer } from "react-toastify";
 import BillModal from "./bill-Components/BillModal";
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
-import DoDisturbIcon from '@mui/icons-material/DoDisturb';
+import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
+import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 
 const Invoice = () => {
   const [customerData, setCustomerData] = useState([]);
@@ -146,41 +146,11 @@ const Invoice = () => {
     setSelectedPaymentMethod(e.target.value);
   };
 
-  // get the products===========
-
-  const [getAllProduct, setGetAllProduct] = useState([]);
-  const [selectedPackages, setSelectedPackages] = useState("");
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        // Replace with your actual API endpoint
-        const response = await fetch(
-          `https://qwikit1.pythonanywhere.com/product`
-        );
-        const data = await response.json();
-        setGetAllProduct(data); // Set products to state
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  const [rows, setRows] = useState([{ id: 1 }]);
-  const handleAddRow = () => {
-    setRows((prevRows) => [...prevRows, { id: prevRows.length + 1 }]);
-  };
-  const handleRemoveRow = () => {
-    if (rows.length > 1) {
-      setRows((prevRows) => prevRows.slice(0, -1));
-    }
-  };
-  //================================================
+  //===============================================================================================
   const [selectBranch, setSelectBranch] = useState("");
   const [getDhanmondiPackage, setgetDhanmondiPackage] = useState([]);
   const [getUttaraPackage, setgetUttaraPackage] = useState([]);
+  const [rows, setRows] = useState([]);
 
   useEffect(() => {
     fetchDhanmondi();
@@ -193,7 +163,7 @@ const Invoice = () => {
         `https://qwikit1.pythonanywhere.com/resetPackageDhanmondi/`
       );
       setgetDhanmondiPackage(response.data);
-      console.log(response.data)
+      console.log(response.data);
     } catch (err) {
       console.error(err);
     }
@@ -204,9 +174,100 @@ const Invoice = () => {
         `https://qwikit1.pythonanywhere.com/ResetPackageUttara/`
       );
       setgetUttaraPackage(response.data);
-      console.log(response.data)
+      console.log(response.data);
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleAddRow = () => {
+    setRows((prevRows) => [
+      ...prevRows,
+      {
+        id: prevRows.length + 1,
+        selectedItem: null,
+        quantity: 1,
+        mrp: 0,
+        total: 0,
+      },
+    ]);
+  };
+
+  const handleRemoveRow = () => {
+    if (rows.length > 0) {
+      setRows((prevRows) => prevRows.slice(0, -1));
+    }
+  };
+  //=========================================================================================
+
+  const [paid, setPaid] = useState(); // Paid amount input
+  const [subtotal, setSubtotal] = useState(0); // Subtotal (sum of all MRP)
+  const [discount, setDiscount] = useState(0); // Total discount
+  const [totalAmount, setTotalAmount] = useState(0); // Sum of all row.total
+  const [dueAmount, setDueAmount] = useState(null); // Due amount
+
+  useEffect(() => {
+    const calcSubtotal = rows.reduce(
+      (sum, row) => sum + (row.mrp ? Number(row.mrp) : 0),
+      0
+    );
+    const calcDiscount = rows.reduce(
+      (sum, row) => sum + (row.discount ? Number(row.discount) : 0),
+      0
+    );
+    const calcTotalAmount = calcSubtotal - calcDiscount;
+    const calcDueAmount = totalAmount - calcDiscount - (paid || 0);
+
+    setSubtotal(calcSubtotal);
+    setDiscount(calcDiscount);
+    setTotalAmount(calcTotalAmount);
+    setDueAmount(calcDueAmount);
+  }, [rows, paid]);
+
+  useEffect(() => {
+    let runningSum = 0;
+
+    // Calculate each row's total and running subtotal
+    const updatedRows = rows.map((row) => {
+      const rowTotal = (Number(row.mrp) || 0) * (Number(row.quantity) || 1);
+      runningSum += rowTotal; // Add to running total (sequential sum)
+      return {
+        ...row,
+        total: rowTotal,
+        runningTotal: runningSum, // Save running subtotal
+      };
+    });
+
+    setRows(updatedRows); // Update rows with calculated totals
+    setTotalAmount(runningSum); // Update overall total amount
+  }, [rows]);
+
+  const handleQuantityChange = (index, value) => {
+    setRows((prevRows) =>
+      prevRows.map((row, i) =>
+        i === index ? { ...row, quantity: Number(value) || 1 } : row
+      )
+    );
+  };
+
+  const handleProductChange = (index, itemname) => {
+    const product = [...getDhanmondiPackage, ...getUttaraPackage].find(
+      (p) => p.itemname === itemname
+    );
+
+    if (product) {
+      setRows((prevRows) =>
+        prevRows.map((row, i) =>
+          i === index
+            ? {
+                ...row,
+                itemname,
+                mrp: Number(product.mrp),
+                discount: product.discount,
+              }
+            : row
+        )
+      );
     }
   };
 
@@ -226,7 +287,7 @@ const Invoice = () => {
       />
       <div className="select-branch">
         <select onChange={(e) => setSelectBranch(e.target.value)}>
-           <option value="">--Select Branch--</option>
+          <option value="">--Select Branch--</option>
           <option value="Dhanmondi">Dhanmondi</option>
           <option value="Uttara">Uttara</option>
         </select>
@@ -334,7 +395,7 @@ const Invoice = () => {
             <thead>
               <tr>
                 <th>Sl. No.</th>
-                <th>Description</th>
+                <th>Name</th>
                 <th>Qty.</th>
                 <th>Rate</th>
                 <th>Value in BDT</th>
@@ -343,82 +404,51 @@ const Invoice = () => {
             <tbody>
               {rows.map((row, index) => (
                 <tr key={row.id}>
+                  <td>{index + 1}</td> {/* Row number */}
                   <td>
-                    <input type="number" value={index + 1} readOnly />
-                  </td>
-                  <td>
-                    {customerData?.address ||
-                    getFilteredNumber?.address ||
-                    getOrderDataByCUstermerID?.address ? (
-                      <input
-                        type="text"
-                        placeholder="0"
-                        value={
-                          customerData?.address ||
-                          getFilteredNumber?.address ||
-                          getOrderDataByCUstermerID?.address
-                        }
-                        className="custom-border"
-                      />
-                    ) : (
-                      <select
-                        onChange={(e) => setSelectedPackages(e.target.value)}
-                      >
-                        <option value="">Select a Product</option>
-                        {selectBranch 
-                          && selectBranch === "Dhanmondi" 
-                          && getDhanmondiPackage.map((product) => (
-                              <option key={product.id} value={product.id}>
-                                {product.itemname}
-                              </option>
-                            )) 
-                        }
-                        {
-                          selectBranch 
-                            && selectBranch === "Uttara" 
-                            && getUttaraPackage.map((product) => (
-                            <option key={product.id} value={product.id}>
-                                {product.itemname}
-                            </option>
-                          ))
-                        }
-                      </select>
-                    )}
+                    <select
+                      value={row.itemname || ""}
+                      onChange={(e) =>
+                        handleProductChange(index, e.target.value)
+                      }
+                    >
+                      <option value="">Select Product</option>
+                      {selectBranch === "Dhanmondi" &&
+                        getDhanmondiPackage.map((product) => (
+                          <option key={product.id} value={product.itemname}>
+                            {product.itemname}
+                          </option>
+                        ))}
+                      {selectBranch === "Uttara" &&
+                        getUttaraPackage.map((product) => (
+                          <option key={product.id} value={product.itemname}>
+                            {product.itemname}
+                          </option>
+                        ))}
+                    </select>
                   </td>
                   <td>
                     <input
                       type="number"
-                      placeholder="0"
-                      value={
-                        customerData?.totalquantity ||
-                        getFilteredNumber?.totalquantity ||
-                        getOrderDataByCUstermerID?.totalquantity ||
-                        ""
+                      value={row.quantity || 1}
+                      onChange={(e) =>
+                        handleQuantityChange(index, e.target.value)
                       }
                     />
                   </td>
-                  <td>
-                    <input type="number" placeholder="0.00" readOnly />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      placeholder="0.00"
-                      value={
-                        customerData?.totalproductamount ||
-                        getFilteredNumber?.totalproductamount ||
-                        getOrderDataByCUstermerID?.totalproductamount ||
-                        ""
-                      }
-                    />
-                  </td>
+                  <td>{row.mrp || 0}</td> {/* MRP */}
+                  <td>{row.total?.toFixed(2) || "0.00"}</td> {/* Row total */}
+                  {/* <td>{row.runningTotal?.toFixed(2) || "0.00"}</td> */}
                 </tr>
               ))}
             </tbody>
           </table>
-          <div style={{ marginTop: "10px" }}>
-            <LibraryAddIcon onClick={handleAddRow} style={{ marginRight: "10px" }}/>
-            <DoDisturbIcon onClick={handleRemoveRow} disabled={rows.length <= 1}/>
+          <div style={{ marginTop: "20px" }}>
+            <LibraryAddIcon
+              onClick={handleAddRow}
+              style={{ marginRight: "10px" }}
+            />
+            <DoDisturbIcon onClick={handleRemoveRow} />
           </div>
 
           <div className="amount-info">
@@ -482,60 +512,40 @@ const Invoice = () => {
                     type="number"
                     placeholder="0.00"
                     className="amount-details"
-                    value={
-                      customerData.vat ||
-                      getOrderDataByCUstermerID?.vat ||
-                      getFilteredNumber?.vat ||
-                      ""
-                    }
-                  />{" "}
+                    value={subtotal && subtotal.toFixed(2)} // Subtotal
+                    readOnly
+                  />
                   <br />
                   <input
                     type="number"
                     placeholder="0.00"
                     className="amount-details"
-                    value={
-                      customerData.deliverycharge ||
-                      getFilteredNumber?.deliverycharge ||
-                      getOrderDataByCUstermerID?.deliverycharge ||
-                      ""
-                    }
-                  />{" "}
+                    value={discount && discount.toFixed(2)} // Total Discount
+                    readOnly
+                  />
                   <br />
                   <input
                     type="number"
                     placeholder="0.00"
                     className="amount-details"
-                    value={
-                      customerData.totalprice ||
-                      getFilteredNumber?.totalprice ||
-                      getOrderDataByCUstermerID?.totalprice ||
-                      ""
-                    }
-                  />{" "}
+                    value={totalAmount && totalAmount.toFixed(2)} // Total from the running subtotal
+                    readOnly
+                  />
+                  <br />
+                  <input
+                    type="number"
+                    placeholder="Enter Paid Amount"
+                    className="amount-details"
+                    value={paid}
+                    onChange={(e) => setPaid(Number(e.target.value))} // Paid Amount
+                  />
                   <br />
                   <input
                     type="number"
                     placeholder="0.00"
                     className="amount-details"
-                    value={
-                      customerData.totalMRP ||
-                      getFilteredNumber?.totalMRP ||
-                      getOrderDataByCUstermerID?.totalMRP ||
-                      ""
-                    }
-                  />{" "}
-                  <br />
-                  <input
-                    type="number"
-                    placeholder="0.00"
-                    className="amount-details"
-                    value={
-                      customerData.suppertotalamount ||
-                      getFilteredNumber?.suppertotalamount ||
-                      getOrderDataByCUstermerID?.suppertotalamount ||
-                      ""
-                    }
+                    value={dueAmount && dueAmount.toFixed(2)} // Due Amount
+                    readOnly
                   />
                 </div>
               </div>
@@ -564,12 +574,6 @@ const Invoice = () => {
             <textarea
               className="custom-border"
               placeholder="Add any notes"
-              value={
-                customerData.orderstatus ||
-                getFilteredNumber?.orderstatus ||
-                getOrderDataByCUstermerID?.orderstatus ||
-                ""
-              }
             ></textarea>
           </div>
         </div>

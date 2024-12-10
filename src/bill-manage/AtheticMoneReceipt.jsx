@@ -3,44 +3,44 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import "./MoneyReceipt.css";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
-import * as Yup from "yup";
-import { useFormik } from "formik";
-import {
-  Alert,
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Modal,
-  Select,
-  TextField,
-} from "@mui/material";
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 900,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+// import { toast, ToastContainer } from "react-toastify";
+// import * as Yup from "yup";
+// import { useFormik } from "formik";
+// import {
+//   Alert,
+//   Box,
+//   Button,
+//   FormControl,
+//   InputLabel,
+//   MenuItem,
+//   Modal,
+//   Select,
+//   TextField,
+// } from "@mui/material";
+// const style = {
+//   position: "absolute",
+//   top: "50%",
+//   left: "50%",
+//   transform: "translate(-50%, -50%)",
+//   width: 900,
+//   bgcolor: "background.paper",
+//   border: "2px solid #000",
+//   boxShadow: 24,
+//   p: 4,
+// };
 
 function AtheticMoneReceipt() {
   const [customerData, setCustomerData] = useState({});
   const [customerID, setCustomerID] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [openModal, setOpenModal] = useState(false);
+  // const [openModal, setOpenModal] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [filterData, setFilterData] = useState([]);
   const [getFilteredNumber, setGetFilterredNumber] = useState({});
   const [getNewUser, SetGetNewUser] = useState([]);
   const [newUserByNumber, setNewUserByNumber] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
+  // const [showAlert, setShowAlert] = useState(false);
 
   // fetch the new user data
   useEffect(() => {
@@ -96,10 +96,10 @@ function AtheticMoneReceipt() {
         );
         setCustomerData(response.data);
         fetchAllOder();
-        if (!response.data) {
-          setShowAlert(true);
-          return;
-        }
+        // if (!response.data) {
+        //   setShowAlert(true);
+        //   return;
+        // }
       }
       if (phoneNumber) {
         const phoneRegex = /^01\d{9}$/;
@@ -119,10 +119,10 @@ function AtheticMoneReceipt() {
         setGetFilterredNumber(filteredProducts); // Set the filtered data
         setNewUserByNumber(filtereNewUserByNumber); // Set the filtered data
         fetchAllPublicUser();
-        if (!filteredProducts && !filtereNewUserByNumber) {
-          setShowAlert(true);
-          return;
-        }
+        // if (!filteredProducts && !filtereNewUserByNumber) {
+        //   setShowAlert(true);
+        //   return;
+        // }
         console.log(JSON.stringify(filteredProducts));
       }
     } catch (err) {
@@ -130,87 +130,87 @@ function AtheticMoneReceipt() {
     }
   };
 
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+  // const handleOpenModal = () => setOpenModal(true);
+  // const handleCloseModal = () => setOpenModal(false);
 
-  const validationSchema = Yup.object().shape({
-    phonenumber: Yup.string()
-      .matches(
-        /^01[1,3,4,5,6,7,8,9]\d{8}$/,
-        "Invalid Bangladeshi phone number."
-      )
-      .required("Phone number is required")
-      .max(11, "Phone number must be 11 digits"),
-    password: Yup.string()
-      .min(4, "Password must be at least 4 characters")
-      .required("Password is required"),
-  });
+  // const validationSchema = Yup.object().shape({
+  //   phonenumber: Yup.string()
+  //     .matches(
+  //       /^01[1,3,4,5,6,7,8,9]\d{8}$/,
+  //       "Invalid Bangladeshi phone number."
+  //     )
+  //     .required("Phone number is required")
+  //     .max(11, "Phone number must be 11 digits"),
+  //   password: Yup.string()
+  //     .min(4, "Password must be at least 4 characters")
+  //     .required("Password is required"),
+  // });
 
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      user_FUId: "",
-      phonenumber: "",
-      password: "",
-      email: "",
-      address: "",
-      city: "",
-      gender: "",
-      bloodgroup: "",
-      fmoney: "",
-      fcoins: "",
-      age: "",
-      image: "",
-      bloodpressure: "",
-      height: "",
-      weight: "",
-    },
-    validationSchema,
-    onSubmit: async (values) => {
-      try {
-        const formData = new FormData();
-        formData.append("name", values.name);
-        formData.append("user_FUId", values.user_FUId);
-        formData.append("phonenumber", values.phonenumber);
-        formData.append("password", values.password);
-        formData.append("email", values.email);
-        formData.append("address", values.address);
-        formData.append("city", values.city);
-        formData.append("gender", values.gender);
-        formData.append("bloodgroup", values.bloodgroup);
-        formData.append("fmoney", values.fmoney);
-        formData.append("fcoins", values.fcoins);
-        formData.append("age", values.age);
-        formData.append("image", values.image);
-        formData.append(
-          "height",
-          JSON.stringify([
-            { value: values.height, timestamp: new Date().toISOString() },
-          ])
-        );
-        formData.append(
-          "weight",
-          JSON.stringify([
-            { value: values.weight, timestamp: new Date().toISOString() },
-          ])
-        );
-        formData.append(
-          "bloodpressure",
-          JSON.stringify([{ value: values.bloodpressure }])
-        );
+  // const formik = useFormik({
+  //   initialValues: {
+  //     name: "",
+  //     user_FUId: "",
+  //     phonenumber: "",
+  //     password: "",
+  //     email: "",
+  //     address: "",
+  //     city: "",
+  //     gender: "",
+  //     bloodgroup: "",
+  //     fmoney: "",
+  //     fcoins: "",
+  //     age: "",
+  //     image: "",
+  //     bloodpressure: "",
+  //     height: "",
+  //     weight: "",
+  //   },
+  //   validationSchema,
+  //   onSubmit: async (values) => {
+  //     try {
+  //       const formData = new FormData();
+  //       formData.append("name", values.name);
+  //       formData.append("user_FUId", values.user_FUId);
+  //       formData.append("phonenumber", values.phonenumber);
+  //       formData.append("password", values.password);
+  //       formData.append("email", values.email);
+  //       formData.append("address", values.address);
+  //       formData.append("city", values.city);
+  //       formData.append("gender", values.gender);
+  //       formData.append("bloodgroup", values.bloodgroup);
+  //       formData.append("fmoney", values.fmoney);
+  //       formData.append("fcoins", values.fcoins);
+  //       formData.append("age", values.age);
+  //       formData.append("image", values.image);
+  //       formData.append(
+  //         "height",
+  //         JSON.stringify([
+  //           { value: values.height, timestamp: new Date().toISOString() },
+  //         ])
+  //       );
+  //       formData.append(
+  //         "weight",
+  //         JSON.stringify([
+  //           { value: values.weight, timestamp: new Date().toISOString() },
+  //         ])
+  //       );
+  //       formData.append(
+  //         "bloodpressure",
+  //         JSON.stringify([{ value: values.bloodpressure }])
+  //       );
 
-        const response = await axios.post(
-          `https://qwikit1.pythonanywhere.com/userProfile/new`,
-          formData
-        );
-        console.log(response.data);
-        toast.success("User Created successfully", { theme: "colored" });
-        handleCloseModal();
-      } catch (err) {
-        console.error(err);
-      }
-    },
-  });
+  //       const response = await axios.post(
+  //         `https://qwikit1.pythonanywhere.com/userProfile/new`,
+  //         formData
+  //       );
+  //       console.log(response.data);
+  //       toast.success("User Created successfully", { theme: "colored" });
+  //       handleCloseModal();
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   },
+  // });
 
   const handlePaymentMethodChange = (e) => {
     setSelectedPaymentMethod(e.target.value);
@@ -257,7 +257,7 @@ function AtheticMoneReceipt() {
 
   return (
     <div className="container">
-      <ToastContainer
+      {/* <ToastContainer
         position="bottom-center"
         autoClose={2000}
         theme="colored"
@@ -283,8 +283,8 @@ function AtheticMoneReceipt() {
         >
           No customer data found. Would you like to create a new user?
         </Alert>
-      )}
-
+      )} */}
+{/* 
       <Modal open={openModal} onClose={handleCloseModal}>
         <Box sx={style}>
           <h2>Create New User</h2>
@@ -509,7 +509,8 @@ function AtheticMoneReceipt() {
             </div>
           </form>
         </Box>
-      </Modal>
+      </Modal> */}
+
       <div className="receipt-container">
         <h2 className="title">MONEY RECEIPT</h2>
 

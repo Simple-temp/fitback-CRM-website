@@ -30,6 +30,7 @@ import ResetInvoice from '@/bill-manage/ResetInvoice';
 import ResetMoneyRecipt from '@/bill-manage/ResetMoneyRecipt';
 import AstheticInvoice from '@/bill-manage/AstheticInvoice';
 import AtheticMoneReceipt from '@/bill-manage/AtheticMoneReceipt';
+import ShowAllUsers from '@/userRoutes/ShowAllUsers';
 
 
 const AppRoutingSetup = () => {
@@ -118,6 +119,7 @@ const AppRoutingSetup = () => {
               <Route path="/desk/create/page" element={<CreateDeskUser />} />
               <Route path="/support/page" element={<SupportRoutes />} />
               <Route path="/support/create/page" element={<CreateSupportUser />} />
+              <Route path="/allusers/page" element={<ShowAllUsers />} />
               <Route path="/hr/page" element={<HrUserRoutes />} />
               <Route path="/hr/create/page" element={<CreateHrUser />} />
 

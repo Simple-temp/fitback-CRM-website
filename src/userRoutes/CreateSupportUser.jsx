@@ -67,7 +67,7 @@ const CreateSupportUser = () => {
         formData.append("age", values.age);
         formData.append("image", values.image);
         formData.append("postcode", values.postcode);
-        formData.append("user_type", values.user_type || "Desk");
+        formData.append("user_type", values.user_type || "Support");
         formData.append("nickname", values.nickname);
         formData.append("about", values.about);
 

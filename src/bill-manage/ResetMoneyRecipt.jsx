@@ -164,6 +164,7 @@ function ResetMoneyRecipt() {
       bloodpressure: "",
       height: "",
       weight: "",
+      usertype:""
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -182,6 +183,7 @@ function ResetMoneyRecipt() {
         formData.append("fcoins", values.fcoins);
         formData.append("age", values.age);
         formData.append("image", values.image);
+        formData.append("usertype", values.usertype || "Reset");
         formData.append(
           "height",
           JSON.stringify([

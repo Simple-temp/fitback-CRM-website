@@ -17,7 +17,7 @@ const style = {
   p: 4,
 };
 
-const BillModal = ({openModal,setOpenModal,phoneNumber,showAlert,setShowAlert}) => {
+const ResetBillModal = ({openModal,setOpenModal,phoneNumber,showAlert,setShowAlert}) => {
 
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
@@ -72,7 +72,7 @@ const BillModal = ({openModal,setOpenModal,phoneNumber,showAlert,setShowAlert}) 
             formData.append("fcoins", values.fcoins);
             formData.append("age", values.age);
             formData.append("image", values.image);
-            formData.append("usertype", values.usertype || "Fitback");
+            formData.append("usertype", values.usertype || "Reset");
             formData.append(
               "height",
               JSON.stringify([
@@ -359,7 +359,7 @@ const BillModal = ({openModal,setOpenModal,phoneNumber,showAlert,setShowAlert}) 
   )
 }
 
-BillModal.propTypes = {
+ResetBillModal.propTypes = {
     openModal: PropTypes.bool.isRequired,
     setOpenModal: PropTypes.func.isRequired,
     phoneNumber: PropTypes.string.isRequired,
@@ -368,4 +368,24 @@ BillModal.propTypes = {
 };
   
 
-export default BillModal;
+export default ResetBillModal;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
