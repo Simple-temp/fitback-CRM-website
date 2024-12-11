@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import avater from "../../public/img/avater.png"
 
 const ShowAllUsers = () => {
   const [getData, setgetData] = useState([]);
@@ -46,8 +47,8 @@ const ShowAllUsers = () => {
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
-                <TableCell>Name</TableCell>
                 <TableCell align="center">Image</TableCell>
+                <TableCell>Name</TableCell>
                 <TableCell align="center">Phone Number</TableCell>
                 <TableCell align="center">Email</TableCell>
                 <TableCell align="center">Gender</TableCell>
@@ -61,23 +62,23 @@ const ShowAllUsers = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>{item.id}</TableCell>
-                  <TableCell>{item.name}</TableCell>
                   <TableCell>
                     <img
-                      src={item.image}
+                      src={item.image1 || avater}
                       alt="Avatar"
                       style={{
                         width: "50px",
                         height: "50px",
-                        borderRadius: "4px",
+                        borderRadius: "50%", // Makes the image completely circular
                         objectFit: "cover",
                       }}
                     />
                   </TableCell>
-                  <TableCell>{item.phonenumber}</TableCell>
-                  <TableCell>{item.email}</TableCell>
-                  <TableCell>{item.gender}</TableCell>
-                  <TableCell>{item.address}</TableCell>
+                  <TableCell>{item.name || "N/A"}</TableCell>
+                  <TableCell>{item.phonenumber|| "N/A"}</TableCell>
+                  <TableCell>{item.email|| "N/A"}</TableCell>
+                  <TableCell>{item.gender|| "N/A"}</TableCell>
+                  <TableCell>{item.address|| "N/A"}</TableCell>
                   {/* <TableCell>
                     {Array.isArray(item.height) && item.height.length > 0
                       ? item.height[0].value
