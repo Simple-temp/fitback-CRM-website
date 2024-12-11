@@ -16,6 +16,7 @@ import { Box, FormControl, InputLabel, MenuItem, Modal, Select, TextField } from
 
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import avater from "../../public/img/avater.png"
 
 const style = {
   position: "absolute",
@@ -421,15 +422,16 @@ const SupportRoutes = () => {
         <div className="flex justify-end mt-4">
         <Button
                 variant="outlined"
-                color="secondary"
+                color="error"
                 onClick={handleClose}
+                className="custom-right-botton"
               >
                 Close
               </Button>{" "}
           <Button
             type="submit"
             variant="contained"
-            color="success"
+            color="primary"
             className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
           >
             Update
@@ -443,8 +445,8 @@ const SupportRoutes = () => {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Name</TableCell>
               <TableCell align="center">Image</TableCell>
+              <TableCell>Name</TableCell>
               <TableCell align="center">Phone</TableCell>
               <TableCell align="center">Email</TableCell>
               <TableCell align="center">Address</TableCell>
@@ -468,33 +470,34 @@ const SupportRoutes = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell>{item.id}</TableCell>
-                <TableCell>{item.name}</TableCell>
                 <TableCell>
-                  <img
-                    src={item.image}
-                    alt="Avater"
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      borderRadius: "4px",
-                    }}
-                  />
-                </TableCell>
-                <TableCell>{item.phonenumber}</TableCell>
-                <TableCell>{item.email}</TableCell>
-                <TableCell>{item.address}</TableCell>
-                <TableCell>{item.experience}</TableCell>
-                <TableCell>{item.nickname}</TableCell>
-                <TableCell>{item.city}</TableCell>
-                <TableCell>{item.gender}</TableCell>
-                <TableCell>{item.postcode}</TableCell>
-                <TableCell>{item.bloodgroup}</TableCell>
-                <TableCell>{item.age}</TableCell>
-                <TableCell>{item.digrees}</TableCell>
-                <TableCell>{item.about}</TableCell>
+                    <img
+                      src={item.image || avater}
+                      alt="Avatar"
+                      style={{
+                        width: "50px",
+                        height: "40px",
+                        borderRadius: "50%", // Makes the image completely circular
+                        objectFit: "cover",
+                      }}
+                    />
+                  </TableCell>
+                <TableCell>{item.name || "N/A"}</TableCell>
+                <TableCell>{item.phonenumber  || "N/A"}</TableCell>
+                <TableCell>{item.email  || "N/A"}</TableCell>
+                <TableCell>{item.address  || "N/A"}</TableCell>
+                <TableCell>{item.experience || "N/A"}</TableCell>
+                <TableCell>{item.nickname || "N/A"}</TableCell>
+                <TableCell>{item.city || "N/A"}</TableCell>
+                <TableCell>{item.gender || "N/A"}</TableCell>
+                <TableCell>{item.postcode || "N/A"}</TableCell>
+                <TableCell>{item.bloodgroup || "N/A"}</TableCell>
+                <TableCell>{item.age || "N/A"}</TableCell>
+                <TableCell>{item.digrees || "N/A"}</TableCell>
+                <TableCell>{item.about || "N/A"}</TableCell>
                 <TableCell align="center">
                   <Button
-                    color="secondary"
+                    color="primary"
                     onClick={() => controlHandleClick(item.id)}
                   >
                     <BorderColorIcon/>
@@ -502,7 +505,6 @@ const SupportRoutes = () => {
                 </TableCell>
                 <TableCell align="center">
                   <Button
-                    variant="outlined"
                     color="error"
                     onClick={() => deleteUser(item.id)}
                   >

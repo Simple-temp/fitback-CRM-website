@@ -19,6 +19,7 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import avater from "../../public/img/avater.png"
 
 
 const style = {
@@ -206,7 +207,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
             onSubmit={formik.handleSubmit}
             className="max-w-[1100px] mx-auto bg-white p-6 rounded-lg shadow-md"
           >
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4  border-color">
               <TextField
                 id="name"
                 label="Name"
@@ -402,15 +403,16 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
             <div className="flex justify-end mt-4">
               <Button
                 variant="outlined"
-                color="secondary"
+                color="error"
                 onClick={handleClose}
+                className="custom-right-botton"
               >
                 Close
               </Button>{" "}
               <Button
                 type="submit"
                 variant="contained"
-                color="success"
+                color="primary"
                 className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
               >
                 Update
@@ -437,8 +439,8 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
-                <TableCell>Name</TableCell>
                 <TableCell align="center">Image</TableCell>
+                <TableCell>Name</TableCell>
                 <TableCell align="center">User FUId</TableCell>
                 <TableCell align="center">Phone Number</TableCell>
                 <TableCell align="center">Password</TableCell>
@@ -463,34 +465,34 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>{item.id}</TableCell>
-                  <TableCell>{item.name}</TableCell>
                   <TableCell>
                     <img
-                      src={item.image}
+                      src={item.image || avater}
                       alt="Avatar"
                       style={{
                         width: "50px",
-                        height: "50px",
-                        borderRadius: "4px",
+                        height: "40px",
+                        borderRadius: "50%", // Makes the image completely circular
                         objectFit: "cover",
                       }}
                     />
                   </TableCell>
-                  <TableCell>{item.user_FUId}</TableCell>
-                  <TableCell>{item.phonenumber}</TableCell>
-                  <TableCell>{item.password}</TableCell>
-                  <TableCell>{item.email}</TableCell>
+                  <TableCell>{item.name || "N/A"}</TableCell>
+                  <TableCell>{item.user_FUId || "N/A"}</TableCell>
+                  <TableCell>{item.phonenumber || "N/A"}</TableCell>
+                  <TableCell>{item.password || "N/A"}</TableCell>
+                  <TableCell>{item.email || "N/A"}</TableCell>
                   <TableCell>{item.bloodgroup}</TableCell>
-                  <TableCell>{item.gender}</TableCell>
-                  <TableCell>{item.address}</TableCell>
-                  <TableCell>{item.city}</TableCell>
-                  <TableCell>{item.fmoney}</TableCell>
-                  <TableCell>{item.fcoins}</TableCell>
-                  <TableCell>{item.age}</TableCell>
+                  <TableCell>{item.gender || "N/A"}</TableCell>
+                  <TableCell>{item.address || "N/A"}</TableCell>
+                  <TableCell>{item.city || "N/A"}</TableCell>
+                  <TableCell>{item.fmoney || "N/A"}</TableCell>
+                  <TableCell>{item.fcoins || "N/A"}</TableCell>
+                  <TableCell>{item.age || "N/A"}</TableCell>
                   <TableCell>
                     {Array.isArray(item.height) && item.height.length > 0
                       ? item.height[0].value
-                      : "No height data"}
+                      : "No height data" }
                   </TableCell>
                   <TableCell>
                     {Array.isArray(item.weight) && item.weight.length > 0
@@ -499,7 +501,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
                   </TableCell>
                   <TableCell align="center">
                   <Button
-                    color="secondary"
+                    color="primary"
                     onClick={() => controlHandleClick(item.id)}
                   >
                     <BorderColorIcon/>
@@ -507,7 +509,6 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
                 </TableCell>
                 <TableCell align="center">
                   <Button
-                    variant="outlined"
                     color="error"
                     onClick={() => deleteUser(item.id)}
                   >

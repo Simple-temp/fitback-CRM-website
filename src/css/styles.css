@@ -9,3 +9,11 @@
 .logo{
     width: 160px;
 }
+
+.custom-right-botton{
+    margin-right: 10px !important;
+}
+
+.border-color{
+    color: rgb(251, 37, 115);
+}
