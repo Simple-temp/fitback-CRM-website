@@ -5,12 +5,12 @@ import { Toolbar, ToolbarActions, ToolbarHeading } from '@/layouts/demo1/toolbar
 import { Demo1LightSidebarContent } from './';
 const Demo1LightSidebarPage = () => {
   return <Fragment>
-      <Container>
+      {/* <Container>
         <Toolbar>
           <ToolbarHeading title="Dashboard" description="Central Hub for Personal Customization" />
           <ToolbarActions>
-            <Link to="/public-profile/profiles/default" className="btn btn-sm btn-light">
-              View Profile
+            <Link to="/" className="btn btn-sm btn-light">
+              View Profpublic-profile/profiles/defaultile
             </Link>
           </ToolbarActions>
         </Toolbar>
@@ -18,7 +18,7 @@ const Demo1LightSidebarPage = () => {
 
       <Container>
         <Demo1LightSidebarContent />
-      </Container>
+      </Container> */}
     </Fragment>;
 };
 export { Demo1LightSidebarPage };

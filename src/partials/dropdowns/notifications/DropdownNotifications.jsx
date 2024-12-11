@@ -7,9 +7,7 @@ import { DropdownNotificationsAll } from './DropdownNotificationsAll';
 import { DropdownNotificationsInbox } from './DropdownNotificationsInbox';
 import { DropdownNotificationsTeam } from './DropdownNotificationsTeam';
 import { DropdownNotificationsFollowing } from './DropdownNotificationsFollowing';
-const DropdownNotifications = ({
-  menuTtemRef
-}) => {
+const DropdownNotifications = ({ menuTtemRef }) => {
   const {
     isRTL
   } = useLanguage();
