@@ -14,15 +14,17 @@ const ShowAllUsers = () => {
   useEffect(() => {
     fetchAllUser();
   }, []);
-
+  
   const fetchAllUser = async () => {
     try {
       const response = await axios.get(`https://qwikit1.pythonanywhere.com/userProfile/`);
-      setgetData(response.data)
+      const sortedData = response.data.sort((a, b) => b.id - a.id); // Sort by id (higher to lower)
+      setgetData(sortedData);
     } catch (err) {
       console.log(err);
     }
   };
+  
 
   return (
     <div>
