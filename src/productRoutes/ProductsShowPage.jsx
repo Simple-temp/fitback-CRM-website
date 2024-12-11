@@ -396,15 +396,15 @@ const ProductsShowPage = () => {
                       }}
                     />
                   </TableCell>
-                <TableCell>{item.category}</TableCell>
-                <TableCell>{item.productbrand}</TableCell>
-                <TableCell>{item.productname}</TableCell>
-                <TableCell>{item.size}</TableCell>
-                <TableCell>{item.origin}</TableCell>
-                <TableCell>{item.details}</TableCell>
-                <TableCell>{item.discount} (Taka)</TableCell>
-                <TableCell>{item.quantity}</TableCell>
-                <TableCell>{item.reviews}</TableCell>
+                <TableCell>{item.category || "N/A"}</TableCell>
+                <TableCell>{item.productbrand || "N/A"}</TableCell>
+                <TableCell>{item.productname || "N/A"}</TableCell>
+                <TableCell>{item.size || "N/A"}</TableCell>
+                <TableCell>{item.origin || "N/A"}</TableCell>
+                <TableCell>{item.details || "N/A"}</TableCell>
+                <TableCell>{item.discount || "N/A"} (Taka)</TableCell>
+                <TableCell>{item.quantity || "N/A"}</TableCell>
+                <TableCell>{item.reviews || "N/A"}</TableCell>
                 <TableCell align="center">
                   <Button
                     color="primary"

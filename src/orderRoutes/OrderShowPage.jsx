@@ -37,7 +37,12 @@ const style = {
   backgroundColor: "white",
   borderRadius: "8px",
   boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
 };
+
 
 const OrderShowPage = () => {
 
@@ -291,7 +296,7 @@ const OrderShowPage = () => {
               <Button
                 type="submit"
                 variant="contained"
-                color="success"
+                color="primary"
                 sx={{ marginLeft: "10px" }}
               >
                 Update
@@ -345,17 +350,17 @@ const OrderShowPage = () => {
                 }}
               >
                 <TableCell>{item.id}</TableCell>
-                <TableCell>{item.order_codeid}</TableCell>
-                <TableCell>{item.userid}</TableCell>
-                <TableCell align="center">{item.username}</TableCell>
-                <TableCell align="center">{item.phonenumber}</TableCell>
-                <TableCell align="center">{item.address}</TableCell>
-                <TableCell align="center">{item.totalquantity}</TableCell>
-                <TableCell align="left">{item.totalprice}</TableCell>
-                <TableCell align="left">{item.paymentmethod}</TableCell>
+                <TableCell>{item.order_codeid  || "N/A"}</TableCell>
+                <TableCell>{item.userid || "N/A"}</TableCell>
+                <TableCell align="center">{item.username || "N/A"}</TableCell>
+                <TableCell align="center">{item.phonenumber || "N/A"}</TableCell>
+                <TableCell align="center">{item.address || "N/A"}</TableCell>
+                <TableCell align="center">{item.totalquantity || "N/A"}</TableCell>
+                <TableCell align="left">{item.totalprice || "N/A"}</TableCell>
+                <TableCell align="left">{item.paymentmethod || "N/A"}</TableCell>
                 <TableCell align="center">
                   <Button
-                    color="secondary"
+                    color="primary"
                     onClick={() => controlHandleClick(item.id)}
                   >
                     <BorderColorIcon />
@@ -363,7 +368,6 @@ const OrderShowPage = () => {
                 </TableCell>
                 <TableCell align="center">
                   <Button
-                    variant="outlined"
                     color="error"
                     onClick={() => deleteUser(item.id)}
                   >
@@ -371,7 +375,7 @@ const OrderShowPage = () => {
                   </Button>
                 </TableCell>
                 <TableCell align="center">
-                    <Button variant="outlined" color="error" onClick={()=>navigate(`${item.id}`)}>
+                    <Button color="error" onClick={()=>navigate(`${item.id}`)}>
                       <DetailsIcon />
                     </Button>
                 </TableCell>
