@@ -171,6 +171,26 @@ const ProductsCreatePage = () => {
             margin="normal"
           />
           <TextField
+            label="Origin"
+            id="origin"
+            name="origin"
+            variant="outlined"
+            value={formik.values.origin}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Reviews"
+            id="reviews"
+            name="reviews"
+            variant="outlined"
+            value={formik.values.reviews}
+            onChange={formik.handleChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
             label="Details"
             id="details"
             name="details"
@@ -178,16 +198,6 @@ const ProductsCreatePage = () => {
             multiline
             rows={4}
             value={formik.values.details}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Origin"
-            id="origin"
-            name="origin"
-            variant="outlined"
-            value={formik.values.origin}
             onChange={formik.handleChange}
             fullWidth
             margin="normal"
@@ -204,22 +214,12 @@ const ProductsCreatePage = () => {
             }
             label="Available Status"
           />
-          <TextField
-            label="Reviews"
-            id="reviews"
-            name="reviews"
-            variant="outlined"
-            value={formik.values.reviews}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-          />
         </div>
         <div className="flex justify-end mt-4">
           <Button
             type="submit"
             variant="contained"
-            color="success"
+            color="primary"
             className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
           >
             Create

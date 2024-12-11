@@ -17,6 +17,7 @@ import "./Product.css";
 
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import avater from "../../public/img/avater.png"
 
 const style = {
   maxWidth: "800px",
@@ -27,7 +28,13 @@ const style = {
   backgroundColor: "white",
   borderRadius: "8px",
   boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
 };
+
+
 const ProductsShowPage = () => {
   // Get products
   const [getData, setGetData] = useState([]);
@@ -286,18 +293,6 @@ const ProductsShowPage = () => {
                 margin="normal"
               />
               <TextField
-                label="Details"
-                id="details"
-                name="details"
-                variant="outlined"
-                multiline
-                rows={4}
-                value={formik.values.details}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="normal"
-              />
-              <TextField
                 label="Origin"
                 id="origin"
                 name="origin"
@@ -317,19 +312,32 @@ const ProductsShowPage = () => {
                 fullWidth
                 margin="normal"
               />
+              <TextField
+                label="Details"
+                id="details"
+                name="details"
+                variant="outlined"
+                multiline
+                rows={4}
+                value={formik.values.details}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+              />
             </div>
             <div className="flex justify-end mt-4">
               <Button
                 variant="outlined"
-                color="secondary"
+                color="error"
                 onClick={handleClose}
+                className="custom-right-botton"
               >
                 Close
               </Button>{" "}
               <Button
                 type="submit"
                 variant="contained"
-                color="success"
+                color="primary"
                 className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
               >
                 Update
@@ -358,6 +366,7 @@ const ProductsShowPage = () => {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
+              <TableCell>Image</TableCell>
               <TableCell>Category</TableCell>
               <TableCell>Product Brand</TableCell>
               <TableCell>Product Name</TableCell>
@@ -365,7 +374,6 @@ const ProductsShowPage = () => {
               <TableCell>Origin</TableCell>
               <TableCell>Details</TableCell>
               <TableCell>Discount</TableCell>
-              <TableCell>Image</TableCell>
               <TableCell>Quantity</TableCell>
               <TableCell>Reviews</TableCell>
               <TableCell>Update</TableCell>
@@ -376,6 +384,18 @@ const ProductsShowPage = () => {
             {getData.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>{item.id}</TableCell>
+                <TableCell>
+                    <img
+                      src={item.image1 || avater}
+                      alt="Avatar"
+                      style={{
+                        width: "60px",
+                        height: "60px",
+                        // borderRadius: "50%", // Makes the image completely circular
+                        objectFit: "cover",
+                      }}
+                    />
+                  </TableCell>
                 <TableCell>{item.category}</TableCell>
                 <TableCell>{item.productbrand}</TableCell>
                 <TableCell>{item.productname}</TableCell>
@@ -383,22 +403,11 @@ const ProductsShowPage = () => {
                 <TableCell>{item.origin}</TableCell>
                 <TableCell>{item.details}</TableCell>
                 <TableCell>{item.discount} (Taka)</TableCell>
-                <TableCell>
-                  <img
-                    src={item.image1}
-                    alt="Product"
-                    style={{
-                      width: "150px",
-                      height: "100px",
-                      borderRadius: "4px",
-                    }}
-                  />
-                </TableCell>
                 <TableCell>{item.quantity}</TableCell>
                 <TableCell>{item.reviews}</TableCell>
                 <TableCell align="center">
                   <Button
-                    color="secondary"
+                    color="primary"
                     onClick={() => controlHandleClick(item.id)}
                   >
                     <BorderColorIcon />
@@ -406,7 +415,6 @@ const ProductsShowPage = () => {
                 </TableCell>
                 <TableCell align="center">
                   <Button
-                    variant="outlined"
                     color="error"
                     onClick={() => deleteUser(item.id)}
                   >
