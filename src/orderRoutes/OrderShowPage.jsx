@@ -325,13 +325,13 @@ const OrderShowPage = () => {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Order Code ID</TableCell>
+              <TableCell> Code ID</TableCell>
               <TableCell>User ID</TableCell>
               <TableCell align="center">Username</TableCell>
-              <TableCell align="center">Phone Number</TableCell>
+              <TableCell align="center">Phone </TableCell>
               <TableCell align="center">Address</TableCell>
-              <TableCell align="center">Total Quantity</TableCell>
-              <TableCell align="left">Total Price</TableCell>
+              <TableCell align="center"> Quantity</TableCell>
+              <TableCell align="left"> Price</TableCell>
               <TableCell align="left">Payment Method</TableCell>
               <TableCell align="center">Update</TableCell>
               <TableCell align="center">Delete</TableCell>

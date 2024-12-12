@@ -346,7 +346,7 @@ const ProductsShowPage = () => {
           </form>
         </Box>
       </Modal>
-      <TableContainer
+      {/* <TableContainer
         component={Paper}
         sx={{
           overflowX: "auto",
@@ -425,7 +425,92 @@ const ProductsShowPage = () => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer> */}
+      <TableContainer
+      component={Paper}
+      sx={{
+        minWidth: 850, // Adjusted min width
+        "& thead th": {
+          position: "sticky",
+          top: 0,
+          backgroundColor: "background.paper",
+          zIndex: 1,
+          fontWeight: "bold", // Apply bold to headers
+        },
+      }}
+    >
+      <Table
+        sx={{
+          minWidth: 850,
+          '@media (max-width: 768px)': {
+            minWidth: '100%',
+          },
+        }}
+        size="small"
+        aria-label="a dense table"
+      >
+        <TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell>Image</TableCell>
+            <TableCell>Category</TableCell>
+            <TableCell>Product</TableCell>
+            <TableCell>Product Name</TableCell>
+            <TableCell>Size</TableCell>
+            <TableCell>Origin</TableCell>
+            <TableCell>Details</TableCell>
+            <TableCell>Discount</TableCell>
+            <TableCell>Quantity</TableCell>
+            <TableCell>Reviews</TableCell>
+            <TableCell>Update</TableCell>
+            <TableCell>Delete</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {getData.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.id}</TableCell>
+              <TableCell>
+                <img
+                  src={item.image1 || avater}
+                  alt="Avatar"
+                  style={{
+                    width: '60px',
+                    height: '60px',
+                    objectFit: 'cover',
+                  }}
+                />
+              </TableCell>
+              <TableCell>{item.category || 'N/A'}</TableCell>
+              <TableCell>{item.productbrand || 'N/A'}</TableCell>
+              <TableCell>{item.productname || 'N/A'}</TableCell>
+              <TableCell>{item.size || 'N/A'}</TableCell>
+              <TableCell>{item.origin || 'N/A'}</TableCell>
+              <TableCell>{item.details || 'N/A'}</TableCell>
+              <TableCell>{item.discount || 'N/A'} (Taka)</TableCell>
+              <TableCell>{item.quantity || 'N/A'}</TableCell>
+              <TableCell>{item.reviews || 'N/A'}</TableCell>
+              <TableCell align="center">
+                <Button
+                  color="primary"
+                  onClick={() => controlHandleClick(item.id)}
+                >
+                  <BorderColorIcon />
+                </Button>
+              </TableCell>
+              <TableCell align="center">
+                <Button
+                  color="error"
+                  onClick={() => deleteUser(item.id)}
+                >
+                  <DeleteForeverIcon />
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
       ;
     </div>
   );

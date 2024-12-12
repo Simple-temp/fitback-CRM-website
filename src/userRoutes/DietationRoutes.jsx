@@ -437,9 +437,14 @@ const DietationRoutes = () => {
           </form>
         </Box>
       </Modal>
-      <TableContainer component={Paper}>
+      {/* <TableContainer component={Paper}>
         <Table sx={{ minWidth: 850 }} size="small" aria-label="a dense table">
-          <TableHead>
+          <TableHead 
+           style={{
+            fontWeight: "bold", // Bold header text
+            whiteSpace: "nowrap", // Prevents wrapping
+          }}
+          >
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Image</TableCell>
@@ -498,7 +503,79 @@ const DietationRoutes = () => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer> */}
+       <TableContainer component={Paper}>
+      <Table
+        sx={{
+          minWidth: 850, // Adjusted min width
+          "& thead th": {
+            position: "sticky",
+            top: 0,
+            backgroundColor: "background.paper",
+            zIndex: 1,
+            fontWeight: "bold", // Apply bold to headers
+          },
+        }}
+        size="small"
+        aria-label="a dense table"
+      >
+        <TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell>Image</TableCell>
+            <TableCell>Account Type</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell align="center">Phone</TableCell>
+            <TableCell align="center">Email</TableCell>
+            <TableCell align="center">Address</TableCell>
+            <TableCell align="center">Experience</TableCell>
+            <TableCell align="center">Update</TableCell>
+            <TableCell align="center">Delete</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {getData.map((item) => (
+            <TableRow
+              key={item.id}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              <TableCell>{item.id}</TableCell>
+              <TableCell>
+                <img
+                  src={item.image || avater}
+                  alt="Avatar"
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%", // Circular image
+                    objectFit: "cover",
+                  }}
+                />
+              </TableCell>
+              <TableCell>{item.user_type || "N/A"}</TableCell>
+              <TableCell>{item.name || "N/A"}</TableCell>
+              <TableCell align="center">{item.phonenumber || "N/A"}</TableCell>
+              <TableCell align="center">{item.email || "N/A"}</TableCell>
+              <TableCell align="center">{item.address || "N/A"}</TableCell>
+              <TableCell align="center">{item.experience || "N/A"}</TableCell>
+              <TableCell align="center">
+                <Button
+                  color="primary"
+                  onClick={() => controlHandleClick(item.id)}
+                >
+                  <BorderColorIcon />
+                </Button>
+              </TableCell>
+              <TableCell align="center">
+                <Button color="error" onClick={() => deleteUser(item.id)}>
+                  <DeleteForeverIcon />
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
     </div>
   );
 };

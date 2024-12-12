@@ -17,10 +17,9 @@ import { ToastContainer, toast } from "react-toastify";
 import PropTypes from "prop-types";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import avater from "../../public/img/avater.png"
-
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import avater from "../../public/img/avater.png";
 
 const style = {
   position: "absolute",
@@ -194,9 +193,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
 
   return (
     <div>
-      <ToastContainer
-        position="top-right"
-      />
+      <ToastContainer position="top-right" />
       <Modal
         open={open}
         aria-labelledby="modal-modal-title"
@@ -432,30 +429,49 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
           <Table
             sx={{
               minWidth: 600, // Adjust minimum width
+              "& thead th": {
+                position: "sticky",
+                top: 0,
+                backgroundColor: "background.paper",
+                zIndex: 1,
+              },
             }}
             size="small"
             aria-label="a dense table"
           >
             <TableHead>
               <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell align="center">Image</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell align="center">User FUId</TableCell>
-                <TableCell align="center">Phone Number</TableCell>
-                <TableCell align="center">Password</TableCell>
-                <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Blood Group</TableCell>
-                <TableCell align="center">Gender</TableCell>
-                <TableCell align="center">Address</TableCell>
-                <TableCell align="center">City</TableCell>
-                <TableCell align="center">F Money</TableCell>
-                <TableCell align="center">F Coins</TableCell>
-                <TableCell align="center">Age</TableCell>
-                <TableCell align="center">Height</TableCell>
-                <TableCell align="center">Weight</TableCell>
-                <TableCell align="center">Update</TableCell>
-                <TableCell align="center">Delete</TableCell>
+                {[
+                  "ID",
+                  "Image",
+                  "Name",
+                  "User FUId",
+                  "Phone Number",
+                  "Password",
+                  "Email",
+                  "Blood Group",
+                  "Gender",
+                  "Address",
+                  "City",
+                  "F Money",
+                  "F Coins",
+                  "Age",
+                  "Height",
+                  "Weight",
+                  "Update",
+                  "Delete",
+                ].map((header, index) => (
+                  <TableCell
+                    key={index}
+                    align={index === 1 ? "center" : "left"} // Center align image header
+                    style={{
+                      fontWeight: "bold", // Bold header text
+                      whiteSpace: "nowrap", // Prevents wrapping
+                    }}
+                  >
+                    {header}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -465,14 +481,14 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>{item.id}</TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <img
                       src={item.image || avater}
                       alt="Avatar"
                       style={{
                         width: "50px",
                         height: "40px",
-                        borderRadius: "50%", // Makes the image completely circular
+                        borderRadius: "50%", // Circular image
                         objectFit: "cover",
                       }}
                     />
@@ -482,7 +498,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
                   <TableCell>{item.phonenumber || "N/A"}</TableCell>
                   <TableCell>{item.password || "N/A"}</TableCell>
                   <TableCell>{item.email || "N/A"}</TableCell>
-                  <TableCell>{item.bloodgroup}</TableCell>
+                  <TableCell>{item.bloodgroup || "N/A"}</TableCell>
                   <TableCell>{item.gender || "N/A"}</TableCell>
                   <TableCell>{item.address || "N/A"}</TableCell>
                   <TableCell>{item.city || "N/A"}</TableCell>
@@ -492,7 +508,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
                   <TableCell>
                     {Array.isArray(item.height) && item.height.length > 0
                       ? item.height[0].value
-                      : "No height data" }
+                      : "No height data"}
                   </TableCell>
                   <TableCell>
                     {Array.isArray(item.weight) && item.weight.length > 0
@@ -500,21 +516,18 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
                       : "No weight data"}
                   </TableCell>
                   <TableCell align="center">
-                  <Button
-                    color="primary"
-                    onClick={() => controlHandleClick(item.id)}
-                  >
-                    <BorderColorIcon/>
-                  </Button>
-                </TableCell>
-                <TableCell align="center">
-                  <Button
-                    color="error"
-                    onClick={() => deleteUser(item.id)}
-                  >
-                    <DeleteForeverIcon/>
-                  </Button>
-                </TableCell>
+                    <Button
+                      color="primary"
+                      onClick={() => controlHandleClick(item.id)}
+                    >
+                      <BorderColorIcon />
+                    </Button>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button color="error" onClick={() => deleteUser(item.id)}>
+                      <DeleteForeverIcon />
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

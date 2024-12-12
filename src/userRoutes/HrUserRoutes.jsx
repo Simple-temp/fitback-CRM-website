@@ -420,7 +420,20 @@ const HrUserRoutes = () => {
         </Box>
       </Modal>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 850 }} size="small" aria-label="a dense table">
+        <Table 
+        
+        sx={{
+          minWidth: 850, // Adjusted min width
+          "& thead th": {
+            position: "sticky",
+            top: 0,
+            backgroundColor: "background.paper",
+            zIndex: 1,
+            fontWeight: "bold", // Apply bold to headers
+          },
+        }}
+        
+        >
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
@@ -433,7 +446,7 @@ const HrUserRoutes = () => {
               <TableCell align="center">Nickname</TableCell>
               <TableCell align="center">City</TableCell>
               <TableCell align="center">Gender</TableCell>
-              <TableCell align="center">Blood Group</TableCell>
+              <TableCell align="center">Blood </TableCell>
               <TableCell align="center">Age</TableCell>
               <TableCell align="center">About</TableCell>
               <TableCell align="center">Update</TableCell>
@@ -491,6 +504,82 @@ const HrUserRoutes = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      {/* <TableContainer component={Paper}>
+      <Table
+        sx={{ minWidth: 850 }}
+        size="small"
+        aria-label="a dense table"
+      >
+        <TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell align="center">Image</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell align="center">Phone</TableCell>
+            <TableCell align="center">Email</TableCell>
+            <TableCell align="center">Address</TableCell>
+            <TableCell align="center">Experience</TableCell>
+            <TableCell align="center">Nickname</TableCell>
+            <TableCell align="center">City</TableCell>
+            <TableCell align="center">Gender</TableCell>
+            <TableCell align="center">Blood Group</TableCell>
+            <TableCell align="center">Age</TableCell>
+            <TableCell align="center">About</TableCell>
+            <TableCell align="center">Update</TableCell>
+            <TableCell align="center">Delete</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {getData.map((item) => (
+            <TableRow
+              key={item.id}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              <TableCell>{item.id}</TableCell>
+              <TableCell>
+                <img
+                  src={item.image || avater}
+                  alt="Avatar"
+                  style={{
+                    width: "50px",
+                    height: "40px",
+                    borderRadius: "50%", // Makes the image completely circular
+                    objectFit: "cover",
+                  }}
+                />
+              </TableCell>
+              <TableCell>{item.name || "N/A"}</TableCell>
+              <TableCell>{item.phonenumber || "N/A"}</TableCell>
+              <TableCell>{item.email || "N/A"}</TableCell>
+              <TableCell>{item.address || "N/A"}</TableCell>
+              <TableCell>{item.experience || "N/A"}</TableCell>
+              <TableCell>{item.nickname || "N/A"}</TableCell>
+              <TableCell>{item.city || "N/A"}</TableCell>
+              <TableCell>{item.gender || "N/A"}</TableCell>
+              <TableCell>{item.bloodgroup || "N/A"}</TableCell>
+              <TableCell>{item.age || "N/A"}</TableCell>
+              <TableCell>{item.about || "N/A"}</TableCell>
+              <TableCell align="center">
+                <Button
+                  color="primary"
+                  onClick={() => controlHandleClick(item.id)}
+                >
+                  <BorderColorIcon />
+                </Button>
+              </TableCell>
+              <TableCell align="center">
+                <Button
+                  color="error"
+                  onClick={() => deleteUser(item.id)}
+                >
+                  <DeleteForeverIcon />
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer> */}
     </div>
   );
 };

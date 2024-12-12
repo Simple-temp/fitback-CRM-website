@@ -30,6 +30,7 @@ const DropdownUser = ({
   const navigate = useNavigate()
   const handleLogout = () => {
     localStorage.removeItem("loggedInUser");
+    // window.location.reload();
     navigate("/auth/");
   };
 
