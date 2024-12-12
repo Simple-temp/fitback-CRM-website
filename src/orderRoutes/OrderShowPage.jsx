@@ -308,8 +308,14 @@ const OrderShowPage = () => {
       <TableContainer
         component={Paper}
         sx={{
-          overflowX: "auto", // Enable horizontal scrolling
-          maxHeight: "90vh", // Prevent vertical overflow on smaller screens
+          minWidth: 850, // Adjusted min width
+          "& thead th": {
+            position: "sticky",
+            top: 0,
+            backgroundColor: "background.paper",
+            zIndex: 1,
+            fontWeight: "bold", // Apply bold to headers
+          },
         }}
       >
         <Table

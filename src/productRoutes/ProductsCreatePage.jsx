@@ -202,7 +202,7 @@ const ProductsCreatePage = () => {
             fullWidth
             margin="normal"
           />
-          <FormControlLabel
+          {/* <FormControlLabel
             control={
               <Switch
                 id="availablestatus"
@@ -213,7 +213,7 @@ const ProductsCreatePage = () => {
               />
             }
             label="Available Status"
-          />
+          /> */}
         </div>
         <div className="flex justify-end mt-4">
           <Button
