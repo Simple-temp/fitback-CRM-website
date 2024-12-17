@@ -16,9 +16,9 @@ import TextField from "@mui/material/TextField";
 import { ToastContainer, toast } from "react-toastify";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import avater from "../../public/img/avater.png"
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import avater from "../../public/img/avater.png";
 
 const style = {
   position: "absolute",
@@ -103,7 +103,7 @@ const DietationRoutes = () => {
           address: values.address,
           experience: values.experience,
         };
-        console.log(updatedUserData)
+        console.log(updatedUserData);
 
         const formData = new FormData();
         formData.append("name", values.name);
@@ -123,8 +123,8 @@ const DietationRoutes = () => {
         formData.append("nickname", values.nickname);
         formData.append("about", values.about);
         // Check if a new file is selected
-          if(values.image && values.image instanceof File) {
-             formData.append("image", values.image);
+        if (values.image && values.image instanceof File) {
+          formData.append("image", values.image);
         }
 
         const response = await axios.put(
@@ -163,7 +163,7 @@ const DietationRoutes = () => {
         email: getUserToUpdate.email || "",
         address: getUserToUpdate.address || "",
         experience: getUserToUpdate.experience || "",
-        user_type:  getUserToUpdate.user_type || "",
+        user_type: getUserToUpdate.user_type || "",
       });
     }
   }, [getUserToUpdate]);
@@ -429,7 +429,7 @@ const DietationRoutes = () => {
                 type="submit"
                 variant="contained"
                 color="primary"
-                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg custom-btn-all"
               >
                 Update
               </Button>
@@ -504,7 +504,7 @@ const DietationRoutes = () => {
           </TableBody>
         </Table>
       </TableContainer> */}
-       <TableContainer component={Paper}>
+      {/* <TableContainer component={Paper}>
       <Table
         sx={{
           minWidth: 850, // Adjusted min width
@@ -575,7 +575,98 @@ const DietationRoutes = () => {
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
+    </TableContainer> */}
+      <TableContainer
+        component={Paper}
+        sx={{
+          maxHeight: "600px", // Set max height for vertical scroll
+          overflowY: "auto", // Enable vertical scrolling
+          overflowX: "hidden", // Hide horizontal scrollbar
+          scrollbarWidth: "none", // Hide scrollbar for Firefox
+          msOverflowStyle: "none", // Hide scrollbar for Internet Explorer/Edge
+        }}
+      >
+        {/* Hide scrollbar for WebKit browsers */}
+        <style>
+          {`
+      div::-webkit-scrollbar {
+        display: none;
+      }
+    `}
+        </style>
+        <Table
+          sx={{
+            minWidth: 850, // Adjusted min width
+            "& thead th": {
+              position: "sticky",
+              top: 0,
+              backgroundColor: "background.paper",
+              zIndex: 1,
+              fontWeight: "bold", // Apply bold to headers
+            },
+          }}
+          size="small"
+          aria-label="a dense table"
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Image</TableCell>
+              <TableCell>Account Type</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell align="center">Phone</TableCell>
+              <TableCell align="center">Email</TableCell>
+              <TableCell align="center">Address</TableCell>
+              <TableCell align="center">Experience</TableCell>
+              <TableCell align="center">Update</TableCell>
+              <TableCell align="center">Delete</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {getData.map((item) => (
+              <TableRow
+                key={item.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell>{item.id}</TableCell>
+                <TableCell>
+                  <img
+                    src={item.image || avater}
+                    alt="Avatar"
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      borderRadius: "50%", // Circular image
+                      objectFit: "cover",
+                    }}
+                  />
+                </TableCell>
+                <TableCell>{item.user_type || "N/A"}</TableCell>
+                <TableCell>{item.name || "N/A"}</TableCell>
+                <TableCell align="center">
+                  {item.phonenumber || "N/A"}
+                </TableCell>
+                <TableCell align="center">{item.email || "N/A"}</TableCell>
+                <TableCell align="center">{item.address || "N/A"}</TableCell>
+                <TableCell align="center">{item.experience || "N/A"}</TableCell>
+                <TableCell align="center">
+                  <Button
+                    color="primary"
+                    onClick={() => controlHandleClick(item.id)}
+                  >
+                    <BorderColorIcon />
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button color="error" onClick={() => deleteUser(item.id)}>
+                    <DeleteForeverIcon />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

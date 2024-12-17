@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
@@ -47,7 +46,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
   const validationSchema = Yup.object().shape({
     phonenumber: Yup.string()
       .matches(
-        /^01[1,3,4,5,6,7,8,9]\d{8}$/,
+        /^01[1,2,3,4,5,6,7,8,9]\d{8}$/,
         "Invalid Bangladeshi phone number."
       )
       .required("Phone number is required")
@@ -72,6 +71,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
       height: "",
       weight: "",
       bloodpressure: "",
+      usertype: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -89,6 +89,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
         formData.append("fmoney", values.fmoney);
         formData.append("fcoins", values.fcoins);
         formData.append("age", values.age);
+        formData.append("usertype", values.usertype);
         // Check if a new file is selected
         if (values.image && values.image instanceof File) {
           formData.append("image", values.image);
@@ -142,6 +143,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
       formik.setValues({
         name: getUserToUpdate.name || "",
         phonenumber: getUserToUpdate.phonenumber || "",
+        usertype: getUserToUpdate.usertype || "",
         user_FUId: getUserToUpdate.user_FUId || "",
         password: getUserToUpdate.password || "",
         email: getUserToUpdate.email || "",
@@ -216,6 +218,33 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
                 margin="normal"
                 className="w-full"
               />
+              <FormControl
+                fullWidth
+                margin="normal"
+                error={
+                  formik.touched.usertype && Boolean(formik.errors.usertype)
+                }
+              >
+                <InputLabel id="usertype">User Type</InputLabel>
+                <Select
+                  labelId="usertype"
+                  id="usertype"
+                  name="usertype"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  label="usertype"
+                >
+                  <MenuItem value="">Regular</MenuItem>
+                  <MenuItem value="Fitback">Fitback</MenuItem>
+                  <MenuItem value="Reset">Reset</MenuItem>
+                  <MenuItem value="Reset">Aesthetic</MenuItem>
+                </Select>
+                {formik.touched.usertype && formik.errors.usertype && (
+                  <p className="text-red-500 text-sm">
+                    {formik.errors.usertype}
+                  </p>
+                )}
+              </FormControl>
               <TextField
                 id="user_FUId"
                 label="User FUId"
@@ -410,7 +439,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
                 type="submit"
                 variant="contained"
                 color="primary"
-                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg custom-btn-all"
               >
                 Update
               </Button>
@@ -418,7 +447,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
           </form>
         </Box>
       </Modal>
-      <div style={{ overflowX: "auto" }}>
+      {/* <div style={{ overflowX: "auto" }}>
         <TableContainer
           component={Paper}
           sx={{
@@ -445,6 +474,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
                   "ID",
                   "Image",
                   "Name",
+                  "User Type",
                   "User FUId",
                   "Phone Number",
                   "Password",
@@ -494,6 +524,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
                     />
                   </TableCell>
                   <TableCell>{item.name || "N/A"}</TableCell>
+                  <TableCell>{item.usertype || "Regular"}</TableCell>
                   <TableCell>{item.user_FUId || "N/A"}</TableCell>
                   <TableCell>{item.phonenumber || "N/A"}</TableCell>
                   <TableCell>{item.password || "N/A"}</TableCell>
@@ -533,6 +564,131 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
             </TableBody>
           </Table>
         </TableContainer>
+      </div> */}
+      <div style={{ width: "100%", overflowX: "auto" }}>
+        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          {/* Set the scrollable container */}
+          <div
+            style={{
+              height: "550px", // Set fixed height for vertical scrolling
+              overflowY: "auto", // Enable vertical scrolling
+              width: "100%",
+              scrollbarWidth: "none", // Hide scrollbar for Firefox
+              msOverflowStyle: "none", // Hide scrollbar for Internet Explorer/Edge
+            }}
+          >
+            {/* Hide scrollbar for WebKit browsers (Chrome, Safari) */}
+            <style>
+              {`
+          div::-webkit-scrollbar {
+            display: none;
+          }
+        `}
+            </style>
+            <Table
+              stickyHeader
+              sx={{
+                minWidth: 600, // Minimum width to ensure horizontal scroll
+                borderCollapse: "collapse", // Avoid double borders
+              }}
+              aria-label="sticky table"
+            >
+              <TableHead>
+                <TableRow>
+                  {[
+                    "ID",
+                    "Image",
+                    "Name",
+                    "User Type",
+                    "User FUId",
+                    "Phone Number",
+                    "Password",
+                    "Email",
+                    "Blood Group",
+                    "Gender",
+                    "Address",
+                    "City",
+                    "F Money",
+                    "F Coins",
+                    "Age",
+                    "Height",
+                    "Weight",
+                    "Update",
+                    "Delete",
+                  ].map((header, index) => (
+                    <TableCell
+                      key={index}
+                      align={index === 1 ? "center" : "left"}
+                      sx={{
+                        fontWeight: "bold",
+                        whiteSpace: "nowrap",
+                        backgroundColor: "white", // Sticky header background
+                      }}
+                    >
+                      {header}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {getData.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>{item.id}</TableCell>
+                    <TableCell align="center">
+                      <img
+                        src={item.image || avater}
+                        alt="Avatar"
+                        style={{
+                          width: "50px",
+                          height: "40px",
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>{item.name || "N/A"}</TableCell>
+                    <TableCell>{item.usertype || "Regular"}</TableCell>
+                    <TableCell>{item.user_FUId || "N/A"}</TableCell>
+                    <TableCell>{item.phonenumber || "N/A"}</TableCell>
+                    <TableCell>{item.password || "N/A"}</TableCell>
+                    <TableCell>{item.email || "N/A"}</TableCell>
+                    <TableCell>{item.bloodgroup || "N/A"}</TableCell>
+                    <TableCell>{item.gender || "N/A"}</TableCell>
+                    <TableCell>{item.address || "N/A"}</TableCell>
+                    <TableCell>{item.city || "N/A"}</TableCell>
+                    <TableCell>{item.fmoney || "N/A"}</TableCell>
+                    <TableCell>{item.fcoins || "N/A"}</TableCell>
+                    <TableCell>{item.age || "N/A"}</TableCell>
+                    <TableCell>
+                      {Array.isArray(item.height) && item.height.length > 0
+                        ? item.height[0].value
+                        : "No height data"}
+                    </TableCell>
+                    <TableCell>
+                      {Array.isArray(item.weight) && item.weight.length > 0
+                        ? item.weight[0].value
+                        : "No weight data"}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Button
+                        color="primary"
+                        onClick={() => controlHandleClick(item.id)}
+                      >
+                        <BorderColorIcon />
+                      </Button>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Button color="error" onClick={() => deleteUser(item.id)}>
+                        <DeleteForeverIcon />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </Paper>
       </div>
     </div>
   );

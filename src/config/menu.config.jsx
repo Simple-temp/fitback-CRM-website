@@ -220,6 +220,12 @@ export const MENU_SIDEBAR = [
           icon: "profile-circle",
           children: [
             {
+              title: "KYC Form",
+              children: [
+                { title: "Form", path: "/admin/create/kycpage" },
+              ],
+            },
+            {
               title: "Client",
               children: [
                 { title: "Manage Client", path: "/admin/page" },
@@ -303,6 +309,7 @@ export const MENU_SIDEBAR = [
               children: [
                 { title: "Money Recept", path: "/reset/moneyrecept/page" },
                 { title: "Invoice", path: "/reset/invoice/page" },
+                { title: "Form", path: "/reset/form/page" },
               ],
             },
             {

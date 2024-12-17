@@ -22,9 +22,9 @@ import {
   TextField,
 } from "@mui/material";
 
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import avater from "../../public/img/avater.png"
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import avater from "../../public/img/avater.png";
 
 const style = {
   position: "absolute",
@@ -131,8 +131,8 @@ const DeskRoutes = () => {
         formData.append("nickname", values.nickname);
         formData.append("about", values.about);
         // Check if a new file is selected
-           if(values.image && values.image instanceof File) {
-            formData.append("image", values.image);
+        if (values.image && values.image instanceof File) {
+          formData.append("image", values.image);
         }
 
         const response = await axios.put(
@@ -179,7 +179,7 @@ const DeskRoutes = () => {
         city: getUserToUpdate.city || "",
         postcode: getUserToUpdate.postcode || "",
         age: getUserToUpdate.age || "",
-        gender: getUserToUpdate.gender || "",        
+        gender: getUserToUpdate.gender || "",
         bloodgroup: getUserToUpdate.bloodgroup || "",
         about: getUserToUpdate.about || "",
       });
@@ -449,8 +449,8 @@ const DeskRoutes = () => {
               <Button
                 type="submit"
                 variant="contained"
-                color="Primary"
-                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
+                color="primary"
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg custom-btn-all"
               >
                 Update
               </Button>
@@ -534,7 +534,7 @@ const DeskRoutes = () => {
           </TableBody>
         </Table>
       </TableContainer> */}
-      <TableContainer component={Paper}>
+      {/* <TableContainer component={Paper}>
       <Table
         sx={{
           minWidth: 850, // Adjusted min width
@@ -619,7 +619,110 @@ const DeskRoutes = () => {
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
+    </TableContainer> */}
+      <TableContainer
+        component={Paper}
+        sx={{
+          maxHeight: "600px", // Set max height for vertical scroll
+          overflowY: "auto", // Enable vertical scrolling
+          overflowX: "hidden", // Hide horizontal scrollbar
+          scrollbarWidth: "none", // Hide scrollbar for Firefox
+          msOverflowStyle: "none", // Hide scrollbar for Internet Explorer/Edge
+        }}
+      >
+        {/* Hide scrollbar for WebKit browsers */}
+        <style>
+          {`
+      div::-webkit-scrollbar {
+        display: none;
+      }
+    `}
+        </style>
+        <Table
+          sx={{
+            minWidth: 850, // Adjusted min width
+            "& thead th": {
+              position: "sticky",
+              top: 0,
+              backgroundColor: "background.paper",
+              zIndex: 1,
+              fontWeight: "bold", // Apply bold to headers
+            },
+          }}
+          size="small"
+          aria-label="a dense table"
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell align="center">Image</TableCell>
+              <TableCell align="center">Phone</TableCell>
+              <TableCell align="center">Email</TableCell>
+              <TableCell align="center">Address</TableCell>
+              <TableCell align="center">Experience</TableCell>
+              <TableCell align="center">Nickname</TableCell>
+              <TableCell align="center">City</TableCell>
+              <TableCell align="center">Gender</TableCell>
+              <TableCell align="center">Postcode</TableCell>
+              <TableCell align="center">Blood Group</TableCell>
+              <TableCell align="center">Age</TableCell>
+              <TableCell align="center">Degrees</TableCell>
+              <TableCell align="center">About</TableCell>
+              <TableCell align="center">Update</TableCell>
+              <TableCell align="center">Delete</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {getData.map((item) => (
+              <TableRow
+                key={item.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell>{item.id}</TableCell>
+                <TableCell>
+                  <img
+                    src={item.image || avater}
+                    alt="Avatar"
+                    style={{
+                      width: "50px",
+                      height: "40px",
+                      borderRadius: "50%", // Circular image
+                      objectFit: "cover",
+                    }}
+                  />
+                </TableCell>
+                <TableCell>{item.name || "N/A"}</TableCell>
+                <TableCell>{item.phonenumber || "N/A"}</TableCell>
+                <TableCell>{item.email || "N/A"}</TableCell>
+                <TableCell>{item.address || "N/A"}</TableCell>
+                <TableCell>{item.experience || "N/A"}</TableCell>
+                <TableCell>{item.nickname || "N/A"}</TableCell>
+                <TableCell>{item.city || "N/A"}</TableCell>
+                <TableCell>{item.gender || "N/A"}</TableCell>
+                <TableCell>{item.postcode || "N/A"}</TableCell>
+                <TableCell>{item.bloodgroup || "N/A"}</TableCell>
+                <TableCell>{item.age || "N/A"}</TableCell>
+                <TableCell>{item.digrees || "N/A"}</TableCell>
+                <TableCell>{item.about || "N/A"}</TableCell>
+                <TableCell align="center">
+                  <Button
+                    color="primary"
+                    onClick={() => controlHandleClick(item.id)}
+                  >
+                    <BorderColorIcon />
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button color="error" onClick={() => deleteUser(item.id)}>
+                    <DeleteForeverIcon />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

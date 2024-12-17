@@ -31,6 +31,8 @@ import ResetMoneyRecipt from '@/bill-manage/ResetMoneyRecipt';
 import AstheticInvoice from '@/bill-manage/AstheticInvoice';
 import AtheticMoneReceipt from '@/bill-manage/AtheticMoneReceipt';
 import ShowAllUsers from '@/userRoutes/ShowAllUsers';
+import ResetForm from '@/bill-manage/ResetForm';
+import KYCFrom from '@/userRoutes/KYCFrom';
 
 
 const AppRoutingSetup = () => {
@@ -113,6 +115,7 @@ const AppRoutingSetup = () => {
 
               <Route path="/admin/page" element={<AdminRoutes />} />
               <Route path="/admin/create/page" element={<CreatePublicUser />} />
+              <Route path="/admin/create/kycpage" element={<KYCFrom />} />
               <Route path="/dietitian/page" element={<DietationRoutes />} />
               <Route path="/dietitian/create/page" element={<CreateDietationUser />} />
               <Route path="/desk/page" element={<DeskRoutes />} />
@@ -129,6 +132,7 @@ const AppRoutingSetup = () => {
               <Route path="/invoice/page" element={<Invoice />} />
               <Route path="/reset/invoice/page" element={<ResetInvoice />} />
               <Route path="/reset/moneyrecept/page" element={<ResetMoneyRecipt />} />
+              <Route path="/reset/form/page" element={<ResetForm />} />
               <Route path="/asthetic/invoice/page" element={<AstheticInvoice />} />
               <Route path="/asthetic/moneyrecept/page" element={<AtheticMoneReceipt />} />
 

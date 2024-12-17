@@ -15,7 +15,8 @@ const AdminRoutes = () => {
   const fetchAllUserData = async () => {
       try {
           const response = await axios.get(`https://qwikit1.pythonanywhere.com/userProfile/`);
-          setGetData(response.data);
+          const sortedData = response.data.sort((a, b) => b.id - a.id); 
+          setGetData(sortedData);
       } catch (err) {
           console.log(err);
       }

@@ -96,19 +96,24 @@ const ResetInvoice = () => {
     }
   };
 
+
+  const [getOldUserByid, SetGetOldUserByid] = useState({})
+  const [getOldUserByNumber, SetGetOldUserByNumber] = useState({})
+
   const handleBlur = async () => {
     try {
       setErrorMessage("");
 
       if (customerID) {
         console.log(customerData);
-        const GetOrderByCustomerID = customerData.find(
-          (order) => order.userid === customerID
-        );
+        const GetOrderByCustomerID = customerData.find( (order) => order.userid === customerID );
+        const filtereOldUserByID = getNewUser.find( (user) => user.id ===  parseInt(customerID));
+        SetGetOldUserByid(filtereOldUserByID)
+
         setgetOrderDataByCUstermerID(GetOrderByCustomerID);
         console.log(customerID, GetOrderByCustomerID);
         fetchAllOder();
-        if (!GetOrderByCustomerID) {
+        if (!GetOrderByCustomerID && !filtereOldUserByID) {
           setShowAlert(true);
           return;
         }
@@ -128,10 +133,17 @@ const ResetInvoice = () => {
         const filtereNewUserByNumber = getNewUser.find(
           (user) => user.phonenumber === phoneNumber
         );
+
+        const filterOldUserByNumber = getNewUser.find(
+          (user) => user.phonenumber === phoneNumber
+        );
+        SetGetOldUserByNumber(filterOldUserByNumber)
+
+
         setGetFilterredNumber(filteredProducts); // Set the filtered data
         setNewUserByNumber(filtereNewUserByNumber); // Set the filtered data
         fetchAllPublicUser();
-        if (!filteredProducts && !filtereNewUserByNumber) {
+        if (!filteredProducts && !filtereNewUserByNumber &&!filterOldUserByNumber) {
           setShowAlert(true);
           return;
         }
@@ -299,7 +311,7 @@ const ResetInvoice = () => {
           <div className="invoice-header">
             <div className="header-col1">
               <div className="header-group1">
-                <label>Bill To:</label>
+                <label>Name:</label>
                 <input
                   type="text"
                   placeholder=""
@@ -314,6 +326,21 @@ const ResetInvoice = () => {
                 />
               </div>
               <div className="header-group1">
+                <label>Address:</label>
+                <input
+                  type="text"
+                  placeholder=""
+                  value={
+                    customerData?.address ||
+                    getFilteredNumber?.address ||
+                    newUserByNumber?.address ||
+                    getOrderDataByCUstermerID?.address ||
+                    "N/A"
+                  }
+                  className="custom-border"
+                />
+              </div>
+              <div className="header-group1">
                 <label>Phone:</label>
                 <input
                   type="text"
@@ -322,6 +349,7 @@ const ResetInvoice = () => {
                     phoneNumber ||
                     customerData?.phonenumber ||
                     getOrderDataByCUstermerID?.phonenumber ||
+                    getOldUserByid?.phonenumber ||
                     ""
                   }
                   onChange={handleChange}
@@ -370,9 +398,12 @@ const ResetInvoice = () => {
                   type="text"
                   placeholder=""
                   value={
-                    customerID || getFilteredNumber
-                      ? getFilteredNumber.id
-                      : "N/A"
+                    getOldUserByNumber 
+                      ? getOldUserByNumber.id 
+                      : customerID || 
+                        getFilteredNumber 
+                          ? getFilteredNumber.id 
+                          : "N/A"
                   }
                   onChange={(e) => setCustomerID(e.target.value)}
                   onBlur={handleBlur}
@@ -397,7 +428,7 @@ const ResetInvoice = () => {
                 <th>Sl. No.</th>
                 <th>Name</th>
                 <th>Qty.</th>
-                <th>Rate</th>
+                {/* <th>Rate</th> */}
                 <th>Value in BDT</th>
               </tr>
             </thead>
@@ -436,7 +467,7 @@ const ResetInvoice = () => {
                       }
                     />
                   </td>
-                  <td>{row.mrp || 0}</td> {/* MRP */}
+                  {/* <td>{row.mrp || 0}</td>  */}
                   <td>{row.total?.toFixed(2) || "0.00"}</td> {/* Row total */}
                   {/* <td>{row.runningTotal?.toFixed(2) || "0.00"}</td> */}
                 </tr>
@@ -511,7 +542,7 @@ const ResetInvoice = () => {
                   <input
                     type="number"
                     placeholder="0.00"
-                    className="amount-details"
+                    className="amount-details amount-border"
                     value={subtotal && subtotal.toFixed(2)} // Subtotal
                     readOnly
                   />
@@ -519,7 +550,7 @@ const ResetInvoice = () => {
                   <input
                     type="number"
                     placeholder="0.00"
-                    className="amount-details"
+                    className="amount-details amount-border"
                     value={discount && discount.toFixed(2)} // Total Discount
                     readOnly
                   />
@@ -527,7 +558,7 @@ const ResetInvoice = () => {
                   <input
                     type="number"
                     placeholder="0.00"
-                    className="amount-details"
+                    className="amount-details amount-border"
                     value={totalAmount && totalAmount.toFixed(2)} // Total from the running subtotal
                     readOnly
                   />
@@ -535,7 +566,7 @@ const ResetInvoice = () => {
                   <input
                     type="number"
                     placeholder="Enter Paid Amount"
-                    className="amount-details"
+                    className="amount-details amount-border"
                     value={paid}
                     onChange={(e) => setPaid(Number(e.target.value))} // Paid Amount
                   />
@@ -543,7 +574,7 @@ const ResetInvoice = () => {
                   <input
                     type="number"
                     placeholder="0.00"
-                    className="amount-details"
+                    className="amount-details amount-border"
                     value={dueAmount && dueAmount.toFixed(2)} // Due Amount
                     readOnly
                   />
@@ -586,6 +617,7 @@ const ResetInvoice = () => {
 };
 
 export default ResetInvoice;
+
 
 
 

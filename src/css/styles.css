@@ -14,20 +14,19 @@
     margin-right: 10px !important;
 }
 
-.border-color{
-    color: rgb(251, 37, 115);
-}
-
 .btn-primary-custom{
     background-color: rgb(251, 37, 115);
     color: #fff;
     cursor: pointer;
 }
-
 .btn-primary-custom:hover{
-    background-color: rgb(251, 37, 115);
+    background-color: rgb(251, 37, 115) !important;
 }
 
 :focus{
     outline: none;
+}
+
+.custom-btn-all{
+    background-color: rgb(251, 37, 115) !important;
 }

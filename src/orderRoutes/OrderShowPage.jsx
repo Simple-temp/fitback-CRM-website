@@ -43,10 +43,8 @@ const style = {
   transform: "translate(-50%, -50%)",
 };
 
-
 const OrderShowPage = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [getData, setGetData] = useState([]);
 
   // modal code
@@ -298,6 +296,7 @@ const OrderShowPage = () => {
                 variant="contained"
                 color="primary"
                 sx={{ marginLeft: "10px" }}
+                className="custom-btn-all"
               >
                 Update
               </Button>
@@ -305,7 +304,7 @@ const OrderShowPage = () => {
           </form>
         </Box>
       </Modal>
-      <TableContainer
+      {/* <TableContainer
         component={Paper}
         sx={{
           minWidth: 850, // Adjusted min width
@@ -389,8 +388,111 @@ const OrderShowPage = () => {
             ))}
           </TableBody>
         </Table>
+      </TableContainer> */}
+      <TableContainer
+        component={Paper}
+        sx={{
+          minWidth: 850, // Adjusted min width
+          "& thead th": {
+            position: "sticky",
+            top: 0,
+            backgroundColor: "background.paper",
+            zIndex: 1,
+            fontWeight: "bold", // Apply bold to headers
+          },
+          "@media (max-width: 768px)": {
+            minWidth: "100%", // Adjust table width for small screens
+          },
+          maxHeight: "600px", // Set max height for vertical scroll
+          overflowY: "auto", // Enable vertical scrolling
+          overflowX: "hidden", // Hide horizontal scrollbar
+          scrollbarWidth: "none", // Hide scrollbar for Firefox
+          msOverflowStyle: "none", // Hide scrollbar for IE/Edge
+        }}
+      >
+        {/* Hide scrollbar for WebKit browsers */}
+        <style>
+          {`
+      div::-webkit-scrollbar {
+        display: none;
+      }
+    `}
+        </style>
+        <Table
+          sx={{
+            minWidth: 850,
+            "@media (max-width: 768px)": {
+              minWidth: "100%", // Full width on small screens
+            },
+          }}
+          size="small"
+          aria-label="a dense table"
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Code ID</TableCell>
+              <TableCell>User ID</TableCell>
+              <TableCell align="center">Username</TableCell>
+              <TableCell align="center">Phone</TableCell>
+              <TableCell align="center">Address</TableCell>
+              <TableCell align="center">Quantity</TableCell>
+              <TableCell align="left">Price</TableCell>
+              <TableCell align="left">Payment Method</TableCell>
+              <TableCell align="center">Update</TableCell>
+              <TableCell align="center">Delete</TableCell>
+              <TableCell align="center">Details</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {getData.map((item) => (
+              <TableRow
+                key={item.id}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "@media (max-width: 768px)": {
+                    fontSize: "0.85rem", // Reduce font size for small screens
+                  },
+                }}
+              >
+                <TableCell>{item.id}</TableCell>
+                <TableCell>{item.order_codeid || "N/A"}</TableCell>
+                <TableCell>{item.userid || "N/A"}</TableCell>
+                <TableCell align="center">{item.username || "N/A"}</TableCell>
+                <TableCell align="center">
+                  {item.phonenumber || "N/A"}
+                </TableCell>
+                <TableCell align="center">{item.address || "N/A"}</TableCell>
+                <TableCell align="center">
+                  {item.totalquantity || "N/A"}
+                </TableCell>
+                <TableCell align="left">{item.totalprice || "N/A"}</TableCell>
+                <TableCell align="left">
+                  {item.paymentmethod || "N/A"}
+                </TableCell>
+                <TableCell align="center">
+                  <Button
+                    color="primary"
+                    onClick={() => controlHandleClick(item.id)}
+                  >
+                    <BorderColorIcon />
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button color="error" onClick={() => deleteUser(item.id)}>
+                    <DeleteForeverIcon />
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button color="error" onClick={() => navigate(`${item.id}`)}>
+                    <DetailsIcon />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </TableContainer>
-      ;
     </div>
   );
 };

@@ -12,12 +12,20 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Modal, Box, TextField, FormControl, InputLabel, Select, MenuItem,} from "@mui/material";
+import {
+  Modal,
+  Box,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import "./Product.css";
 
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import avater from "../../public/img/avater.png"
+import avater from "../../public/img/avater.png";
 
 const style = {
   maxWidth: "800px",
@@ -33,7 +41,6 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
 };
-
 
 const ProductsShowPage = () => {
   // Get products
@@ -338,7 +345,7 @@ const ProductsShowPage = () => {
                 type="submit"
                 variant="contained"
                 color="primary"
-                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg custom-btn-all"
               >
                 Update
               </Button>
@@ -426,7 +433,7 @@ const ProductsShowPage = () => {
           </TableBody>
         </Table>
       </TableContainer> */}
-      <TableContainer
+      {/* <TableContainer
       component={Paper}
       sx={{
         minWidth: 850, // Adjusted min width
@@ -511,7 +518,106 @@ const ProductsShowPage = () => {
         </TableBody>
       </Table>
     </TableContainer>
-      ;
+       */}
+      <TableContainer
+        component={Paper}
+        sx={{
+          minWidth: 850, // Adjusted min width
+          "& thead th": {
+            position: "sticky",
+            top: 0,
+            backgroundColor: "background.paper",
+            zIndex: 1,
+            fontWeight: "bold", // Apply bold to headers
+          },
+          "@media (max-width: 768px)": {
+            minWidth: "100%", // Full width on small screens
+          },
+          maxHeight: "600px", // Set max height for vertical scroll
+          overflowY: "auto", // Enable vertical scrolling
+          overflowX: "hidden", // Hide horizontal scrollbar
+          scrollbarWidth: "none", // Hide scrollbar for Firefox
+          msOverflowStyle: "none", // Hide scrollbar for IE/Edge
+        }}
+      >
+        {/* Hide scrollbar for WebKit browsers */}
+        <style>
+          {`
+      div::-webkit-scrollbar {
+        display: none;
+      }
+    `}
+        </style>
+        <Table
+          sx={{
+            minWidth: 850,
+            "@media (max-width: 768px)": {
+              minWidth: "100%", // Full width for small screens
+            },
+          }}
+          size="small"
+          aria-label="a dense table"
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Image</TableCell>
+              <TableCell>Category</TableCell>
+              <TableCell>Product</TableCell>
+              <TableCell>Product Name</TableCell>
+              <TableCell>Size</TableCell>
+              <TableCell>Origin</TableCell>
+              <TableCell>Details</TableCell>
+              <TableCell>Discount</TableCell>
+              <TableCell>Quantity</TableCell>
+              <TableCell>Reviews</TableCell>
+              <TableCell>Update</TableCell>
+              <TableCell>Delete</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {getData.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.id}</TableCell>
+                <TableCell>
+                  <img
+                    src={item.image1 || avater}
+                    alt="Avatar"
+                    style={{
+                      width: "60px",
+                      height: "60px",
+                      borderRadius: "50%", // Circular image
+                      objectFit: "cover",
+                    }}
+                  />
+                </TableCell>
+                <TableCell>{item.category || "N/A"}</TableCell>
+                <TableCell>{item.productbrand || "N/A"}</TableCell>
+                <TableCell>{item.productname || "N/A"}</TableCell>
+                <TableCell>{item.size || "N/A"}</TableCell>
+                <TableCell>{item.origin || "N/A"}</TableCell>
+                <TableCell>{item.details || "N/A"}</TableCell>
+                <TableCell>{item.discount || "N/A"} (Taka)</TableCell>
+                <TableCell>{item.quantity || "N/A"}</TableCell>
+                <TableCell>{item.reviews || "N/A"}</TableCell>
+                <TableCell align="center">
+                  <Button
+                    color="primary"
+                    onClick={() => controlHandleClick(item.id)}
+                  >
+                    <BorderColorIcon />
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button color="error" onClick={() => deleteUser(item.id)}>
+                    <DeleteForeverIcon />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

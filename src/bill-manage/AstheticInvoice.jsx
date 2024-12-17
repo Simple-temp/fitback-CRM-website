@@ -3,10 +3,10 @@ import html2canvas from "html2canvas";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Invoice.css";
-// import { ToastContainer } from "react-toastify";
-// import BillModal from "./bill-Components/BillModal";
+import { ToastContainer } from "react-toastify";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
+import AstheticModal from "./bill-Components/AstheticModal";
 
 const AstheticInvoice = () => {
   const [customerData, setCustomerData] = useState([]);
@@ -15,7 +15,7 @@ const AstheticInvoice = () => {
   );
   const [customerID, setCustomerID] = useState("");
   //===================
-  // const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   //===================
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   //===================
@@ -27,7 +27,7 @@ const AstheticInvoice = () => {
   const [newUserByNumber, setNewUserByNumber] = useState({});
   //===================
   const [errorMessage, setErrorMessage] = useState("");
-  // const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   // fetch the new user data
 
@@ -96,22 +96,27 @@ const AstheticInvoice = () => {
     }
   };
 
+
+  const [getOldUserByid, SetGetOldUserByid] = useState({})
+  const [getOldUserByNumber, SetGetOldUserByNumber] = useState({})
+
   const handleBlur = async () => {
     try {
       setErrorMessage("");
 
       if (customerID) {
         console.log(customerData);
-        const GetOrderByCustomerID = customerData.find(
-          (order) => order.userid === customerID
-        );
+        const GetOrderByCustomerID = customerData.find( (order) => order.userid === customerID );
+        const filtereOldUserByID = getNewUser.find( (user) => user.id ===  parseInt(customerID));
+        SetGetOldUserByid(filtereOldUserByID)
+
         setgetOrderDataByCUstermerID(GetOrderByCustomerID);
         console.log(customerID, GetOrderByCustomerID);
         fetchAllOder();
-        // if (!GetOrderByCustomerID) {
-        //   setShowAlert(true);
-        //   return;
-        // }
+        if (!GetOrderByCustomerID && !filtereOldUserByID) {
+          setShowAlert(true);
+          return;
+        }
       }
       if (phoneNumber) {
         const phoneRegex = /^01\d{9}$/;
@@ -128,13 +133,20 @@ const AstheticInvoice = () => {
         const filtereNewUserByNumber = getNewUser.find(
           (user) => user.phonenumber === phoneNumber
         );
+
+        const filterOldUserByNumber = getNewUser.find(
+          (user) => user.phonenumber === phoneNumber
+        );
+        SetGetOldUserByNumber(filterOldUserByNumber)
+
+
         setGetFilterredNumber(filteredProducts); // Set the filtered data
         setNewUserByNumber(filtereNewUserByNumber); // Set the filtered data
         fetchAllPublicUser();
-        // if (!filteredProducts && !filtereNewUserByNumber) {
-        //   setShowAlert(true);
-        //   return;
-        // }
+        if (!filteredProducts && !filtereNewUserByNumber &&!filterOldUserByNumber) {
+          setShowAlert(true);
+          return;
+        }
         console.log(JSON.stringify(filteredProducts));
       }
     } catch (err) {
@@ -273,18 +285,18 @@ const AstheticInvoice = () => {
 
   return (
     <div className="main-container invoice-img">
-      {/* <ToastContainer
+      <ToastContainer
         position="bottom-center"
         autoClose={2000}
         theme="colored"
       />
-      <BillModal
+      <AstheticModal
         openModal={openModal}
         setOpenModal={setOpenModal}
         phoneNumber={phoneNumber}
         showAlert={showAlert}
         setShowAlert={setShowAlert}
-      /> */}
+      />
       <div className="select-branch">
         <select onChange={(e) => setSelectBranch(e.target.value)}>
           <option value="">--Select Branch--</option>
@@ -299,7 +311,7 @@ const AstheticInvoice = () => {
           <div className="invoice-header">
             <div className="header-col1">
               <div className="header-group1">
-                <label>Bill To:</label>
+                <label>Name:</label>
                 <input
                   type="text"
                   placeholder=""
@@ -314,6 +326,21 @@ const AstheticInvoice = () => {
                 />
               </div>
               <div className="header-group1">
+                <label>Address:</label>
+                <input
+                  type="text"
+                  placeholder=""
+                  value={
+                    customerData?.address ||
+                    getFilteredNumber?.address ||
+                    newUserByNumber?.address ||
+                    getOrderDataByCUstermerID?.address ||
+                    "N/A"
+                  }
+                  className="custom-border"
+                />
+              </div>
+              <div className="header-group1">
                 <label>Phone:</label>
                 <input
                   type="text"
@@ -322,6 +349,7 @@ const AstheticInvoice = () => {
                     phoneNumber ||
                     customerData?.phonenumber ||
                     getOrderDataByCUstermerID?.phonenumber ||
+                    getOldUserByid?.phonenumber ||
                     ""
                   }
                   onChange={handleChange}
@@ -370,9 +398,12 @@ const AstheticInvoice = () => {
                   type="text"
                   placeholder=""
                   value={
-                    customerID || getFilteredNumber
-                      ? getFilteredNumber.id
-                      : "N/A"
+                    getOldUserByNumber 
+                      ? getOldUserByNumber.id 
+                      : customerID || 
+                        getFilteredNumber 
+                          ? getFilteredNumber.id 
+                          : "N/A"
                   }
                   onChange={(e) => setCustomerID(e.target.value)}
                   onBlur={handleBlur}
@@ -397,7 +428,7 @@ const AstheticInvoice = () => {
                 <th>Sl. No.</th>
                 <th>Name</th>
                 <th>Qty.</th>
-                <th>Rate</th>
+                {/* <th>Rate</th> */}
                 <th>Value in BDT</th>
               </tr>
             </thead>
@@ -436,7 +467,7 @@ const AstheticInvoice = () => {
                       }
                     />
                   </td>
-                  <td>{row.mrp || 0}</td> {/* MRP */}
+                  {/* <td>{row.mrp || 0}</td>  */}
                   <td>{row.total?.toFixed(2) || "0.00"}</td> {/* Row total */}
                   {/* <td>{row.runningTotal?.toFixed(2) || "0.00"}</td> */}
                 </tr>
@@ -511,7 +542,7 @@ const AstheticInvoice = () => {
                   <input
                     type="number"
                     placeholder="0.00"
-                    className="amount-details"
+                    className="amount-details amount-border"
                     value={subtotal && subtotal.toFixed(2)} // Subtotal
                     readOnly
                   />
@@ -519,7 +550,7 @@ const AstheticInvoice = () => {
                   <input
                     type="number"
                     placeholder="0.00"
-                    className="amount-details"
+                    className="amount-details amount-border"
                     value={discount && discount.toFixed(2)} // Total Discount
                     readOnly
                   />
@@ -527,7 +558,7 @@ const AstheticInvoice = () => {
                   <input
                     type="number"
                     placeholder="0.00"
-                    className="amount-details"
+                    className="amount-details amount-border"
                     value={totalAmount && totalAmount.toFixed(2)} // Total from the running subtotal
                     readOnly
                   />
@@ -535,7 +566,7 @@ const AstheticInvoice = () => {
                   <input
                     type="number"
                     placeholder="Enter Paid Amount"
-                    className="amount-details"
+                    className="amount-details amount-border"
                     value={paid}
                     onChange={(e) => setPaid(Number(e.target.value))} // Paid Amount
                   />
@@ -543,7 +574,7 @@ const AstheticInvoice = () => {
                   <input
                     type="number"
                     placeholder="0.00"
-                    className="amount-details"
+                    className="amount-details amount-border"
                     value={dueAmount && dueAmount.toFixed(2)} // Due Amount
                     readOnly
                   />

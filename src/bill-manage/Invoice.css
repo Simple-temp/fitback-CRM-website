@@ -39,7 +39,8 @@ textarea {
   padding-left: 0px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  text-align: right;
+  /* justify-content: space-between; */
 }
 
 .header-col2 {
@@ -86,6 +87,7 @@ textarea {
   display: flex;
   flex-direction: column;
   text-align: right;
+  margin-top: 13px;
 }
 
 .signature-section {
@@ -163,7 +165,9 @@ textarea {
 }
 
 .custom-border{
-  border-bottom: 1px solid #d3d3d3;
+  border: 2px solid #9c9c9c;
+  margin-bottom: 7px;
+  padding: 4px 4px;
 }
 
 .custom-buttom{
@@ -178,6 +182,9 @@ textarea {
   display: flex;
 }
 
+.amount-border{
+  border-bottom: 2px solid #9c9c9c;
+}
 /* Responsive Styles */
 
 @media (max-width: 768px) {

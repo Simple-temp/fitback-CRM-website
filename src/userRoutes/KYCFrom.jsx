@@ -1,11 +1,18 @@
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { ToastContainer } from "react-toastify";
 
-const CreatePublicUser = () => {
+const KYCFrom = () => {
   // Validation Schema
   const validationSchema = Yup.object().shape({
     phonenumber: Yup.string()
@@ -38,11 +45,11 @@ const CreatePublicUser = () => {
       bloodpressure: "",
       height: "",
       weight: "",
+      usertype:""
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
-
         const formData = new FormData();
         formData.append("name", values.name);
         formData.append("user_FUId", values.user_FUId);
@@ -57,9 +64,23 @@ const CreatePublicUser = () => {
         formData.append("fcoins", values.fcoins);
         formData.append("age", values.age);
         formData.append("image", values.image);
-        formData.append("height", JSON.stringify([{ value: values.height, timestamp: new Date().toISOString() }]));
-        formData.append("weight", JSON.stringify([{ value: values.weight, timestamp: new Date().toISOString() }]));
-        formData.append("bloodpressure", JSON.stringify([{ value: values.bloodpressure }]));        
+        formData.append("usertype", values.usertype);
+        formData.append(
+          "height",
+          JSON.stringify([
+            { value: values.height, timestamp: new Date().toISOString() },
+          ])
+        );
+        formData.append(
+          "weight",
+          JSON.stringify([
+            { value: values.weight, timestamp: new Date().toISOString() },
+          ])
+        );
+        formData.append(
+          "bloodpressure",
+          JSON.stringify([{ value: values.bloodpressure }])
+        );
 
         const response = await axios.post(
           `https://qwikit1.pythonanywhere.com/userProfile/new`,
@@ -97,6 +118,29 @@ const CreatePublicUser = () => {
             margin="normal"
             className="w-full"
           />
+          <FormControl
+            fullWidth
+            margin="normal"
+            error={formik.touched.usertype && Boolean(formik.errors.usertype)}
+          >
+            <InputLabel id="usertype">User Type</InputLabel>
+            <Select
+              labelId="usertype"
+              id="usertype"
+              name="usertype"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              label="usertype"
+            >
+              <MenuItem value="">Regular</MenuItem>
+              <MenuItem value="Fitback">Fitback</MenuItem>
+              <MenuItem value="Reset">Reset</MenuItem>
+              <MenuItem value="Aesthetic">Aesthetic</MenuItem>
+            </Select>
+            {formik.touched.usertype && formik.errors.usertype && (
+              <p className="text-red-500 text-sm">{formik.errors.usertype}</p>
+            )}
+          </FormControl>
           <TextField
             id="user_FUId"
             label="User FUId"
@@ -300,4 +344,4 @@ const CreatePublicUser = () => {
   );
 };
 
-export default CreatePublicUser;
+export default KYCFrom;

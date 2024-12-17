@@ -12,11 +12,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Box, FormControl, InputLabel, MenuItem, Modal, Select, TextField } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+} from "@mui/material";
 
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import avater from "../../public/img/avater.png"
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import avater from "../../public/img/avater.png";
 
 const style = {
   position: "absolute",
@@ -126,7 +134,7 @@ const SupportRoutes = () => {
         if (values.image && values.image instanceof File) {
           formData.append("image", values.image);
         }
-        console.log(updatedUserData)
+        console.log(updatedUserData);
 
         const response = await axios.put(
           `https://qwikit1.pythonanywhere.com/supportProfile/${getUserToUpdate.id}`,
@@ -171,7 +179,7 @@ const SupportRoutes = () => {
         city: getUserToUpdate.city || "",
         postcode: getUserToUpdate.postcode || "",
         age: getUserToUpdate.age || "",
-        gender: getUserToUpdate.gender || "",        
+        gender: getUserToUpdate.gender || "",
         bloodgroup: getUserToUpdate.bloodgroup || "",
         about: getUserToUpdate.about || "",
       });
@@ -203,224 +211,233 @@ const SupportRoutes = () => {
       toast.error(err, { theme: "colored" });
     }
   };
-  
+
   return (
     <div>
       <h1>Show Support User List</h1>
-      <ToastContainer position="bottom-center" autoClose={2000} theme="colored"/>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        theme="colored"
+      />
       <Modal
         open={open}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-        <form
-        onSubmit={formik.handleSubmit}
-        className="max-w-xxl mx-auto bg-white p-6 rounded-lg shadow-md"
-      >
-        <div className="grid grid-cols-3 gap-4">
-          <TextField
-            id="name"
-            label="Name"
-            name="name"
-            variant="outlined"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="phonenumber"
-            label="Phonenumber"
-            name="phonenumber"
-            variant="outlined"
-            value={formik.values.phonenumber}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.phonenumber && Boolean(formik.errors.phonenumber)
-            }
-            helperText={formik.touched.phonenumber && formik.errors.phonenumber}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="password"
-            label="Password"
-            name="password"
-            variant="outlined"
-            type="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="email"
-            label="Email"
-            name="email"
-            variant="outlined"
-            type="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="experience"
-            label="Experience"
-            name="experience"
-            variant="outlined"
-            value={formik.values.experience}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="address"
-            label="Address"
-            name="address"
-            variant="outlined"
-            value={formik.values.address}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-
-          <TextField
-            id="user_FUId"
-            label="user_FUId"
-            name="user_FUId"
-            variant="outlined"
-            value={formik.values.user_FUId}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="nickname"
-            label="nickname"
-            name="nickname"
-            variant="outlined"
-            value={formik.values.nickname}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="city"
-            label="city"
-            name="city"
-            variant="outlined"
-            value={formik.values.city}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="postcode"
-            label="postcode"
-            name="postcode"
-            variant="outlined"
-            value={formik.values.postcode}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="bloodgroup"
-            label="bloodgroup"
-            name="bloodgroup"
-            variant="outlined"
-            value={formik.values.bloodgroup}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="age"
-            label="age"
-            name="age"
-            variant="outlined"
-            value={formik.values.age}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="digrees"
-            label="digrees"
-            name="digrees"
-            variant="outlined"
-            value={formik.values.digrees}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="about"
-            label="about"
-            name="about"
-            variant="outlined"
-            value={formik.values.about}
-            onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="image"
-            name="image"
-            variant="outlined"
-            type="file"
-            onChange={(event) => {
-              formik.setFieldValue("image", event.currentTarget.files[0]);
-            }}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <FormControl
-            fullWidth
-            margin="normal"
-            error={formik.touched.gender && Boolean(formik.errors.gender)}
+          <form
+            onSubmit={formik.handleSubmit}
+            className="max-w-xxl mx-auto bg-white p-6 rounded-lg shadow-md"
           >
-            <InputLabel id="gender">Gender</InputLabel>
-            <Select
-              labelId="gender"
-              id="gender"
-              name="gender"
-              value={formik.values.gender}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              label="gender"
-            >
-              <MenuItem value="Female">Female</MenuItem>
-              <MenuItem value="Male">Male</MenuItem>
-            </Select>
-            {formik.touched.gender && formik.errors.gender && (
-              <p className="text-red-500 text-sm">{formik.errors.gender}</p>
-            )}
-          </FormControl>
-        </div>
-        <div className="flex justify-end mt-4">
-        <Button
+            <div className="grid grid-cols-3 gap-4">
+              <TextField
+                id="name"
+                label="Name"
+                name="name"
+                variant="outlined"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <TextField
+                id="phonenumber"
+                label="Phonenumber"
+                name="phonenumber"
+                variant="outlined"
+                value={formik.values.phonenumber}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.phonenumber &&
+                  Boolean(formik.errors.phonenumber)
+                }
+                helperText={
+                  formik.touched.phonenumber && formik.errors.phonenumber
+                }
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <TextField
+                id="password"
+                label="Password"
+                name="password"
+                variant="outlined"
+                type="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <TextField
+                id="email"
+                label="Email"
+                name="email"
+                variant="outlined"
+                type="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <TextField
+                id="experience"
+                label="Experience"
+                name="experience"
+                variant="outlined"
+                value={formik.values.experience}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <TextField
+                id="address"
+                label="Address"
+                name="address"
+                variant="outlined"
+                value={formik.values.address}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+
+              <TextField
+                id="user_FUId"
+                label="user_FUId"
+                name="user_FUId"
+                variant="outlined"
+                value={formik.values.user_FUId}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <TextField
+                id="nickname"
+                label="nickname"
+                name="nickname"
+                variant="outlined"
+                value={formik.values.nickname}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <TextField
+                id="city"
+                label="city"
+                name="city"
+                variant="outlined"
+                value={formik.values.city}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <TextField
+                id="postcode"
+                label="postcode"
+                name="postcode"
+                variant="outlined"
+                value={formik.values.postcode}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <TextField
+                id="bloodgroup"
+                label="bloodgroup"
+                name="bloodgroup"
+                variant="outlined"
+                value={formik.values.bloodgroup}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <TextField
+                id="age"
+                label="age"
+                name="age"
+                variant="outlined"
+                value={formik.values.age}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <TextField
+                id="digrees"
+                label="digrees"
+                name="digrees"
+                variant="outlined"
+                value={formik.values.digrees}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <TextField
+                id="about"
+                label="about"
+                name="about"
+                variant="outlined"
+                value={formik.values.about}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <TextField
+                id="image"
+                name="image"
+                variant="outlined"
+                type="file"
+                onChange={(event) => {
+                  formik.setFieldValue("image", event.currentTarget.files[0]);
+                }}
+                fullWidth
+                margin="normal"
+                className="w-full"
+              />
+              <FormControl
+                fullWidth
+                margin="normal"
+                error={formik.touched.gender && Boolean(formik.errors.gender)}
+              >
+                <InputLabel id="gender">Gender</InputLabel>
+                <Select
+                  labelId="gender"
+                  id="gender"
+                  name="gender"
+                  value={formik.values.gender}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  label="gender"
+                >
+                  <MenuItem value="Female">Female</MenuItem>
+                  <MenuItem value="Male">Male</MenuItem>
+                </Select>
+                {formik.touched.gender && formik.errors.gender && (
+                  <p className="text-red-500 text-sm">{formik.errors.gender}</p>
+                )}
+              </FormControl>
+            </div>
+            <div className="flex justify-end mt-4">
+              <Button
                 variant="outlined"
                 color="error"
                 onClick={handleClose}
@@ -428,16 +445,16 @@ const SupportRoutes = () => {
               >
                 Close
               </Button>{" "}
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
-          >
-            Update
-          </Button>
-        </div>
-      </form>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg custom-btn-all"
+              >
+                Update
+              </Button>
+            </div>
+          </form>
         </Box>
       </Modal>
       {/* <TableContainer component={Paper}>
@@ -516,7 +533,7 @@ const SupportRoutes = () => {
           </TableBody>
         </Table>
       </TableContainer> */}
-      <TableContainer component={Paper}>
+      {/* <TableContainer component={Paper}>
       <Table
         sx={{
           minWidth: 850,
@@ -604,7 +621,110 @@ const SupportRoutes = () => {
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
+    </TableContainer> */}
+      <TableContainer
+        component={Paper}
+        sx={{
+          maxHeight: "600px", // Set max height for vertical scroll
+          overflowY: "auto", // Enable vertical scrolling
+          overflowX: "hidden", // Hide horizontal scrollbar
+          scrollbarWidth: "none", // Hide scrollbar for Firefox
+          msOverflowStyle: "none", // Hide scrollbar for Internet Explorer/Edge
+        }}
+      >
+        {/* Hide scrollbar for WebKit browsers */}
+        <style>
+          {`
+      div::-webkit-scrollbar {
+        display: none;
+      }
+    `}
+        </style>
+        <Table
+          sx={{
+            minWidth: 850, // Adjusted min width
+            "& thead th": {
+              position: "sticky",
+              top: 0,
+              backgroundColor: "background.paper",
+              zIndex: 1,
+              fontWeight: "bold", // Apply bold to headers
+            },
+          }}
+          size="small"
+          aria-label="a dense table"
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell align="center">Image</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell align="center">Phone</TableCell>
+              <TableCell align="center">Email</TableCell>
+              <TableCell align="center">Address</TableCell>
+              <TableCell align="center">Experience</TableCell>
+              <TableCell align="center">Nickname</TableCell>
+              <TableCell align="center">City</TableCell>
+              <TableCell align="center">Gender</TableCell>
+              <TableCell align="center">Postcode</TableCell>
+              <TableCell align="center">Blood Group</TableCell>
+              <TableCell align="center">Age</TableCell>
+              <TableCell align="center">Degrees</TableCell>
+              <TableCell align="center">About</TableCell>
+              <TableCell align="center">Update</TableCell>
+              <TableCell align="center">Delete</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {getData.map((item) => (
+              <TableRow
+                key={item.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell>{item.id}</TableCell>
+                <TableCell>
+                  <img
+                    src={item.image || avater}
+                    alt="Avatar"
+                    style={{
+                      width: "50px",
+                      height: "40px",
+                      borderRadius: "50%", // Circular image
+                      objectFit: "cover",
+                    }}
+                  />
+                </TableCell>
+                <TableCell>{item.name || "N/A"}</TableCell>
+                <TableCell>{item.phonenumber || "N/A"}</TableCell>
+                <TableCell>{item.email || "N/A"}</TableCell>
+                <TableCell>{item.address || "N/A"}</TableCell>
+                <TableCell>{item.experience || "N/A"}</TableCell>
+                <TableCell>{item.nickname || "N/A"}</TableCell>
+                <TableCell>{item.city || "N/A"}</TableCell>
+                <TableCell>{item.gender || "N/A"}</TableCell>
+                <TableCell>{item.postcode || "N/A"}</TableCell>
+                <TableCell>{item.bloodgroup || "N/A"}</TableCell>
+                <TableCell>{item.age || "N/A"}</TableCell>
+                <TableCell>{item.digrees || "N/A"}</TableCell>
+                <TableCell>{item.about || "N/A"}</TableCell>
+                <TableCell align="center">
+                  <Button
+                    color="primary"
+                    onClick={() => controlHandleClick(item.id)}
+                  >
+                    <BorderColorIcon />
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button color="error" onClick={() => deleteUser(item.id)}>
+                    <DeleteForeverIcon />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };
