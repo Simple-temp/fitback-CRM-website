@@ -33,6 +33,7 @@ import AtheticMoneReceipt from '@/bill-manage/AtheticMoneReceipt';
 import ShowAllUsers from '@/userRoutes/ShowAllUsers';
 import ResetForm from '@/bill-manage/ResetForm';
 import KYCFrom from '@/userRoutes/KYCFrom';
+import AstheticForm from '@/bill-manage/AstheticForm';
 
 
 const AppRoutingSetup = () => {
@@ -135,6 +136,7 @@ const AppRoutingSetup = () => {
               <Route path="/reset/form/page" element={<ResetForm />} />
               <Route path="/asthetic/invoice/page" element={<AstheticInvoice />} />
               <Route path="/asthetic/moneyrecept/page" element={<AtheticMoneReceipt />} />
+              <Route path="/asthetic/form/page" element={<AstheticForm />} />
 
               {/* This is Products Routes */}
               <Route path="/product/create/page" element={<ProductsCreatePage />} />

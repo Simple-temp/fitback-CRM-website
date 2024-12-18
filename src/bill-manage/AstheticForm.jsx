@@ -1,33 +1,10 @@
 import "./ResetForm.css";
-import reset from "../../public/img/reset.png";
+import aesthetic from "../../public/img/as.png";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 
-const ResetForm = () => {
-  //===================
-  const [getAllUser, SetGetAllUser] = useState([]);
-  const [ number, serGetnumber ] = useState("")
-  const [ filterUserByNumber, SetGetuserByNumber ] = useState({})
-
-  useEffect(() => {
-    fetchAllPublicUser();
-  }, [getAllUser]);
-  const fetchAllPublicUser = async () => {
-    try {
-      const response = await axios.get( `https://qwikit1.pythonanywhere.com/userProfile/` );
-      SetGetAllUser(response.data);
-      if(number){
-        const UserByNumber = getAllUser.find((user) =>  user.phonenumber === number)
-        SetGetuserByNumber(UserByNumber)
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+const AstheticForm = () => {
 
   const handleDownloadPDF = () => {
 
@@ -39,7 +16,7 @@ const ResetForm = () => {
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("reset-form.pdf");
+      pdf.save("asthetic-form.pdf");
     });
   };
 
@@ -47,7 +24,7 @@ const ResetForm = () => {
     <div className="main-containerr">
       <div className="innter-container">
         <div className="header-part-reset">
-          <img src={reset} alt="" className="reset-logo" />
+          <img src={aesthetic} alt="" className="reset-logo" />
         </div>
         <div className="date-div">
           <label>Date</label> <input type="text" className="inner-field" />
@@ -56,47 +33,45 @@ const ResetForm = () => {
           <div className="body-innter">
             <div className="name-field">
               <label>Name:</label>
-              <input type="text" className="inner-field name-width" value={filterUserByNumber.name || "N/A"} />
+              <input type="text" className="inner-field name-width" />
               <label>Age:</label>
-              <input type="text" className="inner-field" value={filterUserByNumber.age || "N/A"}/>
+              <input type="text" className="inner-field" />
               <label>Sex:</label>
-              <input type="text" className="inner-field sex-width" value={filterUserByNumber.gender || "N/A"}/>
+              <input type="text" className="inner-field sex-width" />
             </div>
           </div>
           <div className="body-innter2">
             <div className="name-field2">
               <label>Address:</label>
-              <input type="text" className="inner-field full-width" value={filterUserByNumber.address || "N/A"}/>
+              <input type="text" className="inner-field full-width" />
               <label>Height:</label>
-              <input type="text" className="inner-field" value={Array.isArray(filterUserByNumber.height) && filterUserByNumber.height.length > 0
-                ? filterUserByNumber.height[0].value
-                : "N/A"}/>
+              <input type="text" className="inner-field" />
             </div>
           </div>
           <div className="body-innter">
             <div className="name-field">
               <label>Birth date:</label>
-              <input type="text" className="inner-field" value={filterUserByNumber.dateofbirth || "N/A"}/>
+              <input type="text" className="inner-field" />
               <label> Occupation:</label>
-              <input type="text" className="inner-field" value={filterUserByNumber.occupation || "N/A"}/>
+              <input type="text" className="inner-field" />
               <label>City:</label>
-              <input type="text" className="inner-field width-city" value={filterUserByNumber.city || "N/A"}/>
+              <input type="text" className="inner-field width-city" />
             </div>
           </div>
           <div className="body-innter2">
             <div className="name-field2">
               <label>E-mail address :</label>
-              <input type="text" className="inner-field email-width" value={filterUserByNumber.email || "N/A"}/>
+              <input type="text" className="inner-field email-width" />
               <label>Phone:</label>
-              <input type="text" className="inner-field" onBlur={(e)=> serGetnumber(e.target.value)}/>
+              <input type="text" className="inner-field" />
             </div>
           </div>
           <div className="body-innter2">
             <div className="name-field2">
               <label> Facebook ID:</label>
-              <input type="text" className="inner-field email-width" value={"N/A"}/>
+              <input type="text" className="inner-field email-width" />
               <label>Reference:</label>
-              <input type="text" className="inner-field"/>
+              <input type="text" className="inner-field" />
             </div>
           </div>
           <div className="body-innter2">
@@ -224,4 +199,5 @@ const ResetForm = () => {
   );
 };
 
-export default ResetForm;
+export default AstheticForm;
+

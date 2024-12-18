@@ -91,12 +91,11 @@ function MoneyRecept() {
       setErrorMessage("");
 
       if (customerID) {
-        const response = await axios.get(
-          `https://qwikit1.pythonanywhere.com/orderFitbackProduct/${customerID}`
-        );
-        setCustomerData(response.data);
+        const filterOrderByCustomerID = filterData.find((order)=> order.userid === customerID)
+        const filterUserByCustomerID = getNewUser.find((order)=> order.id === parseInt(customerID))
+        setCustomerData(filterOrderByCustomerID || filterUserByCustomerID);
         fetchAllOder();
-        if (!response.data) {
+        if (!filterOrderByCustomerID && !filterUserByCustomerID) {
           setShowAlert(true);
           return;
         }
@@ -525,7 +524,7 @@ function MoneyRecept() {
             <input
               placeholder=""
               type="text"
-              value={ customerID || getFilteredNumber ? getFilteredNumber.id : "" }
+              value={ newUserByNumber ? newUserByNumber.id : customerID || getFilteredNumber ? getFilteredNumber.id : "" }
               onChange={(e) => setCustomerID(e.target.value)}
               onBlur={handleBlur}
             />

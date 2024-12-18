@@ -91,12 +91,11 @@ function AtheticMoneReceipt() {
       setErrorMessage("");
 
       if (customerID) {
-        const response = await axios.get(
-          `https://qwikit1.pythonanywhere.com/orderFitbackProduct/${customerID}`
-        );
-        setCustomerData(response.data);
+        const filterOrderByCustomerID = filterData.find((order)=> order.userid === customerID)
+        const filterUserByCustomerID = getNewUser.find((order)=> order.id === parseInt(customerID))
+        setCustomerData(filterOrderByCustomerID || filterUserByCustomerID);
         fetchAllOder();
-        if (!response.data) {
+        if (!filterOrderByCustomerID && !filterUserByCustomerID) {
           setShowAlert(true);
           return;
         }
@@ -164,6 +163,7 @@ function AtheticMoneReceipt() {
       bloodpressure: "",
       height: "",
       weight: "",
+      usertype:""
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -182,6 +182,7 @@ function AtheticMoneReceipt() {
         formData.append("fcoins", values.fcoins);
         formData.append("age", values.age);
         formData.append("image", values.image);
+        formData.append("usertype", values.usertype || "Aesthetic");
         formData.append(
           "height",
           JSON.stringify([
@@ -510,19 +511,12 @@ function AtheticMoneReceipt() {
           </form>
         </Box>
       </Modal>
-
       <div className="receipt-container">
         <h2 className="title">MONEY RECEIPT</h2>
 
         <div className="header-part">
           <div className="form-row-date">
             <label>Date:</label>
-            {/* <input
-              type="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-            /> */}
           </div>
 
           <div className="form-row-header">
@@ -530,7 +524,7 @@ function AtheticMoneReceipt() {
             <input
               placeholder=""
               type="text"
-              value={ customerID || getFilteredNumber ? getFilteredNumber.id : "" }
+              value={ newUserByNumber ? newUserByNumber.id : customerID || getFilteredNumber ? getFilteredNumber.id : "" }
               onChange={(e) => setCustomerID(e.target.value)}
               onBlur={handleBlur}
             />
@@ -690,6 +684,7 @@ function AtheticMoneReceipt() {
 }
 
 export default AtheticMoneReceipt;
+
 
 
 

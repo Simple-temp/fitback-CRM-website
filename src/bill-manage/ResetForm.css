@@ -1,0 +1,106 @@
+.body-part input {
+  padding: 0px 6px;
+}
+.reset-logo {
+  width: 250px;
+}
+.header-part-reset {
+  display: flex;
+  justify-content: space-between;
+}
+.body-part {
+  margin-top: 30px;
+}
+.innter-container {
+  position: relative;
+  height: auto;
+}
+.date-div {
+  position: absolute;
+  right: 0;
+  margin-right: 15px;
+}
+.inner-field {
+  border-bottom: dotted;
+}
+.body-innter,
+.name-field {
+  display: flex;
+}
+.innter-container {
+  width: 770px;
+  margin: auto;
+  border: 1px solid #000;
+  padding: 7px;
+  flex-wrap: wrap;
+}
+.name-field {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.name-field2 {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.full-width {
+  width: 400px;
+}
+.width-city {
+  width: 90px;
+}
+.name-width {
+  width: 290px;
+}
+.sex-width {
+  width: 110px;
+}
+.email-width {
+  width: 340px;
+}
+.aes {
+  margin-top: 30px;
+}
+.aesthetic {
+  width: 350px;
+}
+.yes {
+  margin-right: 1px;
+  color: #ff0077;
+}
+.no {
+  margin-left: 10px;
+}
+.cigarettes {
+  margin-top: 30px;
+  font-weight: bold;
+}
+.cigarettes label {
+  margin-right: 9px;
+}
+.conditions {
+  margin-top: 20px;
+}
+.message {
+  margin-top: 30px;
+  font-weight: bold;
+}
+.message-text {
+  width: 100%;
+  background-color: #ffb6e2;
+  opacity: 0.3;
+  padding: 28px 5px;
+  margin-top: 7px;
+}
+.inner-condition input[type="checkbox"]  {
+  accent-color: #ff0077;
+  margin-right: 9px;
+  border: 2px solid #ff0077;
+}
+.inner-condition {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+  gap: 8px 12px; /* 8px row gap, 12px column gap */
+  margin-top: 10px;
+}
