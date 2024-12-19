@@ -27,10 +27,15 @@
 .name-field {
   display: flex;
 }
+.main-containerr{
+  border: 1px solid #000;
+  padding: 80px;
+  width: 1000px;
+  margin: auto;
+}
 .innter-container {
   width: 770px;
   margin: auto;
-  border: 1px solid #000;
   padding: 7px;
   flex-wrap: wrap;
 }
