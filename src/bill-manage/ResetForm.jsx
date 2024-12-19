@@ -56,37 +56,37 @@ const ResetForm = () => {
           <div className="body-innter">
             <div className="name-field">
               <label>Name:</label>
-              <input type="text" className="inner-field name-width" value={filterUserByNumber.name || "N/A"} />
+              <input type="text" className="inner-field name-width" value={filterUserByNumber.name || ""} />
               <label>Age:</label>
-              <input type="text" className="inner-field" value={filterUserByNumber.age || "N/A"}/>
+              <input type="text" className="inner-field" value={filterUserByNumber.age || ""}/>
               <label>Sex:</label>
-              <input type="text" className="inner-field sex-width" value={filterUserByNumber.gender || "N/A"}/>
+              <input type="text" className="inner-field sex-width" value={filterUserByNumber.gender || ""}/>
             </div>
           </div>
           <div className="body-innter2">
             <div className="name-field2">
               <label>Address:</label>
-              <input type="text" className="inner-field full-width" value={filterUserByNumber.address || "N/A"}/>
+              <input type="text" className="inner-field full-width" value={filterUserByNumber.address || ""}/>
               <label>Height:</label>
               <input type="text" className="inner-field" value={Array.isArray(filterUserByNumber.height) && filterUserByNumber.height.length > 0
                 ? filterUserByNumber.height[0].value
-                : "N/A"}/>
+                : ""}/>
             </div>
           </div>
           <div className="body-innter">
             <div className="name-field">
               <label>Birth date:</label>
-              <input type="text" className="inner-field" value={filterUserByNumber.dateofbirth || "N/A"}/>
+              <input type="text" className="inner-field" value={filterUserByNumber.dateofbirth || ""}/>
               <label> Occupation:</label>
-              <input type="text" className="inner-field" value={filterUserByNumber.occupation || "N/A"}/>
+              <input type="text" className="inner-field" value={filterUserByNumber.occupation || ""}/>
               <label>City:</label>
-              <input type="text" className="inner-field width-city" value={filterUserByNumber.city || "N/A"}/>
+              <input type="text" className="inner-field width-city" value={filterUserByNumber.city || ""}/>
             </div>
           </div>
           <div className="body-innter2">
             <div className="name-field2">
               <label>E-mail address :</label>
-              <input type="text" className="inner-field email-width" value={filterUserByNumber.email || "N/A"}/>
+              <input type="text" className="inner-field email-width" value={filterUserByNumber.email || ""}/>
               <label>Phone:</label>
               <input type="text" className="inner-field" onBlur={(e)=> serGetnumber(e.target.value)}/>
             </div>
@@ -94,7 +94,7 @@ const ResetForm = () => {
           <div className="body-innter2">
             <div className="name-field2">
               <label> Facebook ID:</label>
-              <input type="text" className="inner-field email-width" value={"N/A"}/>
+              <input type="text" className="inner-field email-width" value={""}/>
               <label>Reference:</label>
               <input type="text" className="inner-field"/>
             </div>
