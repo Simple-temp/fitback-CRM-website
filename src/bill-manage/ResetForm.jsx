@@ -145,7 +145,7 @@ const ResetForm = () => {
                   className="inner-field"
                   value={Array.isArray(filterUserByNumber.height) && filterUserByNumber.height.length > 0
                     ? filterUserByNumber.height[0].value
-                    : "N/A"}
+                    : ""}
                   onChange={(e) =>
                     SetGetuserByNumber({
                       ...filterUserByNumber,
@@ -224,25 +224,11 @@ const ResetForm = () => {
                 <input
                   type="text"
                   className="inner-field email-width"
-                  value={filterUserByNumber.facebook || ""}
-                  onChange={(e) =>
-                    SetGetuserByNumber({
-                      ...filterUserByNumber,
-                      facebook: e.target.value,
-                    })
-                  }
                 />
                 <label>Reference:</label>
                 <input
                   type="text"
                   className="inner-field"
-                  value={filterUserByNumber.reference || ""}
-                  onChange={(e) =>
-                    SetGetuserByNumber({
-                      ...filterUserByNumber,
-                      reference: e.target.value,
-                    })
-                  }
                 />
               </div>
             </div>
@@ -252,13 +238,6 @@ const ResetForm = () => {
                 <input
                   type="text"
                   className="inner-field aesthetic"
-                  value={filterUserByNumber.knowAbout || ""}
-                  onChange={(e) =>
-                    SetGetuserByNumber({
-                      ...filterUserByNumber,
-                      knowAbout: e.target.value,
-                    })
-                  }
                 />
               </div>
             </div>

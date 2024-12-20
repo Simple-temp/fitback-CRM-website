@@ -219,12 +219,12 @@ export const MENU_SIDEBAR = [
           title: "User Management",
           icon: "profile-circle",
           children: [
-            {
-              title: "KYC Form",
-              children: [
-                { title: "Form", path: "/admin/create/kycpage" },
-              ],
-            },
+            // {
+            //   title: "KYC Form",
+            //   children: [
+            //     { title: "Form", path: "/admin/create/kycpage" },
+            //   ],
+            // },
             {
               title: "Client",
               children: [

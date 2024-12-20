@@ -12,7 +12,7 @@ import { useFormik } from "formik";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
@@ -195,7 +195,6 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
 
   return (
     <div>
-      <ToastContainer position="top-right" />
       <Modal
         open={open}
         aria-labelledby="modal-modal-title"
@@ -648,7 +647,7 @@ const ShowCreatedUser = ({ getData, fetchAllUserData }) => {
                       />
                     </TableCell>
                     <TableCell>{item.name || "N/A"}</TableCell>
-                    <TableCell>{item.usertype || "Regular"}</TableCell>
+                    <TableCell>{item.usertype || "General"}</TableCell>
                     <TableCell>{item.user_FUId || "N/A"}</TableCell>
                     <TableCell>{item.phonenumber || "N/A"}</TableCell>
                     <TableCell>{item.password || "N/A"}</TableCell>

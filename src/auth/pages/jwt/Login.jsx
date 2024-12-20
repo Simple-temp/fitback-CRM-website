@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useLayout } from "@/providers";
+// import { useLayout } from "@/providers";
 import { Alert } from "@/components";
 
 const loginSchema = Yup.object().shape({
@@ -24,7 +24,7 @@ const Login = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const [allUsers, setAllUsers] = useState([]);
   const navigate = useNavigate();
-  const { currentLayout } = useLayout();
+  // const { currentLayout } = useLayout();
 
   useEffect(() => {
     const fetchData = async () => {

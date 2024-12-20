@@ -145,7 +145,7 @@ const AstheticForm = () => {
                   className="inner-field"
                   value={Array.isArray(filterUserByNumber.height) && filterUserByNumber.height.length > 0
                     ? filterUserByNumber.height[0].value
-                    : "N/A"}
+                    : ""}
                   onChange={(e) =>
                     SetGetuserByNumber({
                       ...filterUserByNumber,
