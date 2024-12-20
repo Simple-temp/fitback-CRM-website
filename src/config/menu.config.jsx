@@ -309,7 +309,7 @@ export const MENU_SIDEBAR = [
               children: [
                 { title: "Money Recept", path: "/reset/moneyrecept/page" },
                 { title: "Invoice", path: "/reset/invoice/page" },
-                { title: "Reset Form", path: "/reset/form/page" },
+                { title: "Reset KYC", path: "/reset/form/page" },
               ],
             },
             {
@@ -317,7 +317,7 @@ export const MENU_SIDEBAR = [
               children: [
                 { title: "Money Recept", path: "/asthetic/moneyrecept/page" },
                 { title: "Invoice", path: "/asthetic/invoice/page" },
-                { title: "Aesthetic Form", path: "/asthetic/form/page" },
+                { title: "Aesthetic KYC", path: "/asthetic/form/page" },
               ],
             },
           ],
