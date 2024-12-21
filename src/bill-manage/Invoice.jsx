@@ -46,27 +46,92 @@ const Invoice = () => {
   };
 
   // Function to generate PDF
+
+  // const handleDownloadPDF = () => {
+  //   const advisorContainer = document.querySelector(".advisor-group");
+  //   const originalAdvisorContent = advisorContainer.innerHTML;
+
+  //   // Temporarily replace the advisor content with the selected advisor
+  //   advisorContainer.innerHTML = `<label>Advisor : ${selectAdvisor}</label>`;
+
+  //   const branchContainer = document.querySelector(".select-branch");
+  //   const originalContentBranch = branchContainer.innerHTML;
+
+  //   // Temporarily replace the branch content with the selected branch
+  //   branchContainer.innerHTML = `<label>${selectBranch}</label>`;
+
+  //   const paymentMethods = document.querySelector(".payment-methods");
+  //   const originalContent = paymentMethods.innerHTML;
+
+  //   // Temporarily replace the payment methods with the selected one
+  //   paymentMethods.innerHTML = `<label>${selectedPaymentMethod}</label>`;
+
+  //   const element = document.querySelector(".main-container");
+  //   html2canvas(element, { scale: 2 }).then((canvas) => {
+  //     const imgData = canvas.toDataURL("image/png");
+  //     const pdf = new jsPDF("p", "mm", "a4");
+  //     const pdfWidth = pdf.internal.pageSize.getWidth();
+  //     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+  //     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+  //     pdf.save("Fitback-Invoice.pdf");
+
+  //     // Restore original content
+  //     paymentMethods.innerHTML = originalContent;
+  //     branchContainer.innerHTML = originalContentBranch;
+  //     advisorContainer.innerHTML = originalAdvisorContent;
+  //   });
+  // };
+
   const handleDownloadPDF = () => {
+    const advisorContainer = document.querySelector(".advisor-group");
+    const originalAdvisorContent = advisorContainer.innerHTML;
+  
+    // Temporarily replace the advisor content with the selected advisor
+    advisorContainer.innerHTML = `<label>Advisor : ${selectAdvisor}</label>`;
+  
+    const branchContainer = document.querySelector(".select-branch");
+    const originalContentBranch = branchContainer.innerHTML;
+  
+    // Temporarily replace the branch content with the selected branch
+    branchContainer.innerHTML = `<label>${selectBranch}</label>`;
+  
     const paymentMethods = document.querySelector(".payment-methods");
     const originalContent = paymentMethods.innerHTML;
-
+  
     // Temporarily replace the payment methods with the selected one
     paymentMethods.innerHTML = `<label>${selectedPaymentMethod}</label>`;
+  
+    const actionIconsDiv = document.querySelector(".control");
+    const originalDisplayStyle = actionIconsDiv.style.display;
 
+    const actionDownloadBtn = document.querySelector(".download-btn");
+    const originalDownloadBtn = actionDownloadBtn.style.display;
+  
+    // Hide the action icons div
+    actionIconsDiv.style.display = "none";
+    // Hide the action download Btn
+    actionDownloadBtn.style.display = "none"
+  
     const element = document.querySelector(".main-container");
     html2canvas(element, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
+  
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("invoice.pdf");
-
-      // Restore original content
+      pdf.save("Fitback-Invoice.pdf");
+  
+      // Restore original content and styles
       paymentMethods.innerHTML = originalContent;
+      branchContainer.innerHTML = originalContentBranch;
+      advisorContainer.innerHTML = originalAdvisorContent;
+      actionIconsDiv.style.display = originalDisplayStyle;
+      actionDownloadBtn.style.display = originalDownloadBtn;
     });
   };
+  
 
   useEffect(() => {
     fetchAllOder();
@@ -96,9 +161,8 @@ const Invoice = () => {
     }
   };
 
-
-  const [getOldUserByid, SetGetOldUserByid] = useState({})
-  const [getOldUserByNumber, SetGetOldUserByNumber] = useState({})
+  const [getOldUserByid, SetGetOldUserByid] = useState({});
+  const [getOldUserByNumber, SetGetOldUserByNumber] = useState({});
 
   const handleBlur = async () => {
     try {
@@ -106,9 +170,13 @@ const Invoice = () => {
 
       if (customerID) {
         console.log(customerData);
-        const GetOrderByCustomerID = customerData.find( (order) => order.userid === customerID );
-        const filtereOldUserByID = getNewUser.find( (user) => user.id ===  parseInt(customerID));
-        SetGetOldUserByid(filtereOldUserByID)
+        const GetOrderByCustomerID = customerData.find(
+          (order) => order.userid === customerID
+        );
+        const filtereOldUserByID = getNewUser.find(
+          (user) => user.id === parseInt(customerID)
+        );
+        SetGetOldUserByid(filtereOldUserByID);
 
         setgetOrderDataByCUstermerID(GetOrderByCustomerID);
         console.log(customerID, GetOrderByCustomerID);
@@ -137,13 +205,16 @@ const Invoice = () => {
         const filterOldUserByNumber = getNewUser.find(
           (user) => user.phonenumber === phoneNumber
         );
-        SetGetOldUserByNumber(filterOldUserByNumber)
-
+        SetGetOldUserByNumber(filterOldUserByNumber);
 
         setGetFilterredNumber(filteredProducts); // Set the filtered data
         setNewUserByNumber(filtereNewUserByNumber); // Set the filtered data
         fetchAllPublicUser();
-        if (!filteredProducts && !filtereNewUserByNumber &&!filterOldUserByNumber) {
+        if (
+          !filteredProducts &&
+          !filtereNewUserByNumber &&
+          !filterOldUserByNumber
+        ) {
           setShowAlert(true);
           return;
         }
@@ -157,7 +228,6 @@ const Invoice = () => {
   const handlePaymentMethodChange = (e) => {
     setSelectedPaymentMethod(e.target.value);
   };
-
   //===============================================================================================
   const [selectBranch, setSelectBranch] = useState("");
   const [getDhanmondiPackage, setgetDhanmondiPackage] = useState([]);
@@ -283,6 +353,8 @@ const Invoice = () => {
     }
   };
 
+  const [selectAdvisor, SetSelectAdvisor] = useState("");
+
   return (
     <div className="main-container invoice-img">
       <ToastContainer
@@ -298,6 +370,7 @@ const Invoice = () => {
         setShowAlert={setShowAlert}
       />
       <div className="select-branch">
+        <label htmlFor=""></label>
         <select onChange={(e) => setSelectBranch(e.target.value)}>
           <option value="">--Select Branch--</option>
           <option value="Dhanmondi">Dhanmondi</option>
@@ -335,7 +408,7 @@ const Invoice = () => {
                     getFilteredNumber?.address ||
                     newUserByNumber?.address ||
                     getOrderDataByCUstermerID?.address ||
-                    "N/A"
+                    ""
                   }
                   className="custom-border"
                 />
@@ -398,20 +471,24 @@ const Invoice = () => {
                   type="text"
                   placeholder=""
                   value={
-                    getOldUserByNumber 
-                      ? getOldUserByNumber.id 
-                      : customerID || 
-                        getFilteredNumber 
-                          ? getFilteredNumber.id 
-                          : "N/A"
+                    getOldUserByNumber
+                      ? getOldUserByNumber.id
+                      : customerID || getFilteredNumber
+                        ? getFilteredNumber.id
+                        : ""
                   }
                   onChange={(e) => setCustomerID(e.target.value)}
                   onBlur={handleBlur}
                 />
               </div>
-              <div className="header-group2">
+              <div className="header-group2 advisor-group">
                 <label>Advisor:</label>
-                <select name="options" id="options" className="custom-select">
+                <select
+                  name="options"
+                  id="options"
+                  className="custom-select"
+                  onChange={(e) => SetSelectAdvisor(e.target.value)}
+                >
                   <option value="">--Select---</option>
                   <option value="Advisor1">Advisor 1</option>
                   <option value="Advisor2">Advisor 2</option>
@@ -474,7 +551,7 @@ const Invoice = () => {
               ))}
             </tbody>
           </table>
-          <div style={{ marginTop: "20px" }}>
+          <div style={{ marginTop: "20px" }} className="control">
             <LibraryAddIcon
               onClick={handleAddRow}
               style={{ marginRight: "10px" }}
@@ -487,33 +564,14 @@ const Invoice = () => {
               <div className="innter-payment">
                 <label>Payment Received By:</label>
                 <div className="payment-methods">
-                  <label>
-                    <input
-                      type="radio"
-                      name="payment"
-                      value="Cash"
-                      onChange={handlePaymentMethodChange}
-                    />{" "}
-                    Cash
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="payment"
-                      value="Card"
-                      onChange={handlePaymentMethodChange}
-                    />{" "}
-                    Card
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="payment"
-                      value="Bkash"
-                      onChange={handlePaymentMethodChange}
-                    />{" "}
-                    Bkash
-                  </label>
+                  <select name="" id="" onChange={handlePaymentMethodChange}>
+                    <option value="Cash">Cash</option>
+                    <option value="Card">Card</option>
+                    <option value="Bkash">Bkash</option>
+                    <option value="Nagad">Nagad</option>
+                    <option value="Bank">Bank</option>
+                    <option value="Other">Other</option>
+                  </select>
                 </div>
               </div>
               <label>In Words:</label> <br />
@@ -565,7 +623,7 @@ const Invoice = () => {
                   <br />
                   <input
                     type="number"
-                    placeholder="Enter Paid Amount"
+                    placeholder=""
                     className="amount-details amount-border"
                     value={paid}
                     onChange={(e) => setPaid(Number(e.target.value))} // Paid Amount

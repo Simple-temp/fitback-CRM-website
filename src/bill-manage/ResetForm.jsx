@@ -81,8 +81,8 @@ const ResetForm = () => {
             <img src={reset} alt="" className="reset-logo" />
           </div>
           <div className="date-div">
-            <label>Date</label>
-            <input type="text" className="inner-field" />
+            <label>Date : </label>
+            <input type="date" className="inner-field date-width" />
           </div>
           <div className="body-part">
             <div className="body-innter">
@@ -102,7 +102,7 @@ const ResetForm = () => {
                 <label>Age:</label>
                 <input
                   type="text"
-                  className="inner-field"
+                  className="inner-field age-width"
                   value={filterUserByNumber.age || ""}
                   onChange={(e) =>
                     SetGetuserByNumber({
@@ -125,12 +125,12 @@ const ResetForm = () => {
                 />
               </div>
             </div>
-            <div className="body-innter2">
-              <div className="name-field2">
+            <div className="body-innter">
+              <div className="name-field">
                 <label>Address:</label>
                 <input
                   type="text"
-                  className="inner-field full-width"
+                  className="inner-field address-width"
                   value={filterUserByNumber.address || ""}
                   onChange={(e) =>
                     SetGetuserByNumber({
@@ -142,7 +142,7 @@ const ResetForm = () => {
                 <label>Height:</label>
                 <input
                   type="text"
-                  className="inner-field"
+                  className="inner-field height-width"
                   value={Array.isArray(filterUserByNumber.height) && filterUserByNumber.height.length > 0
                     ? filterUserByNumber.height[0].value
                     : ""}
@@ -157,10 +157,10 @@ const ResetForm = () => {
             </div>
             <div className="body-innter">
               <div className="name-field">
-                <label>Birth date:</label>
+                <label>Birth:</label>
                 <input
                   type="text"
-                  className="inner-field"
+                  className="inner-field name-width"
                   value={filterUserByNumber.dateofbirth || ""}
                   onChange={(e) =>
                     SetGetuserByNumber({
@@ -172,7 +172,7 @@ const ResetForm = () => {
                 <label> Occupation:</label>
                 <input
                   type="text"
-                  className="inner-field"
+                  className="inner-field age-width"
                   value={filterUserByNumber.occupation || ""}
                   onChange={(e) =>
                     SetGetuserByNumber({
@@ -184,7 +184,7 @@ const ResetForm = () => {
                 <label>City:</label>
                 <input
                   type="text"
-                  className="inner-field width-city"
+                  className="inner-field sex-width"
                   value={filterUserByNumber.city || ""}
                   onChange={(e) =>
                     SetGetuserByNumber({
@@ -195,9 +195,9 @@ const ResetForm = () => {
                 />
               </div>
             </div>
-            <div className="body-innter2">
-              <div className="name-field2">
-                <label>E-mail address :</label>
+            <div className="body-innter">
+              <div className="name-field">
+                <label>Email:</label>
                 <input
                   type="text"
                   className="inner-field email-width"
@@ -212,14 +212,14 @@ const ResetForm = () => {
                 <label>Phone:</label>
                 <input
                   type="text"
-                  className="inner-field"
+                  className="inner-field phone-width"
                   onBlur={(e) => serGetnumber(e.target.value)}
-                  placeholder="Enter phone number to find user"
+                  placeholder="Enter Phone Number"
                 />
               </div>
             </div>
-            <div className="body-innter2">
-              <div className="name-field2">
+            <div className="body-innter">
+              <div className="name-field">
                 <label> Facebook ID:</label>
                 <input
                   type="text"
@@ -228,7 +228,7 @@ const ResetForm = () => {
                 <label>Reference:</label>
                 <input
                   type="text"
-                  className="inner-field"
+                  className="inner-field reference-width"
                 />
               </div>
             </div>

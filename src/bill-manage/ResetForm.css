@@ -18,7 +18,6 @@
 .date-div {
   position: absolute;
   right: 0;
-  margin-right: 15px;
 }
 .inner-field {
   border-bottom: dotted;
@@ -36,40 +35,57 @@
 .innter-container {
   width: 770px;
   margin: auto;
-  padding: 7px;
   flex-wrap: wrap;
 }
 .name-field {
   display: flex;
-  flex-wrap: wrap;
   margin-top: 10px;
 }
-.name-field2 {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 10px;
+
+.date-width{
+  width: 74%;
 }
-.full-width {
-  width: 400px;
-}
-.width-city {
-  width: 90px;
-}
+
 .name-width {
-  width: 290px;
+  width: 50%;
+}
+.age-width{
+  width: 30%;
 }
 .sex-width {
-  width: 110px;
+  width: 20%;
 }
+
+
+
+.address-width {
+  width: 450px;
+}
+.height-width{
+  width: 35%;
+}
+
+
+
 .email-width {
-  width: 340px;
+  width: 450px;
+}
+.phone-width{
+  width: 30%;
+}
+
+
+.reference-width{
+  width: 18%;
 }
 .aes {
   margin-top: 30px;
 }
 .aesthetic {
-  width: 350px;
+  width: 410px;
 }
+
+
 .yes {
   margin-right: 1px;
   color: #ff0077;

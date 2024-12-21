@@ -11,14 +11,13 @@
 
 .main-container {
   max-width: 800px;
-  padding: 30px;
+  padding: 20px;
 }
 
 input,
 textarea {
   background: transparent;
 }
-
 .invoice-body {
   margin-top: 140px;
 }
@@ -40,7 +39,6 @@ textarea {
   display: flex;
   flex-direction: column;
   text-align: right;
-  /* justify-content: space-between; */
 }
 
 .header-col2 {
@@ -128,10 +126,6 @@ textarea {
   margin: 5px 0;
 }
 
-.innter-payment {
-  display: flex;
-}
-
 .innter-payment label {
   margin: 0 8px;
   display: inline;
@@ -178,6 +172,10 @@ textarea {
   color: #ff006a;
   font-weight: 600;
 }
+.select-branch option{
+  padding-bottom: 20px;
+}
+
 .button-flex{
   display: flex;
 }
