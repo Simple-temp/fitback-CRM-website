@@ -183,6 +183,15 @@ textarea {
 .amount-border{
   border-bottom: 2px solid #9c9c9c;
 }
+
+.select-border{
+  border: 1px solid #000;
+}
+
+.select-package{
+  z-index: 11111;
+}
+
 /* Responsive Styles */
 
 @media (max-width: 768px) {
