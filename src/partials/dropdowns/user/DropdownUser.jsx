@@ -81,12 +81,13 @@ const DropdownUser = ({
            />
           <div className="flex flex-col gap-1.5">
             <Link to="#" className="text-sm text-gray-800 hover:text-primary font-semibold leading-none">      
-            {userParse && userParse.phonenumber ? userParse.phonenumber : ""}
+            Name : { userParse && userParse.name ? userParse.name : "n/a"} 
             </Link> 
             <a className="text-xs text-gray-600 hover:text-primary font-medium leading-none">
             { userParse && userParse.user_type ? userParse.user_type : ""}
             </a>
           </div>
+          <br />
         </div>
       </div>;
   };
@@ -108,16 +109,38 @@ const DropdownUser = ({
 
           {/* Create New User */}
 
-          {/* <MenuItem>
+          <MenuItem>
             <MenuLink path="/admin/page">
               <MenuIcon className="menu-icon">
                 <KeenIcon icon="badge" />
               </MenuIcon>
               <MenuTitle>
-                <FormattedMessage id="Show All Users" />
+               Phone : {userParse && userParse.phonenumber ? userParse.phonenumber : "n/a"}
               </MenuTitle>
             </MenuLink>
-          </MenuItem> */}
+          </MenuItem>
+
+          <MenuItem>
+            <MenuLink path="/admin/page">
+              <MenuIcon className="menu-icon">
+                <KeenIcon icon="badge" />
+              </MenuIcon>
+              <MenuTitle>
+               Address : {userParse && userParse.address ? userParse.address : "n/a"}
+              </MenuTitle>
+            </MenuLink>
+          </MenuItem>
+
+          <MenuItem>
+            <MenuLink path="/admin/page">
+              <MenuIcon className="menu-icon">
+                <KeenIcon icon="badge" />
+              </MenuIcon>
+              <MenuTitle>
+               Email : {userParse && userParse.email ? userParse.email : "n/a"}
+              </MenuTitle>
+            </MenuLink>
+          </MenuItem>
 
            {/* Create New User end */}
 

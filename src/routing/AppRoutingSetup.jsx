@@ -34,6 +34,11 @@ import ShowAllUsers from '@/userRoutes/ShowAllUsers';
 import ResetForm from '@/bill-manage/ResetForm';
 import KYCFrom from '@/userRoutes/KYCFrom';
 import AstheticForm from '@/bill-manage/AstheticForm';
+import SignUpBonus from '@/Rewords/SignUpBonus';
+import ExcerciseManage from '@/Content/ExcerciseManage';
+import HealthTipsManage from '@/Content/HealthTipsManage';
+import UserReview from '@/Content/UserReview';
+import UserReviewVideo from '@/Content/UserReviewVideo';
 
 
 const AppRoutingSetup = () => {
@@ -145,6 +150,15 @@ const AppRoutingSetup = () => {
               {/* This is Order Routes */}
               <Route path="/orders/page" element={<OrderShowPage />} />
               <Route path="/orders/page/:id" element={<OrderDetails />} />
+
+              {/* this is Rewords Management */}
+              <Route path="/signupBouns" element={<SignUpBonus />} />
+
+              {/* this is Content Management */}
+              <Route path="/exercise" element={<ExcerciseManage />} />
+              <Route path="/health" element={<HealthTipsManage />} />
+              <Route path="/review" element={<UserReview />} />
+              <Route path="/reviewvideo" element={<UserReviewVideo />} />
 
               {/* This is Trash Routes */}
               <Route path="/trash" element={<TrashPage/>}

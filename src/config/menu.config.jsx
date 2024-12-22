@@ -1,8 +1,6 @@
-
 const loggedInUser = localStorage.getItem("loggedInUser");
 const userParse = loggedInUser ? JSON.parse(loggedInUser) : null;
 console.log("Name:", userParse);
-
 
 export const MENU_SIDEBAR = [
   // {
@@ -137,7 +135,7 @@ export const MENU_SIDEBAR = [
   //   ],
   // },
 
-//===========================================Start the code===================================
+  //===========================================Start the code===================================
 
   // Admin User Management Options
   ...(userParse?.user_type === "Dietitian"
@@ -202,15 +200,12 @@ export const MENU_SIDEBAR = [
           children: [
             {
               title: "Orders",
-              children: [
-                { title: "Manage Orders", path: "/orders/page" },
-              ],
+              children: [{ title: "Manage Orders", path: "/orders/page" }],
             },
           ],
         },
       ]
     : []),
-
 
   // Admin User Management Options
   ...(userParse?.user_type === "Admin"
@@ -281,10 +276,23 @@ export const MENU_SIDEBAR = [
           children: [
             {
               title: "Orders",
-              children: [
-                { title: "Manage Orders", path: "/orders/page" },
-              ],
+              children: [{ title: "Manage Orders", path: "/orders/page" }],
             },
+          ],
+        },
+        {
+          title: "Reword Management",
+          icon: "profile-circle",
+          children: [{ title: "Sign Up Bonus", path: "/signupBouns" }],
+        },
+        {
+          title: "Content Management",
+          icon: "profile-circle",
+          children: [
+            { title: "Exercise", path: "/exercise" },
+            { title: "Health Tips", path: "/health" },
+            { title: "Review", path: "/review" },
+            { title: "Review Video", path: "/reviewvideo" },
           ],
         },
       ]
@@ -326,24 +334,21 @@ export const MENU_SIDEBAR = [
     : []),
 
   ...(userParse?.user_type === "Support"
-      ? [
-          {
-            title: "User Management",
-            icon: "profile-circle",
-            children: [
-              {
-                title: "User Information",
-                children: [
-                  { title: "All Users", path: "/allusers/page" },
-                ],
-              },
-            ],
-          },
-        ]
-  : []),
+    ? [
+        {
+          title: "User Management",
+          icon: "profile-circle",
+          children: [
+            {
+              title: "User Information",
+              children: [{ title: "All Users", path: "/allusers/page" }],
+            },
+          ],
+        },
+      ]
+    : []),
 
-  
-//===========================================End the code===================================
+  //===========================================End the code===================================
 
   // {
   //   title: "My Account",

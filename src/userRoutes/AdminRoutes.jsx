@@ -45,7 +45,7 @@ const AdminRoutes = () => {
     }
   
     const idMatches = getData.filter((user) =>
-      user.id?.toString().includes(input)
+      user.id?.toString().includes(parseInt(input))
     );
     const nameMatches = getData.filter((user) =>
       user.name?.toLowerCase().includes(input.toLowerCase())
