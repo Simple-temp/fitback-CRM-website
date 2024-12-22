@@ -26,12 +26,42 @@ const AdminRoutes = () => {
     }
   };
 
+  // const handleInputChange = (e) => {
+  //   const input = e.target.value;
+  //   setSearchNumber(input);
+
+  //   const filteredByNumber = getData.filter((user) => user.phonenumber?.includes(input));
+  //   setFilteredData(filteredByNumber);
+  // };
+
   const handleInputChange = (e) => {
     const input = e.target.value;
     setSearchNumber(input);
-
-    const filtered = getData.filter((user) => user.phonenumber?.includes(input));
-    setFilteredData(filtered);
+  
+    if (!input) {
+      // Reset to show all users if input is cleared
+      setFilteredData(getData);
+      return;
+    }
+  
+    const idMatches = getData.filter((user) =>
+      user.id?.toString().includes(input)
+    );
+    const nameMatches = getData.filter((user) =>
+      user.name?.toLowerCase().includes(input.toLowerCase())
+    );
+    const phoneMatches = getData.filter((user) =>
+      user.phonenumber?.includes(input)
+    );
+  
+    // Merge unique results from all filters
+    const mergedResults = [...new Set([...idMatches, ...nameMatches, ...phoneMatches])];
+  
+    setFilteredData(mergedResults);
+  
+    // if (!mergedResults.length) {
+    //   toast.error("No matching user found");
+    // }
   };
 
   const handleDropdownChange = (e) => {
@@ -101,7 +131,7 @@ const AdminRoutes = () => {
       {/* Search Field */}
       <input
         type="text"
-        placeholder="Search by number"
+        placeholder="Search"
         value={searchNumber}
         onChange={handleInputChange}
         onKeyDown={handleKeyPress}
