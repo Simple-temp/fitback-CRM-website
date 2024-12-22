@@ -229,10 +229,14 @@ function MoneyRecept() {
     const paymentMethods = document.querySelector(".payment-methods");
     const originalContent = paymentMethods.innerHTML;
 
+    // const actionBody = document.querySelector(".receipt-container");
+    // const originalBodyDesign = actionBody.innerHTML;
+    // actionBody.style.height = "auto"
+
     // Temporarily replace the payment methods with the selected one
     paymentMethods.innerHTML = `<label>Payment Method : ${selectedPaymentMethod}</label>`;
 
-    const element = document.querySelector(".container");
+    const element = document.querySelector(".receipt-container");
     html2canvas(element, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
@@ -244,6 +248,7 @@ function MoneyRecept() {
 
       // Restore original content
       paymentMethods.innerHTML = originalContent;
+      // actionBody.style.height = originalBodyDesign
     });
   };
 
@@ -675,11 +680,10 @@ function MoneyRecept() {
             />
           </div>
         </div>
-
-        <button className="download-btn" onClick={handleDownloadPDF}>
-          Download Receipt
-        </button>
       </div>
+      <button className="download-btn" onClick={handleDownloadPDF}>
+          Download Receipt
+      </button>
     </div>
   );
 }

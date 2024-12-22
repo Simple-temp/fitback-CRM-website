@@ -28,6 +28,8 @@ const AstheticInvoice = () => {
   //===================
   const [errorMessage, setErrorMessage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+  //===================
+  const [selectAdvisor, SetSelectAdvisor] = useState("");
 
   // fetch the new user data
 
@@ -45,13 +47,57 @@ const AstheticInvoice = () => {
     }
   };
 
-  // Function to generate PDF
+
   const handleDownloadPDF = () => {
+    // Capture the selected product value
+    const productContainers = document.querySelectorAll(".select-package");
+    const selectedProducts = Array.from(productContainers).map(
+      (container) => container.value
+    );
+
+    // Update the selected product in the container for PDF generation
+    productContainers.forEach((container, index) => {
+      const originalContent = container.outerHTML;
+      container.outerHTML = `<label>Product ${index + 1}: ${
+        selectedProducts[index] || "Not selected"
+      }</label>`;
+      container.dataset.originalContent = originalContent;
+    });
+
+    // Handle other sections (same as your original logic)
+    const advisorContainer = document.querySelector(".advisor-group");
+    const originalAdvisorContent = advisorContainer.innerHTML;
+    advisorContainer.innerHTML = `<label>Advisor: ${selectAdvisor}</label>`;
+
+    const branchContainer = document.querySelector(".select-branch");
+    const originalContentBranch = branchContainer.innerHTML;
+    branchContainer.innerHTML = `<label>${selectBranch}</label>`;
+
     const paymentMethods = document.querySelector(".payment-methods");
     const originalContent = paymentMethods.innerHTML;
-
-    // Temporarily replace the payment methods with the selected one
     paymentMethods.innerHTML = `<label>${selectedPaymentMethod}</label>`;
+
+    const actionIconsDiv = document.querySelector(".control");
+    const originalDisplayStyle = actionIconsDiv.style.display;
+
+    // const actionDownloadBtn = document.querySelector(".download-btn");
+    // const originalDownloadBtn = actionDownloadBtn.style.display;
+
+    const actionInOrder = document.querySelector(".text");
+    const originalInOrder = actionInOrder.innerHTML;
+
+    const actionNote = document.querySelector(".note");
+    const originalNote = actionNote.innerHTML;
+
+    const actionAmountDetails = document.querySelector(".right");
+    const originalAmountDetails = actionAmountDetails.innerHTML;
+
+    // Hide unnecessary elements for PDF
+    actionIconsDiv.style.display = "none";
+    // actionDownloadBtn.style.display = "none";
+    actionInOrder.style.marginTop = "14px";
+    actionNote.style.marginTop = "14px";
+    actionAmountDetails.style.marginTop = "14px";
 
     const element = document.querySelector(".main-container");
     html2canvas(element, { scale: 2 }).then((canvas) => {
@@ -61,10 +107,22 @@ const AstheticInvoice = () => {
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("invoice.pdf");
+      pdf.save("Fitback-Invoice.pdf");
 
-      // Restore original content
+      // Restore original content and styles
       paymentMethods.innerHTML = originalContent;
+      branchContainer.innerHTML = originalContentBranch;
+      advisorContainer.innerHTML = originalAdvisorContent;
+
+      productContainers.forEach((container, index) => {
+        container.outerHTML = container.dataset.originalContent;
+      });
+
+      actionIconsDiv.style.display = originalDisplayStyle;
+      // actionDownloadBtn.style.display = originalDownloadBtn;
+      actionInOrder.style.marginTop = originalInOrder;
+      actionNote.style.marginTop = originalNote;
+      actionAmountDetails.style.marginTop = originalAmountDetails;
     });
   };
 
@@ -96,9 +154,8 @@ const AstheticInvoice = () => {
     }
   };
 
-
-  const [getOldUserByid, SetGetOldUserByid] = useState({})
-  const [getOldUserByNumber, SetGetOldUserByNumber] = useState({})
+  const [getOldUserByid, SetGetOldUserByid] = useState({});
+  const [getOldUserByNumber, SetGetOldUserByNumber] = useState({});
 
   const handleBlur = async () => {
     try {
@@ -106,9 +163,13 @@ const AstheticInvoice = () => {
 
       if (customerID) {
         console.log(customerData);
-        const GetOrderByCustomerID = customerData.find( (order) => order.userid === customerID );
-        const filtereOldUserByID = getNewUser.find( (user) => user.id ===  parseInt(customerID));
-        SetGetOldUserByid(filtereOldUserByID)
+        const GetOrderByCustomerID = customerData.find(
+          (order) => order.userid === customerID
+        );
+        const filtereOldUserByID = getNewUser.find(
+          (user) => user.id === parseInt(customerID)
+        );
+        SetGetOldUserByid(filtereOldUserByID);
 
         setgetOrderDataByCUstermerID(GetOrderByCustomerID);
         console.log(customerID, GetOrderByCustomerID);
@@ -137,13 +198,16 @@ const AstheticInvoice = () => {
         const filterOldUserByNumber = getNewUser.find(
           (user) => user.phonenumber === phoneNumber
         );
-        SetGetOldUserByNumber(filterOldUserByNumber)
-
+        SetGetOldUserByNumber(filterOldUserByNumber);
 
         setGetFilterredNumber(filteredProducts); // Set the filtered data
         setNewUserByNumber(filtereNewUserByNumber); // Set the filtered data
         fetchAllPublicUser();
-        if (!filteredProducts && !filtereNewUserByNumber &&!filterOldUserByNumber) {
+        if (
+          !filteredProducts &&
+          !filtereNewUserByNumber &&
+          !filterOldUserByNumber
+        ) {
           setShowAlert(true);
           return;
         }
@@ -157,7 +221,6 @@ const AstheticInvoice = () => {
   const handlePaymentMethodChange = (e) => {
     setSelectedPaymentMethod(e.target.value);
   };
-
   //===============================================================================================
   const [selectBranch, setSelectBranch] = useState("");
   const [getDhanmondiPackage, setgetDhanmondiPackage] = useState([]);
@@ -284,332 +347,334 @@ const AstheticInvoice = () => {
   };
 
   return (
-    <div className="main-container invoice-img">
-      <ToastContainer
-        position="bottom-center"
-        autoClose={2000}
-        theme="colored"
-      />
-      <AstheticModal
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        phoneNumber={phoneNumber}
-        showAlert={showAlert}
-        setShowAlert={setShowAlert}
-      />
-      <div className="select-branch">
-        <select onChange={(e) => setSelectBranch(e.target.value)}>
-          <option value="">--Select Branch--</option>
-          <option value="Dhanmondi">Dhanmondi</option>
-          <option value="Uttara">Uttara</option>
-        </select>
-      </div>
-      <div className="invoice-container">
-        <div className="invoice-body">
-          <h2 className="invoice-title">Invoice</h2>
+    <div className="outside">
+      <div className="main-container invoice-img">
+        <ToastContainer
+          position="bottom-center"
+          autoClose={2000}
+          theme="colored"
+        />
+        <AstheticModal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          phoneNumber={phoneNumber}
+          showAlert={showAlert}
+          setShowAlert={setShowAlert}
+        />
+        <div className="select-branch">
+          <label htmlFor=""></label>
+          <select onChange={(e) => setSelectBranch(e.target.value)}>
+            <option value="">--Select Branch--</option>
+            <option value="Dhanmondi">Dhanmondi</option>
+            <option value="Uttara">Uttara</option>
+          </select>
+        </div>
+        <div className="invoice-container">
+          <div className="invoice-body">
+            <h2 className="invoice-title">Invoice</h2>
 
-          <div className="invoice-header">
-            <div className="header-col1">
-              <div className="header-group1">
-                <label>Name:</label>
-                <input
-                  type="text"
-                  placeholder=""
-                  value={
-                    customerData?.username ||
-                    getFilteredNumber?.username ||
-                    newUserByNumber?.name ||
-                    getOrderDataByCUstermerID?.username ||
-                    ""
-                  }
-                  className="custom-border"
-                />
+            <div className="invoice-header">
+              <div className="header-col1">
+                <div className="header-group1">
+                  <label>Name:</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    value={
+                      customerData?.username ||
+                      getFilteredNumber?.username ||
+                      newUserByNumber?.name ||
+                      getOrderDataByCUstermerID?.username ||
+                      ""
+                    }
+                    className="custom-border"
+                  />
+                </div>
+                <div className="header-group1">
+                  <label>Address:</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    value={
+                      customerData?.address ||
+                      getFilteredNumber?.address ||
+                      newUserByNumber?.address ||
+                      getOrderDataByCUstermerID?.address ||
+                      ""
+                    }
+                    className="custom-border"
+                  />
+                </div>
+                <div className="header-group1">
+                  <label>Phone:</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    value={
+                      phoneNumber ||
+                      customerData?.phonenumber ||
+                      getOrderDataByCUstermerID?.phonenumber ||
+                      getOldUserByid?.phonenumber ||
+                      ""
+                    }
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="custom-border"
+                  />
+                  {errorMessage && (
+                    <p className="error-message">{errorMessage}</p>
+                  )}
+                </div>
               </div>
-              <div className="header-group1">
-                <label>Address:</label>
-                <input
-                  type="text"
-                  placeholder=""
-                  value={
-                    customerData?.address ||
-                    getFilteredNumber?.address ||
-                    newUserByNumber?.address ||
-                    getOrderDataByCUstermerID?.address ||
-                    "N/A"
-                  }
-                  className="custom-border"
-                />
-              </div>
-              <div className="header-group1">
-                <label>Phone:</label>
-                <input
-                  type="text"
-                  placeholder=""
-                  value={
-                    phoneNumber ||
-                    customerData?.phonenumber ||
-                    getOrderDataByCUstermerID?.phonenumber ||
-                    getOldUserByid?.phonenumber ||
-                    ""
-                  }
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className="custom-border"
-                />
-                {errorMessage && (
-                  <p className="error-message">{errorMessage}</p>
-                )}
+              <div className="header-col2">
+                <div className="header-group2">
+                  <label>Date:</label>
+                  <input
+                    className="custom-border"
+                    type="text"
+                    placeholder=""
+                    value={
+                      customerData?.orderdate ||
+                      getFilteredNumber?.orderdate ||
+                      getOrderDataByCUstermerID?.orderdate ||
+                      ""
+                    }
+                  />
+                </div>
+                <div className="header-group2">
+                  <label>Invoice No:</label>
+                  <input
+                    className="custom-border"
+                    type="text"
+                    placeholder=""
+                    value={
+                      customerData.userid ||
+                      getFilteredNumber?.userid ||
+                      newUserByNumber?.userid ||
+                      getOrderDataByCUstermerID?.userid ||
+                      ""
+                    }
+                  />
+                </div>
+                <div className="header-group2">
+                  <label>Customer ID:</label>
+                  <input
+                    className="custom-border"
+                    type="text"
+                    placeholder=""
+                    value={
+                      getOldUserByNumber
+                        ? getOldUserByNumber.id
+                        : customerID || getFilteredNumber
+                          ? getFilteredNumber.id
+                          : ""
+                    }
+                    onChange={(e) => setCustomerID(e.target.value)}
+                    onBlur={handleBlur}
+                  />
+                </div>
+                <div className="header-group2 advisor-group">
+                  <label>Advisor:</label>
+                  <select
+                    name="options"
+                    id="options"
+                    className="custom-select"
+                    onChange={(e) => SetSelectAdvisor(e.target.value)}
+                  >
+                    <option value="">--Select---</option>
+                    <option value="Advisor1">Advisor 1</option>
+                    <option value="Advisor2">Advisor 2</option>
+                    <option value="Advisor3">Advisor 3</option>
+                    <option value="Advisor4">Advisor 4</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div className="header-col2">
-              <div className="header-group2">
-                <label>Date:</label>
-                <input
-                  className="custom-border"
-                  type="text"
-                  placeholder=""
-                  value={
-                    customerData?.orderdate ||
-                    getFilteredNumber?.orderdate ||
-                    getOrderDataByCUstermerID?.orderdate ||
-                    ""
-                  }
-                />
-              </div>
-              <div className="header-group2">
-                <label>Invoice No:</label>
-                <input
-                  className="custom-border"
-                  type="text"
-                  placeholder=""
-                  value={
-                    customerData.userid ||
-                    getFilteredNumber?.userid ||
-                    newUserByNumber?.userid ||
-                    getOrderDataByCUstermerID?.userid ||
-                    ""
-                  }
-                />
-              </div>
-              <div className="header-group2">
-                <label>Customer ID:</label>
-                <input
-                  className="custom-border"
-                  type="text"
-                  placeholder=""
-                  value={
-                    getOldUserByNumber 
-                      ? getOldUserByNumber.id 
-                      : customerID || 
-                        getFilteredNumber 
-                          ? getFilteredNumber.id 
-                          : "N/A"
-                  }
-                  onChange={(e) => setCustomerID(e.target.value)}
-                  onBlur={handleBlur}
-                />
-              </div>
-              <div className="header-group2">
-                <label>Advisor:</label>
-                <select name="options" id="options" className="custom-select">
-                  <option value="">--Select---</option>
-                  <option value="Advisor1">Advisor 1</option>
-                  <option value="Advisor2">Advisor 2</option>
-                  <option value="Advisor3">Advisor 3</option>
-                  <option value="Advisor4">Advisor 4</option>
-                </select>
-              </div>
-            </div>
-          </div>
 
-          <table className="invoice-table">
-            <thead>
-              <tr>
-                <th>Sl. No.</th>
-                <th>Name</th>
-                <th>Qty.</th>
-                {/* <th>Rate</th> */}
-                <th>Value in BDT</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row, index) => (
-                <tr key={row.id}>
-                  <td>{index + 1}</td> {/* Row number */}
-                  <td>
-                    <select
-                      value={row.itemname || ""}
-                      onChange={(e) =>
-                        handleProductChange(index, e.target.value)
-                      }
-                    >
-                      <option value="">Select Product</option>
-                      {selectBranch === "Dhanmondi" &&
-                        getDhanmondiPackage.map((product) => (
-                          <option key={product.id} value={product.itemname}>
-                            {product.itemname}
-                          </option>
-                        ))}
-                      {selectBranch === "Uttara" &&
-                        getUttaraPackage.map((product) => (
-                          <option key={product.id} value={product.itemname}>
-                            {product.itemname}
-                          </option>
-                        ))}
-                    </select>
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      value={row.quantity || 1}
-                      onChange={(e) =>
-                        handleQuantityChange(index, e.target.value)
-                      }
-                    />
-                  </td>
-                  {/* <td>{row.mrp || 0}</td>  */}
-                  <td>{row.total?.toFixed(2) || "0.00"}</td> {/* Row total */}
-                  {/* <td>{row.runningTotal?.toFixed(2) || "0.00"}</td> */}
+            <table className="invoice-table">
+              <thead>
+                <tr>
+                  <th>Sl. No.</th>
+                  <th>Name</th>
+                  <th>Qty.</th>
+                  {/* <th>Rate</th> */}
+                  <th>Value in BDT</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          <div style={{ marginTop: "20px" }}>
-            <LibraryAddIcon
-              onClick={handleAddRow}
-              style={{ marginRight: "10px" }}
-            />
-            <DoDisturbIcon onClick={handleRemoveRow} />
-          </div>
+              </thead>
+              <tbody>
+                {rows.map((row, index) => (
+                  <tr key={row.id}>
+                    <td>{index + 1}</td> {/* Row number */}
+                    <td>
+                      <select
+                        value={row.itemname || ""}
+                        onChange={(e) =>
+                          handleProductChange(index, e.target.value)
+                        }
+                        className="select-package"
+                      >
+                        <option value="">Select Product</option>
+                        {selectBranch === "Dhanmondi" &&
+                          getDhanmondiPackage.map((product) => (
+                            <option key={product.id} value={product.itemname}>
+                              {product.itemname}
+                            </option>
+                          ))}
+                        {selectBranch === "Uttara" &&
+                          getUttaraPackage.map((product) => (
+                            <option key={product.id} value={product.itemname}>
+                              {product.itemname}
+                            </option>
+                          ))}
+                      </select>
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        value={row.quantity || 1}
+                        onChange={(e) =>
+                          handleQuantityChange(index, e.target.value)
+                        }
+                      />
+                    </td>
+                    {/* <td>{row.mrp || 0}</td>  */}
+                    <td>{row.total?.toFixed(2) || "0.00"}</td> {/* Row total */}
+                    {/* <td>{row.runningTotal?.toFixed(2) || "0.00"}</td> */}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div style={{ marginTop: "20px" }} className="control">
+              <LibraryAddIcon
+                onClick={handleAddRow}
+                style={{ marginRight: "10px" }}
+              />
+              <DoDisturbIcon onClick={handleRemoveRow} />
+            </div>
 
-          <div className="amount-info">
-            <div className="payment-section">
-              <div className="innter-payment">
-                <label>Payment Received By:</label>
-                <div className="payment-methods">
-                  <label>
-                    <input
-                      type="radio"
-                      name="payment"
-                      value="Cash"
+            <div className="amount-info">
+              <div className="payment-section">
+                <div className="innter-payment">
+                  <label>Payment Received By:</label>
+                  <div className="payment-methods">
+                    <select
+                      name=""
+                      id=""
                       onChange={handlePaymentMethodChange}
-                    />{" "}
-                    Cash
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="payment"
-                      value="Card"
-                      onChange={handlePaymentMethodChange}
-                    />{" "}
-                    Card
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="payment"
-                      value="Bkash"
-                      onChange={handlePaymentMethodChange}
-                    />{" "}
-                    Bkash
-                  </label>
+                      className="select-border"
+                    >
+                      <option value="Cash">Cash</option>
+                      <option value="Card">Card</option>
+                      <option value="Bkash">Bkash</option>
+                      <option value="Nagad">Nagad</option>
+                      <option value="Bank">Bank</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="in-words">
+                  <label>In Words:</label>
+                  <textarea
+                    placeholder="Enter amount in words"
+                    className="text custom-border"
+                  ></textarea>
+                </div>
+                <div className="disclaimer">
+                  <p>
+                    *** We don’t take responsibility unless all guidelines are
+                    followed properly.
+                  </p>
+                  <p>*** All payments are non-refundable.</p>
                 </div>
               </div>
-              <label>In Words:</label> <br />
+              <div className="amount-section">
+                <div className="amount-row">
+                  <div className="left">
+                    <label>Subtotal:</label>
+                    <label>Discount:</label>
+                    <label>TotalAmount:</label>
+                    <label>PaidAmount: </label>
+                    <label>DueAmount: </label>
+                  </div>
+                  <div className="right">
+                    <div className="input-div">
+                      <input
+                        type="number"
+                        placeholder="0.00"
+                        className="amount-details amount-border"
+                        value={subtotal && subtotal.toFixed(2)} // Subtotal
+                        readOnly
+                      />
+                    </div>
+                    <div className="input-div">
+                      <input
+                        type="number"
+                        placeholder="0.00"
+                        className="amount-details amount-border"
+                        value={discount && discount.toFixed(2)} // Total Discount
+                        readOnly
+                      />
+                    </div>
+                    <div className="input-div">
+                      <input
+                        type="number"
+                        placeholder="0.00"
+                        className="amount-details amount-border"
+                        value={totalAmount && totalAmount.toFixed(2)} // Total from the running subtotal
+                        readOnly
+                      />
+                    </div>
+                    <div className="input-div">
+                      <input
+                        type="number"
+                        placeholder=""
+                        className="amount-details amount-border"
+                        value={paid}
+                        onChange={(e) => setPaid(Number(e.target.value))} // Paid Amount
+                      />
+                    </div>
+                    <div className="input-div">
+                      <input
+                        type="number"
+                        placeholder="0.00"
+                        className="amount-details amount-border"
+                        value={dueAmount && dueAmount.toFixed(2)} // Due Amount
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="footer-section">
+              <div className="signature-section">
+                <div>
+                  <label>Prepared By:</label>
+                  <input type="text" placeholder="" />
+                </div>
+                <div>
+                  <label>Customer Sign:</label>
+                  <input type="text" placeholder="" />
+                </div>
+                <div>
+                  <label>Authorized Sign:</label>
+                  <input type="text" placeholder="" />
+                </div>
+              </div>
+            </div>
+
+            <div className="note-section">
+              <label>Note:</label> <br />
               <textarea
-                placeholder="Enter amount in words"
-                className="text custom-border"
+                className="note custom-border"
+                placeholder="Add any notes"
               ></textarea>
-              <div className="disclaimer">
-                <p>
-                  *** We don’t take responsibility unless all guidelines are
-                  followed properly.
-                </p>
-                <p>*** All payments are non-refundable.</p>
-              </div>
             </div>
-            <div className="amount-section">
-              <div className="amount-row">
-                <div className="left">
-                  <label>Subtotal:</label>
-                  <label>Discount:</label>
-                  <label>TotalAmount:</label>
-                  <label>PaidAmount: </label>
-                  <label>DueAmount: </label>
-                </div>
-                <div className="right">
-                  <input
-                    type="number"
-                    placeholder="0.00"
-                    className="amount-details amount-border"
-                    value={subtotal && subtotal.toFixed(2)} // Subtotal
-                    readOnly
-                  />
-                  <br />
-                  <input
-                    type="number"
-                    placeholder="0.00"
-                    className="amount-details amount-border"
-                    value={discount && discount.toFixed(2)} // Total Discount
-                    readOnly
-                  />
-                  <br />
-                  <input
-                    type="number"
-                    placeholder="0.00"
-                    className="amount-details amount-border"
-                    value={totalAmount && totalAmount.toFixed(2)} // Total from the running subtotal
-                    readOnly
-                  />
-                  <br />
-                  <input
-                    type="number"
-                    placeholder="Enter Paid Amount"
-                    className="amount-details amount-border"
-                    value={paid}
-                    onChange={(e) => setPaid(Number(e.target.value))} // Paid Amount
-                  />
-                  <br />
-                  <input
-                    type="number"
-                    placeholder="0.00"
-                    className="amount-details amount-border"
-                    value={dueAmount && dueAmount.toFixed(2)} // Due Amount
-                    readOnly
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="footer-section">
-            <div className="signature-section">
-              <div>
-                <label>Prepared By:</label>
-                <input type="text" placeholder="" />
-              </div>
-              <div>
-                <label>Customer Sign:</label>
-                <input type="text" placeholder="" />
-              </div>
-              <div>
-                <label>Authorized Sign:</label>
-                <input type="text" placeholder="" />
-              </div>
-            </div>
-          </div>
-
-          <div className="note-section">
-            <label>Note:</label> <br />
-            <textarea
-              className="custom-border"
-              placeholder="Add any notes"
-            ></textarea>
           </div>
         </div>
       </div>
-      <button className="download-btn" onClick={handleDownloadPDF}>
+      <button className="download-btn" onClick={handleDownloadPDF} style={{ display :"block", margin : 'auto'}}>
         Download PDF
       </button>
     </div>

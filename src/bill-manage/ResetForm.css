@@ -125,3 +125,14 @@
   gap: 8px 12px; /* 8px row gap, 12px column gap */
   margin-top: 10px;
 }
+.download-btn{
+  border: 1px solid #ff0077;
+  padding: 9px 19px;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+  background-color: #ff0077;
+  color: #ffffff;
+}

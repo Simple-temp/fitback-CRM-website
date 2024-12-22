@@ -230,9 +230,9 @@ function AtheticMoneReceipt() {
     const originalContent = paymentMethods.innerHTML;
 
     // Temporarily replace the payment methods with the selected one
-    paymentMethods.innerHTML = `<label>${selectedPaymentMethod}</label>`;
+    paymentMethods.innerHTML = `<label>Payment Method : ${selectedPaymentMethod}</label>`;
 
-    const element = document.querySelector(".main-container");
+    const element = document.querySelector(".container");
     html2canvas(element, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
@@ -240,7 +240,7 @@ function AtheticMoneReceipt() {
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("invoice.pdf");
+      pdf.save("Fitback-Money-Receipt.pdf");
 
       // Restore original content
       paymentMethods.innerHTML = originalContent;
@@ -516,7 +516,8 @@ function AtheticMoneReceipt() {
 
         <div className="header-part">
           <div className="form-row-date">
-            <label>Date:</label>
+            <label style={{ marginRight :"10px"}}>Date:</label>
+            <input type="date" />
           </div>
 
           <div className="form-row-header">
@@ -564,7 +565,7 @@ function AtheticMoneReceipt() {
               <input
                 type="checkbox"
                 name="cash"
-                checked={formData.cash}
+                value="Cash"
                 onChange={handlePaymentMethodChange}
               />
               Cash
@@ -573,7 +574,7 @@ function AtheticMoneReceipt() {
               <input
                 type="checkbox"
                 name="card"
-                checked={formData.card}
+                value="Card"
                 onChange={handlePaymentMethodChange}
               />
               Card
@@ -582,7 +583,7 @@ function AtheticMoneReceipt() {
               <input
                 type="checkbox"
                 name="bkash"
-                checked={formData.bkash}
+                value="Bkash"
                 onChange={handlePaymentMethodChange}
               />
               Bkash
@@ -674,11 +675,10 @@ function AtheticMoneReceipt() {
             />
           </div>
         </div>
-
-        <button className="download-btn" onClick={handleDownloadPDF}>
+      </div>
+      <button className="download-btn" onClick={handleDownloadPDF}>
           Download Receipt
         </button>
-      </div>
     </div>
   );
 }

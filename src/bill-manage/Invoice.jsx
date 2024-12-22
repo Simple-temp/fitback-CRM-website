@@ -671,14 +671,16 @@ const Invoice = () => {
                     <label>DueAmount: </label>
                   </div>
                   <div className="right">
-                    <input
-                      type="number"
-                      placeholder="0.00"
-                      className="amount-details amount-border"
-                      value={subtotal && subtotal.toFixed(2)} // Subtotal
-                      readOnly
-                    />
-                    <br />
+                    <div className="input-div">
+                      <input
+                        type="number"
+                        placeholder="0.00"
+                        className="amount-details amount-border"
+                        value={subtotal && subtotal.toFixed(2)} // Subtotal
+                        readOnly
+                      />
+                    </div>
+                    <div className="input-div">
                     <input
                       type="number"
                       placeholder="0.00"
@@ -686,7 +688,8 @@ const Invoice = () => {
                       value={discount && discount.toFixed(2)} // Total Discount
                       readOnly
                     />
-                    <br />
+                    </div>
+                    <div className="input-div">
                     <input
                       type="number"
                       placeholder="0.00"
@@ -694,22 +697,25 @@ const Invoice = () => {
                       value={totalAmount && totalAmount.toFixed(2)} // Total from the running subtotal
                       readOnly
                     />
-                    <br />
-                    <input
+                      </div>
+                      <div className="input-div">
+                      <input
                       type="number"
                       placeholder=""
                       className="amount-details amount-border"
                       value={paid}
                       onChange={(e) => setPaid(Number(e.target.value))} // Paid Amount
                     />
-                    <br />
-                    <input
+                    </div>
+                      <div className="input-div">
+                      <input
                       type="number"
                       placeholder="0.00"
                       className="amount-details amount-border"
                       value={dueAmount && dueAmount.toFixed(2)} // Due Amount
                       readOnly
                     />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -742,12 +748,12 @@ const Invoice = () => {
           </div>
         </div>
       </div>
-      <button className="download-btn" onClick={handleDownloadPDF}>
+      <button className="download-btn" onClick={handleDownloadPDF} style={{ display :"block", margin : 'auto'}}>
         Download PDF
       </button>
-      <button className="download-btn" onClick={handleReset} style={{ marginLeft :"13px"}}>
+      {/* <button className="download-btn" onClick={handleReset} style={{ marginLeft :"13px"}}>
         Reset
-      </button>
+      </button> */}
     </div>
   );
 };

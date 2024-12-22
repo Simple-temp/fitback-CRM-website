@@ -1,4 +1,4 @@
-.invoice-img {
+/* .invoice-img {
   background-image: url("../public/img/invoice.png");
   width: 100%;
   height: auto;
@@ -7,11 +7,14 @@
   border: 1px solid #000;
   padding-bottom: 30px;
   margin: 0 auto;
-}
+} */
 
 .main-container {
   max-width: 800px;
-  padding: 20px;
+  padding: 20px 20px 2px 20px;
+  margin: auto;
+  border: 1px solid #000;
+  margin-bottom: 10px;
 }
 
 input,
@@ -86,6 +89,14 @@ textarea {
   flex-direction: column;
   text-align: right;
   margin-top: 13px;
+}
+
+.left label {
+  margin: 9px 4px 9px 0px;
+}
+
+.right .input-div input{
+  width: 100%;
 }
 
 .signature-section {
@@ -181,7 +192,9 @@ textarea {
 }
 
 .amount-border{
-  border-bottom: 2px solid #9c9c9c;
+  border: 2px solid #cccccc;
+  padding: 5px;
+  margin: 3px 0;
 }
 
 .select-border{
