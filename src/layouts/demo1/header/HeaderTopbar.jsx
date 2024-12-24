@@ -28,38 +28,7 @@ const HeaderTopbar = () => {
 
   //==============================================================================
   const loggedInUser = localStorage.getItem("loggedInUser");
-  const userParse = JSON.parse(loggedInUser);
-  const convertToInt = parseInt(userParse.id);
-  console.log(convertToInt);
-
-  const [getLoggedInUser, setGetLoggedInUser] = useState({});
-
-  useEffect(() => {
-    fetchLoggedInUser();
-  }, []);
-
-  const fetchLoggedInUser = async () => {
-    try {
-      if(loggedInUser?.user_type === "Support"){
-        const response = await axios.get(`https://qwikit1.pythonanywhere.com/supportProfile/${userParse.id}`)
-        setGetLoggedInUser(response.data);
-      }
-      if(loggedInUser?.user_type === "Desk"){
-        const response = await axios.get(`https://qwikit1.pythonanywhere.com/deskProfile/${userParse.id}`)
-        setGetLoggedInUser(response.data);
-      }
-      if(loggedInUser?.user_type === "Admin"){
-        const response = await axios.get(`https://qwikit1.pythonanywhere.com/adminProfile/${userParse.id}`)
-        setGetLoggedInUser(response.data);
-      }
-      if(loggedInUser?.user_type === "Dietitian"){
-        const response = await axios.get(`https://qwikit1.pythonanywhere.com/dietitianProfile/${userParse.id}`)
-        setGetLoggedInUser(response.data);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const userParse = loggedInUser ? JSON.parse(loggedInUser) : null;
 
   return (
     <div className="flex items-center gap-2 lg:gap-3.5">
@@ -145,7 +114,7 @@ const HeaderTopbar = () => {
           <MenuToggle className="btn btn-icon rounded-full">
             <img
               className="size-9 rounded-full border-2 border-success shrink-0"
-              src={getLoggedInUser.image || avater}
+              src={userParse.image || avater}
               alt=""
               style={{
                 width: "50px",

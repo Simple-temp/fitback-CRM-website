@@ -39,6 +39,14 @@ import ExcerciseManage from '@/Content/ExcerciseManage';
 import HealthTipsManage from '@/Content/HealthTipsManage';
 import UserReview from '@/Content/UserReview';
 import UserReviewVideo from '@/Content/UserReviewVideo';
+import Profile from '@/userRoutes/Profile';
+import Setting from '@/userRoutes/Setting';
+import DhanmondiServices from '@/Services/DhanmondiServices';
+import CreateDhanmondi from '@/Services/CreateDhanmondi';
+import UttaraServices from '@/Services/UttaraServices';
+import CreateUttara from '@/Services/CreateUttara';
+import UserAnalysisReport from '@/Report/UserAnalysisReport';
+import BusinessAnalaysisReport from '@/Report/BusinessAnalaysisReport';
 
 
 const AppRoutingSetup = () => {
@@ -119,6 +127,9 @@ const AppRoutingSetup = () => {
 
               {/* This is User Routes */}
 
+              <Route path="/admin/profile" element={<Profile />} />
+              <Route path="/admin/setting" element={<Setting />} />
+
               <Route path="/admin/page" element={<AdminRoutes />} />
               <Route path="/admin/create/page" element={<CreatePublicUser />} />
               <Route path="/admin/create/kycpage" element={<KYCFrom />} />
@@ -147,6 +158,12 @@ const AppRoutingSetup = () => {
               <Route path="/product/create/page" element={<ProductsCreatePage />} />
               <Route path="/product/page" element={<ProductsShowPage />} />
 
+              {/* this is Services Management */}
+              <Route path="/servicedhanmondi/page" element={<DhanmondiServices />} />
+              <Route path="/servicedhanmondi/create/page" element={<CreateDhanmondi />} />
+              <Route path="/serviceuttara/page" element={<UttaraServices />} />
+              <Route path="/serviceuttara/create/page" element={<CreateUttara />} />
+
               {/* This is Order Routes */}
               <Route path="/orders/page" element={<OrderShowPage />} />
               <Route path="/orders/page/:id" element={<OrderDetails />} />
@@ -159,6 +176,10 @@ const AppRoutingSetup = () => {
               <Route path="/health" element={<HealthTipsManage />} />
               <Route path="/review" element={<UserReview />} />
               <Route path="/reviewvideo" element={<UserReviewVideo />} />
+
+              {/* this is report Management */}
+              <Route path="/userreport" element={<UserAnalysisReport />} />
+              <Route path="/businessreport" element={<BusinessAnalaysisReport />} />
 
               {/* This is Trash Routes */}
               <Route path="/trash" element={<TrashPage/>}

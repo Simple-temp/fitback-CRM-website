@@ -10,6 +10,11 @@ import { DefaultTooltip, KeenIcon } from '@/components';
 import { MenuItem, MenuLink, MenuSub, MenuTitle, MenuSeparator, MenuArrow, MenuIcon } from '@/components/menu';
 import avater from "../../../../public/img/avater.png";
 import axios from 'axios';
+import SettingsIcon from '@mui/icons-material/Settings';
+import DnsTwoToneIcon from '@mui/icons-material/DnsTwoTone';
+import EmailIcon from '@mui/icons-material/Email';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 const DropdownUser = ({
@@ -26,7 +31,9 @@ const DropdownUser = ({
   };
 
   const loggedInUser = localStorage.getItem("loggedInUser");
-  const userParse = JSON.parse(loggedInUser)
+  const userParse = loggedInUser ? JSON.parse(loggedInUser) : null;
+  console.log(userParse)
+  
   const navigate = useNavigate()
   const handleLogout = () => {
     localStorage.removeItem("loggedInUser");
@@ -34,43 +41,12 @@ const DropdownUser = ({
     navigate("/auth/");
   };
 
-  const convertToInt = parseInt(userParse.id);
-  console.log(convertToInt);
-
-  const [getLoggedInUser, setGetLoggedInUser] = useState({});
-
-  useEffect(() => {
-    fetchLoggedInUser();
-  }, []);
-
-  const fetchLoggedInUser = async () => {
-    try {
-      if(loggedInUser?.user_type === "Support"){
-        const response = await axios.get(`https://qwikit1.pythonanywhere.com/supportProfile/${userParse.id}`)
-        setGetLoggedInUser(response.data);
-      }
-      if(loggedInUser?.user_type === "Desk"){
-        const response = await axios.get(`https://qwikit1.pythonanywhere.com/deskProfile/${userParse.id}`)
-        setGetLoggedInUser(response.data);
-      }
-      if(loggedInUser?.user_type === "Admin"){
-        const response = await axios.get(`https://qwikit1.pythonanywhere.com/adminProfile/${userParse.id}`)
-        setGetLoggedInUser(response.data);
-      }
-      if(loggedInUser?.user_type === "Dietitian"){
-        const response = await axios.get(`https://qwikit1.pythonanywhere.com/dietitianProfile/${userParse.id}`)
-        setGetLoggedInUser(response.data);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
   
   const buildHeader = () => {
     return <div className="flex items-center justify-between px-5 py-1.5 gap-1.5">
         <div className="flex items-center gap-2">
           <img className="size-9 rounded-full border-2 border-success" 
-          src={getLoggedInUser.image || avater} 
+          src={userParse.image || avater} 
           alt=""
           style={{
             width: "40px",
@@ -81,7 +57,7 @@ const DropdownUser = ({
            />
           <div className="flex flex-col gap-1.5">
             <Link to="#" className="text-sm text-gray-800 hover:text-primary font-semibold leading-none">      
-            Name : { userParse && userParse.name ? userParse.name : "n/a"} 
+            Name : { userParse?.name || "n/a"} 
             </Link> 
             <a className="text-xs text-gray-600 hover:text-primary font-medium leading-none">
             { userParse && userParse.user_type ? userParse.user_type : ""}
@@ -107,12 +83,23 @@ const DropdownUser = ({
             </MenuLink>
           </MenuItem> */}
 
+          <MenuItem>
+            <MenuLink path="/admin/profile">
+              <MenuIcon className="menu-icon">
+                <AccountCircleIcon/>
+              </MenuIcon>
+              <MenuTitle>
+               Go to Profile
+              </MenuTitle>
+            </MenuLink>
+          </MenuItem>
+
           {/* Create New User */}
 
           <MenuItem>
-            <MenuLink path="/admin/page">
+            <MenuLink path="#">
               <MenuIcon className="menu-icon">
-                <KeenIcon icon="badge" />
+                <LocalPhoneIcon />
               </MenuIcon>
               <MenuTitle>
                Phone : {userParse && userParse.phonenumber ? userParse.phonenumber : "n/a"}
@@ -121,9 +108,20 @@ const DropdownUser = ({
           </MenuItem>
 
           <MenuItem>
-            <MenuLink path="/admin/page">
+            <MenuLink path="#">
               <MenuIcon className="menu-icon">
-                <KeenIcon icon="badge" />
+                <EmailIcon/>
+              </MenuIcon>
+              <MenuTitle>
+               Email : {userParse && userParse.email ? userParse.email : "n/a"}
+              </MenuTitle>
+            </MenuLink>
+          </MenuItem>
+
+          <MenuItem>
+            <MenuLink path="#">
+              <MenuIcon className="menu-icon">
+                <DnsTwoToneIcon/>
               </MenuIcon>
               <MenuTitle>
                Address : {userParse && userParse.address ? userParse.address : "n/a"}
@@ -132,12 +130,12 @@ const DropdownUser = ({
           </MenuItem>
 
           <MenuItem>
-            <MenuLink path="/admin/page">
+            <MenuLink path="/admin/setting">
               <MenuIcon className="menu-icon">
-                <KeenIcon icon="badge" />
+                <SettingsIcon/>
               </MenuIcon>
               <MenuTitle>
-               Email : {userParse && userParse.email ? userParse.email : "n/a"}
+               Setting
               </MenuTitle>
             </MenuLink>
           </MenuItem>

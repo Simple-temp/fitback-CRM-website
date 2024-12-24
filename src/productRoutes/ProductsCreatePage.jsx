@@ -1,11 +1,9 @@
 import {
   Button,
   FormControl,
-  FormControlLabel,
   InputLabel,
   MenuItem,
   Select,
-  Switch,
   TextField,
 } from "@mui/material";
 import axios from "axios";

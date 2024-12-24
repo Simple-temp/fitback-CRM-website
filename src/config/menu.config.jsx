@@ -1,6 +1,6 @@
 const loggedInUser = localStorage.getItem("loggedInUser");
 const userParse = loggedInUser ? JSON.parse(loggedInUser) : null;
-console.log("Name:", userParse);
+console.log("Name:", userParse?.name);
 
 export const MENU_SIDEBAR = [
   // {
@@ -214,12 +214,12 @@ export const MENU_SIDEBAR = [
           title: "User Management",
           icon: "profile-circle",
           children: [
-            // {
-            //   title: "KYC Form",
-            //   children: [
-            //     { title: "Form", path: "/admin/create/kycpage" },
-            //   ],
-            // },
+            {
+              title: "KYC Form",
+              children: [
+                { title: "Form", path: "/admin/create/kycpage" },
+              ],
+            },
             {
               title: "Client",
               children: [
@@ -271,6 +271,26 @@ export const MENU_SIDEBAR = [
           ],
         },
         {
+          title: "Service Management",
+          icon: "profile-circle",
+          children: [
+            {
+              title: "Dhanmondi",
+              children: [
+                { title: "Manage Service", path: "/servicedhanmondi/page" },
+                { title: "Create Service", path: "/servicedhanmondi/create/page" },
+              ],
+            },
+            {
+              title: "Uttara",
+              children: [
+                { title: "Manage Service", path: "/serviceuttara/page" },
+                { title: "Create Service", path: "/serviceuttara/create/page" },
+              ],
+            },
+          ],
+        },
+        {
           title: "Orders Management",
           icon: "profile-circle",
           children: [
@@ -293,6 +313,14 @@ export const MENU_SIDEBAR = [
             { title: "Health Tips", path: "/health" },
             { title: "Review", path: "/review" },
             { title: "Review Video", path: "/reviewvideo" },
+          ],
+        },
+        {
+          title: "Report Management",
+          icon: "profile-circle",
+          children: [
+            { title: "User Report Analysis", path: "/userreport" },
+            { title: "Business Report Analysis", path: "/businessreport" },
           ],
         },
       ]
