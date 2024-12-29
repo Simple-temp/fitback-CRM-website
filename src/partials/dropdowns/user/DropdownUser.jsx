@@ -32,7 +32,6 @@ const DropdownUser = ({
 
   const loggedInUser = localStorage.getItem("loggedInUser");
   const userParse = loggedInUser ? JSON.parse(loggedInUser) : null;
-  console.log(userParse)
   
   const navigate = useNavigate()
   const handleLogout = () => {

@@ -47,6 +47,8 @@ import UttaraServices from '@/Services/UttaraServices';
 import CreateUttara from '@/Services/CreateUttara';
 import UserAnalysisReport from '@/Report/UserAnalysisReport';
 import BusinessAnalaysisReport from '@/Report/BusinessAnalaysisReport';
+import BillingReport from '@/bill-manage/billingReport/BillingReport';
+import Appointment from '@/appointment/Appointment';
 
 
 const AppRoutingSetup = () => {
@@ -153,6 +155,7 @@ const AppRoutingSetup = () => {
               <Route path="/asthetic/invoice/page" element={<AstheticInvoice />} />
               <Route path="/asthetic/moneyrecept/page" element={<AtheticMoneReceipt />} />
               <Route path="/asthetic/form/page" element={<AstheticForm />} />
+              <Route path="/desk/billing/report" element={<BillingReport />} />
 
               {/* This is Products Routes */}
               <Route path="/product/create/page" element={<ProductsCreatePage />} />
@@ -180,6 +183,9 @@ const AppRoutingSetup = () => {
               {/* this is report Management */}
               <Route path="/userreport" element={<UserAnalysisReport />} />
               <Route path="/businessreport" element={<BusinessAnalaysisReport />} />
+
+               {/* This is Appointment Routes */}
+               <Route path="/desk/appintment" element={<Appointment />} />
 
               {/* This is Trash Routes */}
               <Route path="/trash" element={<TrashPage/>}

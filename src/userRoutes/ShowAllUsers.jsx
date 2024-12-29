@@ -8,9 +8,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import avater from "../../public/img/avater.png"
+import { Button } from "@mui/material";
+import DetailsIcon from "@mui/icons-material/Details";
+import { useNavigate } from "react-router";
 
 const ShowAllUsers = () => {
   const [getData, setgetData] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchAllUser();
@@ -30,29 +34,55 @@ const ShowAllUsers = () => {
   return (
     <div>
       <div style={{ overflowX: "auto" }}>
-        <TableContainer
-          component={Paper}
+      <TableContainer
+        component={Paper}
+        sx={{
+          minWidth: 850, // Adjusted min width
+          "& thead th": {
+            position: "sticky",
+            top: 0,
+            backgroundColor: "background.paper",
+            zIndex: 1,
+            fontWeight: "bold", // Apply bold to headers
+          },
+          "@media (max-width: 768px)": {
+            minWidth: "100%", // Full width on small screens
+          },
+          maxHeight: "600px", // Set max height for vertical scroll
+          overflowY: "auto", // Enable vertical scrolling
+          overflowX: "hidden", // Hide horizontal scrollbar
+          scrollbarWidth: "none", // Hide scrollbar for Firefox
+          msOverflowStyle: "none", // Hide scrollbar for IE/Edge
+        }}
+      >
+        {/* Hide scrollbar for WebKit browsers */}
+        <style>
+          {`
+      div::-webkit-scrollbar {
+        display: none;
+      }
+    `}
+        </style>
+        <Table
           sx={{
-            width: "100%", // Full width
-            overflowX: "auto", // Enable horizontal scrolling on smaller screens
+            minWidth: 850,
+            "@media (max-width: 768px)": {
+              minWidth: "100%", // Full width for small screens
+            },
           }}
+          size="small"
+          aria-label="a dense table"
         >
-          <Table
-            sx={{
-              minWidth: 600, // Adjust minimum width
-            }}
-            size="small"
-            aria-label="a dense table"
-          >
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
-                <TableCell align="center">Image</TableCell>
+                <TableCell align="left">Image</TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell align="center">Phone Number</TableCell>
-                <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Gender</TableCell>
-                <TableCell align="center">Address</TableCell>
+                <TableCell align="left">Phone Number</TableCell>
+                <TableCell align="left">Email</TableCell>
+                <TableCell align="left">Gender</TableCell>
+                <TableCell align="left">Address</TableCell>
+                <TableCell align="left">Get Appointment</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -89,6 +119,11 @@ const ShowAllUsers = () => {
                       ? item.weight[0].value
                       : "No weight data"}
                   </TableCell> */}
+                                  <TableCell align="center">
+                  <Button color="error" onClick={() => navigate(`${item.id}`)}>
+                    <DetailsIcon />
+                  </Button>
+                </TableCell>
                 </TableRow>
               ))}
             </TableBody>

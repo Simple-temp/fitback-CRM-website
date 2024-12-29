@@ -10,7 +10,9 @@ import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 
 const Invoice = () => {
   const [customerData, setCustomerData] = useState([]);
-  const [getOrderDataByCUstermerID, setgetOrderDataByCUstermerID] = useState( {} );
+  const [getOrderDataByCUstermerID, setgetOrderDataByCUstermerID] = useState(
+    {}
+  );
   const [customerID, setCustomerID] = useState("");
   //===================
   const [openModal, setOpenModal] = useState(false);
@@ -29,19 +31,18 @@ const Invoice = () => {
   //===================
   const [selectAdvisor, SetSelectAdvisor] = useState("");
 
-  const handleReset = () =>{
-    setCustomerData([])
-    setFilterData([])
-    SetGetNewUser([])
-    setgetOrderDataByCUstermerID({})
-    setCustomerID("")
-    setSelectedPaymentMethod("")
-    setPhoneNumber("")
-    setGetFilterredNumber({})
-    setNewUserByNumber({})
-    SetSelectAdvisor("")
-  }
-
+  const handleReset = () => {
+    setCustomerData([]);
+    setFilterData([]);
+    SetGetNewUser([]);
+    setgetOrderDataByCUstermerID({});
+    setCustomerID("");
+    setSelectedPaymentMethod("");
+    setPhoneNumber("");
+    setGetFilterredNumber({});
+    setNewUserByNumber({});
+    SetSelectAdvisor("");
+  };
 
   // fetch the new user data
 
@@ -59,68 +60,6 @@ const Invoice = () => {
     }
   };
 
-  // const handleDownloadPDF = () => {
-  //   //=================================
-  //   const advisorContainer = document.querySelector(".advisor-group");
-  //   const originalAdvisorContent = advisorContainer.innerHTML;
-  //   advisorContainer.innerHTML = `<label>Advisor : ${selectAdvisor}</label>`;
-  //   //=================================
-  //   const branchContainer = document.querySelector(".select-branch");
-  //   const originalContentBranch = branchContainer.innerHTML;
-  //   branchContainer.innerHTML = `<label>${selectBranch}</label>`;
-  //   //=================================
-  //   const paymentMethods = document.querySelector(".payment-methods");
-  //   const originalContent = paymentMethods.innerHTML;
-  //   paymentMethods.innerHTML = `<label>${selectedPaymentMethod}</label>`;
-  //   //=================================
-  //   const actionIconsDiv = document.querySelector(".control");
-  //   const originalDisplayStyle = actionIconsDiv.style.display;
-  //   //=================================
-  //   const actionDownloadBtn = document.querySelector(".download-btn");
-  //   const originalDownloadBtn = actionDownloadBtn.style.display;
-  //   //=================================
-  //   const actionInOrder = document.querySelector(".text");
-  //   const originalInOrder = actionInOrder.innerHTML;
-  //   //=================================
-  //   const actionNote = document.querySelector(".note");
-  //   const originalNote = actionNote.innerHTML;
-  //   //=================================
-  //   const actionAmountDetails = document.querySelector(".right")
-  //   const originalAmountDetails = actionAmountDetails.innerHTML;
-
-  //   // Hide the action icons div
-  //   actionIconsDiv.style.display = "none";
-  //   // Hide the action download Btn
-  //   actionDownloadBtn.style.display = "none";
-  //   // In words CSS
-  //   actionInOrder.style.marginTop = "14px";
-  //   // Note CSS
-  //   actionNote.style.marginTop = "14px";
-  //   // Amount CSS
-  //   actionAmountDetails.style.marginTop = "14px";
-
-  //   const element = document.querySelector(".main-container");
-  //   html2canvas(element, { scale: 2 }).then((canvas) => {
-  //     const imgData = canvas.toDataURL("image/png");
-  //     const pdf = new jsPDF("p", "mm", "a4");
-  //     const pdfWidth = pdf.internal.pageSize.getWidth();
-  //     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-  //     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-  //     pdf.save("Fitback-Invoice.pdf");
-
-  //     // Restore original content and styles
-  //     paymentMethods.innerHTML = originalContent;
-  //     branchContainer.innerHTML = originalContentBranch;
-  //     advisorContainer.innerHTML = originalAdvisorContent;
-  //     actionIconsDiv.style.display = originalDisplayStyle;
-  //     actionDownloadBtn.style.display = originalDownloadBtn;
-  //     actionInOrder.style.marginTop = originalInOrder;
-  //     actionNote.style.marginTop = originalNote;
-  //     actionAmountDetails.style.marginTop = originalAmountDetails;
-  //   });
-  // };
-
   const handleDownloadPDF = () => {
     // Capture the selected product value
     const productContainers = document.querySelectorAll(".select-package");
@@ -131,7 +70,7 @@ const Invoice = () => {
     // Update the selected product in the container for PDF generation
     productContainers.forEach((container, index) => {
       const originalContent = container.outerHTML;
-      container.outerHTML = `<label>Product ${index + 1}: ${
+      container.outerHTML = `<label> ${
         selectedProducts[index] || "Not selected"
       }</label>`;
       container.dataset.originalContent = originalContent;
@@ -197,6 +136,8 @@ const Invoice = () => {
       actionNote.style.marginTop = originalNote;
       actionAmountDetails.style.marginTop = originalAmountDetails;
     });
+    submitBillReport(billData);
+    handleReset();
   };
 
   useEffect(() => {
@@ -311,7 +252,6 @@ const Invoice = () => {
         `https://qwikit1.pythonanywhere.com/resetPackageDhanmondi/`
       );
       setgetDhanmondiPackage(response.data);
-      console.log(response.data);
     } catch (err) {
       console.error(err);
     }
@@ -322,7 +262,6 @@ const Invoice = () => {
         `https://qwikit1.pythonanywhere.com/ResetPackageUttara/`
       );
       setgetUttaraPackage(response.data);
-      console.log(response.data);
     } catch (err) {
       console.error(err);
     }
@@ -353,6 +292,7 @@ const Invoice = () => {
   const [discount, setDiscount] = useState(0); // Total discount
   const [totalAmount, setTotalAmount] = useState(0); // Sum of all row.total
   const [dueAmount, setDueAmount] = useState(null); // Due amount
+  const AmountAfterDiscount = subtotal - discount
 
   useEffect(() => {
     const calcSubtotal = rows.reduce(
@@ -416,6 +356,55 @@ const Invoice = () => {
             : row
         )
       );
+    }
+  };
+
+  //=================== Submit Bill report
+
+  const loggedInUser = localStorage.getItem("loggedInUser");
+  const userParse = loggedInUser ? JSON.parse(loggedInUser) : null;
+
+  // Example usage
+
+  const billData = {
+    totalAmount: AmountAfterDiscount && AmountAfterDiscount.toFixed(2),
+    paidAmount: paid || 0,
+    dueAmount: dueAmount && dueAmount.toFixed(2),
+    billing_notes: "Thank you for your purchase",
+    branchName: selectBranch,
+    biller_id: JSON.stringify(userParse?.id),
+    biller_name: userParse?.name,
+    user_phonenumber:
+      phoneNumber ||
+      customerData?.phonenumber ||
+      getOrderDataByCUstermerID?.phonenumber ||
+      getOldUserByid?.phonenumber ||
+      "",
+    user_name:
+      customerData?.username ||
+      getFilteredNumber?.username ||
+      newUserByNumber?.name ||
+      getOrderDataByCUstermerID?.username ||
+      "",
+    userid: parseInt(
+      customerID ||
+        getOldUserByNumber?.id ||
+        customerData?.userid ||
+        getFilteredNumber?.userid ||
+        newUserByNumber?.userid ||
+        getOrderDataByCUstermerID?.userid
+    ),
+  };
+
+  const submitBillReport = async (billData) => {
+    try {
+      const response = await axios.post(
+        `https://qwikit1.pythonanywhere.com/billingReport/new`,
+        billData
+      );
+      console.log("Bill Report Submitted:", response.data);
+    } catch (err) {
+      console.error("Error submitting bill report:", err.message);
     }
   };
 
@@ -681,40 +670,40 @@ const Invoice = () => {
                       />
                     </div>
                     <div className="input-div">
-                    <input
-                      type="number"
-                      placeholder="0.00"
-                      className="amount-details amount-border"
-                      value={discount && discount.toFixed(2)} // Total Discount
-                      readOnly
-                    />
+                      <input
+                        type="number"
+                        placeholder="0.00"
+                        className="amount-details amount-border"
+                        value={discount && discount.toFixed(2)} // Total Discount
+                        readOnly
+                      />
                     </div>
                     <div className="input-div">
-                    <input
-                      type="number"
-                      placeholder="0.00"
-                      className="amount-details amount-border"
-                      value={totalAmount && totalAmount.toFixed(2)} // Total from the running subtotal
-                      readOnly
-                    />
-                      </div>
-                      <div className="input-div">
                       <input
-                      type="number"
-                      placeholder=""
-                      className="amount-details amount-border"
-                      value={paid}
-                      onChange={(e) => setPaid(Number(e.target.value))} // Paid Amount
-                    />
+                        type="number"
+                        placeholder="0.00"
+                        className="amount-details amount-border"
+                        value={totalAmount && totalAmount.toFixed(2)} // Total from the running subtotal
+                        readOnly
+                      />
                     </div>
-                      <div className="input-div">
+                    <div className="input-div">
                       <input
-                      type="number"
-                      placeholder="0.00"
-                      className="amount-details amount-border"
-                      value={dueAmount && dueAmount.toFixed(2)} // Due Amount
-                      readOnly
-                    />
+                        type="number"
+                        placeholder=""
+                        className="amount-details amount-border"
+                        value={paid}
+                        onChange={(e) => setPaid(Number(e.target.value))} // Paid Amount
+                      />
+                    </div>
+                    <div className="input-div">
+                      <input
+                        type="number"
+                        placeholder="0.00"
+                        className="amount-details amount-border"
+                        value={dueAmount && dueAmount.toFixed(2)} // Due Amount
+                        readOnly
+                      />
                     </div>
                   </div>
                 </div>
@@ -748,7 +737,11 @@ const Invoice = () => {
           </div>
         </div>
       </div>
-      <button className="download-btn" onClick={handleDownloadPDF} style={{ display :"block", margin : 'auto'}}>
+      <button
+        className="download-btn"
+        onClick={handleDownloadPDF}
+        style={{ display: "block", margin: "auto" }}
+      >
         Download PDF
       </button>
       {/* <button className="download-btn" onClick={handleReset} style={{ marginLeft :"13px"}}>

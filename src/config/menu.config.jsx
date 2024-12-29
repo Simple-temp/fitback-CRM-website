@@ -214,12 +214,12 @@ export const MENU_SIDEBAR = [
           title: "User Management",
           icon: "profile-circle",
           children: [
-            {
-              title: "KYC Form",
-              children: [
-                { title: "Form", path: "/admin/create/kycpage" },
-              ],
-            },
+            // {
+            //   title: "KYC Form",
+            //   children: [
+            //     { title: "Form", path: "/admin/create/kycpage" },
+            //   ],
+            // },
             {
               title: "Client",
               children: [
@@ -334,6 +334,12 @@ export const MENU_SIDEBAR = [
           icon: "profile-circle",
           children: [
             {
+              title: "User Form",
+              children: [
+                { title: "Create a User", path: "/admin/create/kycpage" },
+              ],
+            },
+            {
               title: "Fitback",
               children: [
                 { title: "Money Recept", path: "/moneyrecept/page" },
@@ -358,6 +364,13 @@ export const MENU_SIDEBAR = [
             },
           ],
         },
+        {
+          title: "Bill Report",
+          icon: "profile-circle",
+          children: [
+            { title: "See All Report", path: "/desk/billing/report" },
+          ],
+        },
       ]
     : []),
 
@@ -371,6 +384,13 @@ export const MENU_SIDEBAR = [
               title: "User Information",
               children: [{ title: "All Users", path: "/allusers/page" }],
             },
+          ],
+        },
+        {
+          title: "Appointment Management",
+          icon: "profile-circle",
+          children: [
+            { title: "Appointment List", path: "/desk/appintment" },
           ],
         },
       ]
