@@ -161,7 +161,7 @@ const UserAnalysisReport = () => {
 
       <div className="analysis-top-part">
         {/* Main Doughnut Chart */}
-        <div style={{ width: "30%", }} className="analysis-left">
+        <div className="analysis-left">
           <canvas id="userChart"></canvas>
         </div>
 
