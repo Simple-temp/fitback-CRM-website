@@ -313,6 +313,7 @@ export const MENU_SIDEBAR = [
             { title: "Health Tips", path: "/health" },
             { title: "Review", path: "/review" },
             { title: "Review Video", path: "/reviewvideo" },
+            { title: "Recipe Video", path: "/recipevideo" },
           ],
         },
         {
@@ -390,7 +391,7 @@ export const MENU_SIDEBAR = [
           title: "Appointment Management",
           icon: "profile-circle",
           children: [
-            { title: "Appointment List", path: "/desk/appintment" },
+            { title: "Appointment List", path: "/desk/appintment/" },
           ],
         },
       ]

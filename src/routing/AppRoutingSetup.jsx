@@ -50,6 +50,8 @@ import BusinessAnalaysisReport from '@/Report/BusinessAnalaysisReport';
 import BillingReport from '@/bill-manage/billingReport/BillingReport';
 import Appointment from '@/appointment/Appointment';
 import AppintmentList from '@/appointment/AppintmentList';
+import RecipeVideo from '@/Content/RecipeVideo';
+
 
 
 const AppRoutingSetup = () => {
@@ -180,6 +182,7 @@ const AppRoutingSetup = () => {
               <Route path="/health" element={<HealthTipsManage />} />
               <Route path="/review" element={<UserReview />} />
               <Route path="/reviewvideo" element={<UserReviewVideo />} />
+              <Route path="/recipevideo" element={<RecipeVideo />} />
 
               {/* this is report Management */}
               <Route path="/userreport" element={<UserAnalysisReport />} />

@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Invoice.css";
 import { ToastContainer } from "react-toastify";
+import AstheticModal from "./bill-Components/AstheticModal";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
-import AstheticModal from "./bill-Components/AstheticModal";
 
 const AstheticInvoice = () => {
   const [customerData, setCustomerData] = useState([]);
@@ -31,6 +31,19 @@ const AstheticInvoice = () => {
   //===================
   const [selectAdvisor, SetSelectAdvisor] = useState("");
 
+  const handleReset = () => {
+    setCustomerData([]);
+    setFilterData([]);
+    SetGetNewUser([]);
+    setgetOrderDataByCUstermerID({});
+    setCustomerID("");
+    setSelectedPaymentMethod("");
+    setPhoneNumber("");
+    setGetFilterredNumber({});
+    setNewUserByNumber({});
+    SetSelectAdvisor("");
+  };
+
   // fetch the new user data
 
   useEffect(() => {
@@ -47,7 +60,6 @@ const AstheticInvoice = () => {
     }
   };
 
-
   const handleDownloadPDF = () => {
     // Capture the selected product value
     const productContainers = document.querySelectorAll(".select-package");
@@ -58,7 +70,7 @@ const AstheticInvoice = () => {
     // Update the selected product in the container for PDF generation
     productContainers.forEach((container, index) => {
       const originalContent = container.outerHTML;
-      container.outerHTML = `<label>Product ${index + 1}: ${
+      container.outerHTML = `<label> ${
         selectedProducts[index] || "Not selected"
       }</label>`;
       container.dataset.originalContent = originalContent;
@@ -124,6 +136,8 @@ const AstheticInvoice = () => {
       actionNote.style.marginTop = originalNote;
       actionAmountDetails.style.marginTop = originalAmountDetails;
     });
+    submitBillReport(billData);
+    handleReset();
   };
 
   useEffect(() => {
@@ -238,7 +252,6 @@ const AstheticInvoice = () => {
         `https://qwikit1.pythonanywhere.com/resetPackageDhanmondi/`
       );
       setgetDhanmondiPackage(response.data);
-      console.log(response.data);
     } catch (err) {
       console.error(err);
     }
@@ -249,7 +262,6 @@ const AstheticInvoice = () => {
         `https://qwikit1.pythonanywhere.com/ResetPackageUttara/`
       );
       setgetUttaraPackage(response.data);
-      console.log(response.data);
     } catch (err) {
       console.error(err);
     }
@@ -280,6 +292,7 @@ const AstheticInvoice = () => {
   const [discount, setDiscount] = useState(0); // Total discount
   const [totalAmount, setTotalAmount] = useState(0); // Sum of all row.total
   const [dueAmount, setDueAmount] = useState(null); // Due amount
+  const AmountAfterDiscount = subtotal - discount
 
   useEffect(() => {
     const calcSubtotal = rows.reduce(
@@ -345,6 +358,56 @@ const AstheticInvoice = () => {
       );
     }
   };
+
+  //=================== Submit Bill report
+
+  const loggedInUser = localStorage.getItem("loggedInUser");
+  const userParse = loggedInUser ? JSON.parse(loggedInUser) : null;
+
+  // Example usage
+
+  const billData = {
+    totalAmount: AmountAfterDiscount && AmountAfterDiscount.toFixed(2),
+    paidAmount: paid || 0,
+    dueAmount: dueAmount && dueAmount.toFixed(2),
+    billing_notes: "Thank you for your purchase",
+    branchName: selectBranch,
+    biller_id: JSON.stringify(userParse?.id),
+    biller_name: userParse?.name,
+    user_phonenumber:
+      phoneNumber ||
+      customerData?.phonenumber ||
+      getOrderDataByCUstermerID?.phonenumber ||
+      getOldUserByid?.phonenumber ||
+      "",
+    user_name:
+      customerData?.username ||
+      getFilteredNumber?.username ||
+      newUserByNumber?.name ||
+      getOrderDataByCUstermerID?.username ||
+      "",
+    userid: parseInt(
+      customerID ||
+        getOldUserByNumber?.id ||
+        customerData?.userid ||
+        getFilteredNumber?.userid ||
+        newUserByNumber?.userid ||
+        getOrderDataByCUstermerID?.userid
+    ),
+  };
+
+  const submitBillReport = async (billData) => {
+    try {
+      const response = await axios.post(
+        `https://qwikit1.pythonanywhere.com/billingReport/new`,
+        billData
+      );
+      console.log("Bill Report Submitted:", response.data);
+    } catch (err) {
+      console.error("Error submitting bill report:", err.message);
+    }
+  };
+
 
   return (
     <div className="outside">
@@ -674,14 +737,22 @@ const AstheticInvoice = () => {
           </div>
         </div>
       </div>
-      <button className="download-btn" onClick={handleDownloadPDF} style={{ display :"block", margin : 'auto'}}>
+      <button
+        className="download-btn"
+        onClick={handleDownloadPDF}
+        style={{ display: "block", margin: "auto" }}
+      >
         Download PDF
       </button>
+      {/* <button className="download-btn" onClick={handleReset} style={{ marginLeft :"13px"}}>
+        Reset
+      </button> */}
     </div>
   );
 };
 
 export default AstheticInvoice;
+
 
 
 

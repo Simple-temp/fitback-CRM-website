@@ -29,23 +29,24 @@ const Login = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [adminRes, dietitianRes, deskRes, supportRes] = await Promise.all(
+        const [adminRes, dietitianRes, deskRes, supportRes, doctorRes, hrRes] = await Promise.all(
           [
             axios.get("https://qwikit1.pythonanywhere.com/adminProfile/"),
             axios.get("https://qwikit1.pythonanywhere.com/dietitianProfile/"),
             axios.get("https://qwikit1.pythonanywhere.com/deskProfile/"),
             axios.get("https://qwikit1.pythonanywhere.com/supportProfile/"),
+            axios.get("https://qwikit1.pythonanywhere.com/doctorProfile/"),
+            axios.get("https://qwikit1.pythonanywhere.com/hRProfile/"),
           ]
         );
 
         setAllUsers([
           ...adminRes.data.map((user) => ({ ...user, user_type: "Admin" })),
-          ...dietitianRes.data.map((user) => ({
-            ...user,
-            user_type: "Dietitian",
-          })),
+          ...dietitianRes.data.map((user) => ({ ...user, user_type: "Dietitian", })),
           ...deskRes.data.map((user) => ({ ...user, user_type: "Desk" })),
           ...supportRes.data.map((user) => ({ ...user, user_type: "Support" })),
+          ...doctorRes.data.map((user) => ({ ...user, user_type: "Doctor" })),
+          ...hrRes.data.map((user) => ({ ...user, user_type: "HR" })),
         ]);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -81,6 +82,10 @@ const Login = () => {
 
         if (matchedUser) {
           // fetch full data
+          if(selectedValue?.user_type === "HR"){
+            const userAPIhR = `https://qwikit1.pythonanywhere.com/hRProfile/${matchedUser.id}`
+            return userAPIhR        
+          }
           const userApiUrl = `https://qwikit1.pythonanywhere.com/${selectedValue.toLowerCase()}Profile/${matchedUser.id}`;
           const userDetailsResponse = await axios.get(userApiUrl);
           const userFullData = userDetailsResponse.data;
@@ -204,6 +209,8 @@ const Login = () => {
             <option value="Dietitian">Dietitian</option>
             <option value="Desk">Desk</option>
             <option value="Support">Support</option>
+            <option value="Doctor">Doctor</option>
+            <option value="HR">HR</option>
           </select>
         </div>
 
