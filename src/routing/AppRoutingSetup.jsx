@@ -49,6 +49,7 @@ import UserAnalysisReport from '@/Report/UserAnalysisReport';
 import BusinessAnalaysisReport from '@/Report/BusinessAnalaysisReport';
 import BillingReport from '@/bill-manage/billingReport/BillingReport';
 import Appointment from '@/appointment/Appointment';
+import AppintmentList from '@/appointment/AppintmentList';
 
 
 const AppRoutingSetup = () => {
@@ -185,6 +186,7 @@ const AppRoutingSetup = () => {
               <Route path="/businessreport" element={<BusinessAnalaysisReport />} />
 
                {/* This is Appointment Routes */}
+               <Route path="/desk/appintment/:id" element={<AppintmentList />} />
                <Route path="/desk/appintment" element={<Appointment />} />
 
               {/* This is Trash Routes */}
