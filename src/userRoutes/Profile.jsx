@@ -19,10 +19,8 @@ const Profile = () => {
   const [getUserToUpdate, setGetUserToUpdate] = useState(null);
 
   useEffect(() => {
-    updatingUserId()
+    updatingUserId();
   }, []);
-
-
 
   // Formik validation schema
   const validationSchema = Yup.object().shape({
@@ -37,6 +35,72 @@ const Profile = () => {
       .min(4, "Password must be at least 4 characters")
       .required("Password is required"),
   });
+
+  // const formik = useFormik({
+  //   initialValues: {
+  //     name: "",
+  //     phonenumber: "",
+  //     password: "",
+  //     email: "",
+  //     address: "",
+  //     user_FUId: "",
+  //     nickname: "",
+  //     city: "",
+  //     gender: "",
+  //     bloodgroup: "",
+  //     image: "",
+  //     sign_image: "",
+  //     dateofbirth: "",
+  //     about: "",
+  //   },
+  //   validationSchema,
+  //   onSubmit: async (values) => {
+  //     try {
+  //       const updatedUserData = {
+  //         name: values.name,
+  //         phonenumber: values.phonenumber,
+  //         password: values.password,
+  //         email: values.email,
+  //         address: values.address,
+  //         experience: values.experience,
+  //       };
+  //       console.log(updatedUserData);
+
+  //       const formData = new FormData();
+  //       formData.append("name", values.name);
+  //       formData.append("nickname", values.nickname);
+  //       formData.append("phonenumber", values.phonenumber);
+  //       formData.append("password", values.password);
+  //       formData.append("email", values.email);
+  //       formData.append("address", values.address);
+  //       formData.append("city", values.city);
+  //       formData.append("gender", values.gender);
+  //       formData.append("dateofbirth", values.dateofbirth);
+  //       formData.append("address", values.address);
+  //       formData.append("bloodgroup", values.bloodgroup);
+  //       formData.append("about", values.about);
+  //       // Check if a new file is selected
+  //       if (values.image && values.image instanceof File) {
+  //         formData.append("image", values.image);
+  //       }
+  //       if (values.sign_image && values.sign_image instanceof File) {
+  //         formData.append("sign_image", values.sign_image);
+  //       }
+
+  //       const response = await axios.put(
+  //         `https://qwikit1.pythonanywhere.com/adminProfile/${userParse.id}`,
+  //         formData,
+  //         { headers: { "Content-Type": "multipart/form-data" } }
+  //       );
+  //       console.log("User updated successfully:", response.data);
+  //       toast.success("User updated successfully", { theme: "colored" });
+  //       updatingUserId();
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   },
+  // });
+
 
   const formik = useFormik({
     initialValues: {
@@ -58,57 +122,104 @@ const Profile = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const updatedUserData = {
-          name: values.name,
-          phonenumber: values.phonenumber,
-          password: values.password,
-          email: values.email,
-          address: values.address,
-          experience: values.experience,
-        };
-        console.log(updatedUserData);
-
+        // Parse logged-in user data from localStorage
+        const userParse = JSON.parse(localStorage.getItem("loggedInUser"));
+  
+        let userApiEndpoint;
+  
+        // Determine the correct API endpoint using switch case
+        switch (userParse.user_type) {
+          case "Admin":
+            userApiEndpoint = "adminProfile";
+            break;
+          case "Dietitian":
+            userApiEndpoint = "dietitianProfile";
+            break;
+          case "Desk":
+            userApiEndpoint = "deskProfile";
+            break;
+          case "Support":
+            userApiEndpoint = "supportProfile";
+            break;
+          case "Doctor":
+            userApiEndpoint = "doctorProfile";
+            break;
+          case "HR":
+            userApiEndpoint = "hRProfile";
+            break;
+          default:
+            throw new Error("Invalid user type detected.");
+        }
+  
+        // Prepare form data
         const formData = new FormData();
-        formData.append("name", values.name);
-        formData.append("nickname", values.nickname);
-        formData.append("phonenumber", values.phonenumber);
-        formData.append("password", values.password);
-        formData.append("email", values.email);
-        formData.append("address", values.address);
-        formData.append("city", values.city);
-        formData.append("gender", values.gender);
-        formData.append("dateofbirth", values.dateofbirth);
-        formData.append("address", values.address);
-        formData.append("bloodgroup", values.bloodgroup);
-        formData.append("about", values.about);
-        // Check if a new file is selected
-        if (values.image && values.image instanceof File) {
+        Object.entries(values).forEach(([key, value]) => {
+          if (value && !(value instanceof File)) {
+            formData.append(key, value);
+          }
+        });
+  
+        // Append image files conditionally
+        if (values.image instanceof File) {
           formData.append("image", values.image);
         }
-        if (values.sign_image && values.sign_image instanceof File) {
-            formData.append("sign_image", values.sign_image);
+        if (values.sign_image instanceof File) {
+          formData.append("sign_image", values.sign_image);
         }
-
+  
+        // Send update request
         const response = await axios.put(
-          `https://qwikit1.pythonanywhere.com/adminProfile/${userParse.id}`,
+          `https://qwikit1.pythonanywhere.com/${userApiEndpoint}/${userParse.id}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
+  
         console.log("User updated successfully:", response.data);
         toast.success("User updated successfully", { theme: "colored" });
-        updatingUserId();
+        updatingUserId(); // Refresh user data after update
       } catch (error) {
-        console.error(error);
+        console.error("Error updating user profile:", error);
+        toast.error("Failed to update user profile", { theme: "colored" });
       }
     },
   });
+  
+  
 
   // get updating user ID
   const updatingUserId = async () => {
     try {
-      const response = await axios.get(
-        `https://qwikit1.pythonanywhere.com/adminProfile/${userParse.id}`
-      );
+      // const response = await axios.get(
+      //   `https://qwikit1.pythonanywhere.com/adminProfile/${userParse.id}`
+      // );
+
+      // Determine API endpoint based on user type
+      let userApiUrl;
+      switch (userParse.user_type) {
+        case "Admin":
+          userApiUrl = `https://qwikit1.pythonanywhere.com/adminProfile/${userParse.id}`;
+          break;
+        case "Doctor":
+          userApiUrl = `https://qwikit1.pythonanywhere.com/doctorProfile/${userParse.id}`;
+          break;
+        case "Support":
+          userApiUrl = `https://qwikit1.pythonanywhere.com/supportProfile/${userParse.id}`;
+          break;
+        case "Desk":
+          userApiUrl = `https://qwikit1.pythonanywhere.com/deskProfile/${userParse.id}`;
+          break;
+        case "Dietitian":
+          userApiUrl = `https://qwikit1.pythonanywhere.com/dietitianProfile/${userParse.id}`;
+          break;
+        case "HR":
+          userApiUrl = `https://qwikit1.pythonanywhere.com/hRProfile/${userParse.id}`;
+          break;
+        default:
+          break;
+      }
+
+      // Fetch user profile based on the determined API URL
+      const response = await axios.get(userApiUrl);
       setGetUserToUpdate(response.data);
     } catch (err) {
       console.log(err);
@@ -229,7 +340,7 @@ const Profile = () => {
           />
 
           <TextField
-           type="date"
+            type="date"
             id="dateofbirth"
             name="dateofbirth"
             variant="outlined"

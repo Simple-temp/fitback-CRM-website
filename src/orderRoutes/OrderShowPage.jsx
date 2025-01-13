@@ -62,16 +62,16 @@ const OrderShowPage = () => {
     fetchAllUserData();
   }, []);
 
-  const fetchAllUserData = async () => {
-    try {
-      const response = await axios.get(
-        `https://qwikit1.pythonanywhere.com/orderFitbackProduct/`
-      );
-      setGetData(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const fetchAllUserData = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `https://qwikit1.pythonanywhere.com/orderFitbackProduct/`
+  //     );
+  //     setGetData(response.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   // Formik validation schema
   const validationSchema = Yup.object().shape({
@@ -175,9 +175,58 @@ const OrderShowPage = () => {
     }
   };
 
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    fetchAllUserData();
+  }, []);
+
+  const fetchAllUserData = async () => {
+    try {
+      const response = await axios.get(`https://qwikit1.pythonanywhere.com/orderFitbackProduct/`);
+      const sortedData = response.data.sort((a, b) => b.id - a.id);
+      setGetData(sortedData);
+      setFilteredData(sortedData);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    const filteredResults = getData.filter(
+      user =>
+        user.phonenumber.toString().includes(query) ||
+        user.name.toLowerCase().includes(query)
+    );
+
+    setFilteredData(filteredResults);
+  };
+
   return (
     <div>
-      <h1>Total Order {getData.length} </h1>
+      <h2>
+        {filteredData.length > 0
+          ? `Showing ${filteredData.length} user(s)`
+          : `No users to display`}
+      </h2>
+
+      <input
+        type="text"
+        placeholder="Search by name or phone number"
+        value={searchQuery}
+        onChange={handleInputChange}
+        style={{
+          padding: "10px 10px 10px 30px",
+          width: "250px",
+          marginBottom: "20px",
+          border: "2px solid rgb(251, 37, 115)",
+          borderRadius: "7px"
+        }}
+      />
       <ToastContainer
         position="bottom-center"
         autoClose={2000}
@@ -445,7 +494,7 @@ const OrderShowPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {getData.map((item) => (
+            {filteredData.map((item) => (
               <TableRow
                 key={item.id}
                 sx={{

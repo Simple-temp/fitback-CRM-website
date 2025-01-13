@@ -80,25 +80,51 @@ const Login = () => {
             user.password === values.password
         );
 
+        // if (matchedUser) {
+        //   // fetch full data
+        //   if(selectedValue?.user_type === "HR"){
+        //     const userAPIhR = `https://qwikit1.pythonanywhere.com/hRProfile/${matchedUser.id}`
+        //     return userAPIhR        
+        //   }
+        //   const userApiUrl = `https://qwikit1.pythonanywhere.com/${selectedValue.toLowerCase()}Profile/${matchedUser.id}`;
+        //   const userDetailsResponse = await axios.get(userApiUrl);
+        //   const userFullData = userDetailsResponse.data;
+        //   // Store in localStorage
+        //   localStorage.setItem("loggedInUser", JSON.stringify(userFullData));
+        //   if (localStorage) {
+        //     // Navigate to the specific route
+        //     navigate(`/`);
+        //     window.location.reload();
+        //   }
+        // } else {
+        //   setStatus("Invalid credentials");
+        // }
         if (matchedUser) {
-          // fetch full data
-          if(selectedValue?.user_type === "HR"){
-            const userAPIhR = `https://qwikit1.pythonanywhere.com/hRProfile/${matchedUser.id}`
-            return userAPIhR        
-          }
-          const userApiUrl = `https://qwikit1.pythonanywhere.com/${selectedValue.toLowerCase()}Profile/${matchedUser.id}`;
-          const userDetailsResponse = await axios.get(userApiUrl);
-          const userFullData = userDetailsResponse.data;
-          // Store in localStorage
-          localStorage.setItem("loggedInUser", JSON.stringify(userFullData));
-          if (localStorage) {
-            // Navigate to the specific route
+          console.log(matchedUser)
+          try {
+            // Determine API URL
+            const userApiUrl = matchedUser?.user_type === "HR"
+              ? `https://qwikit1.pythonanywhere.com/hRProfile/${matchedUser.id}`
+              : `https://qwikit1.pythonanywhere.com/${selectedValue?.toLowerCase()}Profile/${matchedUser.id}`;
+        
+            // Fetch user data
+            const userDetailsResponse = await axios.get(userApiUrl);
+            const userFullData = userDetailsResponse.data;
+        
+            // Store in localStorage
+            localStorage.setItem("loggedInUser", JSON.stringify(userFullData));
+        
+            // Navigate to route without reloading the page
             navigate(`/`);
             window.location.reload();
+          } catch (error) {
+            console.error("Error fetching user data:", error);
+            setStatus("Failed to fetch user data");
           }
         } else {
           setStatus("Invalid credentials");
         }
+        
       } catch (error) {
         console.error("Login error:", error);
         setStatus("An error occurred during login.");
