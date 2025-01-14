@@ -278,7 +278,10 @@ export const MENU_SIDEBAR = [
               title: "Dhanmondi",
               children: [
                 { title: "Manage Service", path: "/servicedhanmondi/page" },
-                { title: "Create Service", path: "/servicedhanmondi/create/page" },
+                {
+                  title: "Create Service",
+                  path: "/servicedhanmondi/create/page",
+                },
               ],
             },
             {
@@ -368,9 +371,7 @@ export const MENU_SIDEBAR = [
         {
           title: "Bill Report",
           icon: "profile-circle",
-          children: [
-            { title: "See All Report", path: "/desk/billing/report" },
-          ],
+          children: [{ title: "See All Report", path: "/desk/billing/report" }],
         },
       ]
     : []),
@@ -390,8 +391,26 @@ export const MENU_SIDEBAR = [
         {
           title: "Appointment Management",
           icon: "profile-circle",
+          children: [{ title: "Appointment List", path: "/desk/appintment/" }],
+        },
+      ]
+    : []),
+
+  ...(userParse?.user_type === "Doctor"
+    ? [
+        {
+          title: "Doctor Management",
+          icon: "profile-circle",
           children: [
-            { title: "Appointment List", path: "/desk/appintment/" },
+            { title: "All Doctors", path: "/doctors/page" },
+            { title: "Create Doctors", path: "/create/doctors/page" }
+          ],
+        },
+        {
+          title: "Prescription",
+          icon: "profile-circle",
+          children: [
+            { title: "Prescription List", path: "/doctor/Prescription/" }
           ],
         },
       ]

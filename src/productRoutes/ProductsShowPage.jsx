@@ -213,8 +213,8 @@ const ProductsShowPage = () => {
 
     const filteredResults = getData.filter(
       user =>
-        user.phonenumber.toString().includes(query) ||
-        user.name.toLowerCase().includes(query)
+        user.productbrand.toLowerCase().includes(query) ||
+        user.productname.toLowerCase().includes(query)
     );
 
     setFilteredData(filteredResults);

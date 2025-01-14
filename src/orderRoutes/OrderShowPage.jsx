@@ -193,14 +193,18 @@ const OrderShowPage = () => {
     }
   };
 
+
   const handleInputChange = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
 
     const filteredResults = getData.filter(
       user =>
-        user.phonenumber.toString().includes(query) ||
-        user.name.toLowerCase().includes(query)
+        (user.phonenumber && user.phonenumber.toString().includes(query)) ||
+        (user.username && user.username.toLowerCase().includes(query)) ||
+        (user.userid && user.userid.toString().includes(query)) ||
+        (user.address && user.address.toLowerCase().includes(query)) ||
+        (user.totalprice && user.totalprice.toString().includes(query)) 
     );
 
     setFilteredData(filteredResults);
@@ -208,7 +212,7 @@ const OrderShowPage = () => {
 
   return (
     <div>
-      <h2>
+       <h2>
         {filteredData.length > 0
           ? `Showing ${filteredData.length} user(s)`
           : `No users to display`}

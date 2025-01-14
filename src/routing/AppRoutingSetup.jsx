@@ -51,6 +51,9 @@ import BillingReport from '@/bill-manage/billingReport/BillingReport';
 import Appointment from '@/appointment/Appointment';
 import AppintmentList from '@/appointment/AppintmentList';
 import RecipeVideo from '@/Content/RecipeVideo';
+import CreateDoctors from '@/Doctor/CreateDoctors';
+import Prescription from '@/Doctor/Prescription';
+import ShowDoctorss from '@/Doctor/ShowDoctorss';
 
 
 
@@ -129,6 +132,13 @@ const AppRoutingSetup = () => {
               <Route path="/auth/welcome-message" element={<AuthenticationWelcomeMessagePage />} />
               <Route path="/auth/account-deactivated" element={<AuthenticationAccountDeactivatedPage />} />
               <Route path="/authentication/get-started" element={<AuthenticationGetStartedPage />} />
+
+
+              {/* This is Doctors Routes */}
+              <Route path="/create/doctors/page" element={<CreateDoctors />} />
+              <Route path="/doctor/Prescription" element={<Prescription />} />
+              <Route path="/doctors/page" element={<ShowDoctorss />} />
+
 
               {/* This is User Routes */}
 
