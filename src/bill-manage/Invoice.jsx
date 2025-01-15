@@ -1,9 +1,7 @@
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Invoice.css";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import BillModal from "./bill-Components/BillModal";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
@@ -31,19 +29,6 @@ const Invoice = () => {
   //===================
   const [selectAdvisor, SetSelectAdvisor] = useState("");
 
-  const handleReset = () => {
-    setCustomerData([]);
-    setFilterData([]);
-    SetGetNewUser([]);
-    setgetOrderDataByCUstermerID({});
-    setCustomerID("");
-    setSelectedPaymentMethod("");
-    setPhoneNumber("");
-    setGetFilterredNumber({});
-    setNewUserByNumber({});
-    SetSelectAdvisor("");
-  };
-
   // fetch the new user data
 
   useEffect(() => {
@@ -58,86 +43,6 @@ const Invoice = () => {
     } catch (err) {
       console.error(err);
     }
-  };
-
-  const handleDownloadPDF = () => {
-    // Capture the selected product value
-    const productContainers = document.querySelectorAll(".select-package");
-    const selectedProducts = Array.from(productContainers).map(
-      (container) => container.value
-    );
-
-    // Update the selected product in the container for PDF generation
-    productContainers.forEach((container, index) => {
-      const originalContent = container.outerHTML;
-      container.outerHTML = `<label> ${
-        selectedProducts[index] || "Not selected"
-      }</label>`;
-      container.dataset.originalContent = originalContent;
-    });
-
-    // Handle other sections (same as your original logic)
-    const advisorContainer = document.querySelector(".advisor-group");
-    const originalAdvisorContent = advisorContainer.innerHTML;
-    advisorContainer.innerHTML = `<label>Advisor: ${selectAdvisor}</label>`;
-
-    const branchContainer = document.querySelector(".select-branch");
-    const originalContentBranch = branchContainer.innerHTML;
-    branchContainer.innerHTML = `<label>${selectBranch}</label>`;
-
-    const paymentMethods = document.querySelector(".payment-methods");
-    const originalContent = paymentMethods.innerHTML;
-    paymentMethods.innerHTML = `<label>${selectedPaymentMethod}</label>`;
-
-    const actionIconsDiv = document.querySelector(".control");
-    const originalDisplayStyle = actionIconsDiv.style.display;
-
-    // const actionDownloadBtn = document.querySelector(".download-btn");
-    // const originalDownloadBtn = actionDownloadBtn.style.display;
-
-    const actionInOrder = document.querySelector(".text");
-    const originalInOrder = actionInOrder.innerHTML;
-
-    const actionNote = document.querySelector(".note");
-    const originalNote = actionNote.innerHTML;
-
-    const actionAmountDetails = document.querySelector(".right");
-    const originalAmountDetails = actionAmountDetails.innerHTML;
-
-    // Hide unnecessary elements for PDF
-    actionIconsDiv.style.display = "none";
-    // actionDownloadBtn.style.display = "none";
-    actionInOrder.style.marginTop = "14px";
-    actionNote.style.marginTop = "14px";
-    actionAmountDetails.style.marginTop = "14px";
-
-    const element = document.querySelector(".main-container");
-    html2canvas(element, { scale: 2 }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("Fitback-Invoice.pdf");
-
-      // Restore original content and styles
-      paymentMethods.innerHTML = originalContent;
-      branchContainer.innerHTML = originalContentBranch;
-      advisorContainer.innerHTML = originalAdvisorContent;
-
-      productContainers.forEach((container, index) => {
-        container.outerHTML = container.dataset.originalContent;
-      });
-
-      actionIconsDiv.style.display = originalDisplayStyle;
-      // actionDownloadBtn.style.display = originalDownloadBtn;
-      actionInOrder.style.marginTop = originalInOrder;
-      actionNote.style.marginTop = originalNote;
-      actionAmountDetails.style.marginTop = originalAmountDetails;
-    });
-    submitBillReport(billData);
-    handleReset();
   };
 
   useEffect(() => {
@@ -289,28 +194,34 @@ const Invoice = () => {
 
   const [paid, setPaid] = useState(); // Paid amount input
   const [subtotal, setSubtotal] = useState(0); // Subtotal (sum of all MRP)
-  const [discount, setDiscount] = useState(0); // Total discount
+  const [discountPercent, setDiscountPercent] = useState(); // Discount percentage
   const [totalAmount, setTotalAmount] = useState(0); // Sum of all row.total
   const [dueAmount, setDueAmount] = useState(null); // Due amount
-  const AmountAfterDiscount = subtotal - discount
+
+  const maxDiscountPercent = 60;
 
   useEffect(() => {
     const calcSubtotal = rows.reduce(
       (sum, row) => sum + (row.mrp ? Number(row.mrp) : 0),
       0
     );
-    const calcDiscount = rows.reduce(
-      (sum, row) => sum + (row.discount ? Number(row.discount) : 0),
-      0
-    );
-    const calcTotalAmount = calcSubtotal - calcDiscount;
-    const calcDueAmount = totalAmount - calcDiscount - (paid || 0);
+
+    const appliedDiscount = (totalAmount * discountPercent) / 100;
+    const calcTotalAmount = totalAmount - appliedDiscount;
+    const calcDueAmount = calcTotalAmount - (paid || 0);
 
     setSubtotal(calcSubtotal);
-    setDiscount(calcDiscount);
     setTotalAmount(calcTotalAmount);
     setDueAmount(calcDueAmount);
-  }, [rows, paid]);
+  }, [rows, discountPercent, paid]);
+
+  const handleDiscountChange = (e) => {
+    let inputPercent = Number(e.target.value);
+    if (inputPercent > maxDiscountPercent) {
+      inputPercent = maxDiscountPercent;
+    }
+    setDiscountPercent(inputPercent);
+  };
 
   useEffect(() => {
     let runningSum = 0;
@@ -366,48 +277,59 @@ const Invoice = () => {
 
   // Example usage
 
-  const billData = {
-    totalAmount: AmountAfterDiscount && AmountAfterDiscount.toFixed(2),
-    paidAmount: paid || 0,
-    dueAmount: dueAmount && dueAmount.toFixed(2),
-    billing_notes: "Thank you for your purchase",
-    branchName: selectBranch,
-    biller_id: JSON.stringify(userParse?.id),
-    biller_name: userParse?.name,
-    user_phonenumber:
-      phoneNumber ||
-      customerData?.phonenumber ||
-      getOrderDataByCUstermerID?.phonenumber ||
-      getOldUserByid?.phonenumber ||
-      "",
-    user_name:
-      customerData?.username ||
-      getFilteredNumber?.username ||
-      newUserByNumber?.name ||
-      getOrderDataByCUstermerID?.username ||
-      "",
-    userid: parseInt(
-      customerID ||
-        getOldUserByNumber?.id ||
-        customerData?.userid ||
-        getFilteredNumber?.userid ||
-        newUserByNumber?.userid ||
-        getOrderDataByCUstermerID?.userid
-    ),
-  };
-
-  const submitBillReport = async (billData) => {
+  const submitBillReport = async () => {
     try {
+
+      const packageItem = rows.map(row => ({
+        name: row.itemname || "",
+        quantity: row.quantity || 0,
+        price: row.total || 0,  // Assuming row.total represents the item price
+      }));
+
+      const billData = {
+        dietitian_id: selectAdvisor,
+        dietitian_name: selectAdvisor,
+        maxservicediscount : discountPercent,
+        totalAmount: totalAmount && totalAmount.toFixed(2),
+        paidAmount: paid || 0,
+        dueAmount: dueAmount && dueAmount.toFixed(2),
+        billing_notes: "Thank you for your purchase",
+        branchName: selectBranch,
+        biller_id: JSON.stringify(userParse?.id),
+        biller_name: userParse?.name,
+        user_phonenumber:
+          phoneNumber ||
+          customerData?.phonenumber ||
+          getOrderDataByCUstermerID?.phonenumber ||
+          getOldUserByid?.phonenumber ||
+          "",
+        user_name:
+          customerData?.username ||
+          getFilteredNumber?.username ||
+          newUserByNumber?.name ||
+          getOrderDataByCUstermerID?.username ||
+          "",
+        userid: parseInt(
+          customerID ||
+            getOldUserByNumber?.id ||
+            customerData?.userid ||
+            getFilteredNumber?.userid ||
+            newUserByNumber?.userid ||
+            getOrderDataByCUstermerID?.userid
+        ),
+        packageItem,
+        dicountapprovestatus : discountPercent && parseInt(discountPercent) <= 40 ? true : false
+      };
       const response = await axios.post(
         `https://qwikit1.pythonanywhere.com/billingReport/new`,
         billData
       );
-      console.log("Bill Report Submitted:", response.data);
+      toast.success("Bill Added successfully", { theme: "colored" });
+      console.log("Bill Report Submitted:", billData, response.data);
     } catch (err) {
       console.error("Error submitting bill report:", err.message);
     }
   };
-
 
   return (
     <div className="outside">
@@ -665,17 +587,26 @@ const Invoice = () => {
                         type="number"
                         placeholder="0.00"
                         className="amount-details amount-border"
-                        value={subtotal && subtotal.toFixed(2)} // Subtotal
+                        value={subtotal.toFixed(2)} // Subtotal
                         readOnly
                       />
                     </div>
-                    <div className="input-div">
+                    {/* <div className="input-div">
                       <input
                         type="number"
                         placeholder="0.00"
                         className="amount-details amount-border"
                         value={discount && discount.toFixed(2)} // Total Discount
                         readOnly
+                      />
+                    </div> */}
+                    <div className="input-div">
+                      <input
+                        type="number"
+                        placeholder="Discount %"
+                        className="amount-details amount-border"
+                        value={discountPercent}
+                        onChange={handleDiscountChange}
                       />
                     </div>
                     <div className="input-div">
@@ -701,7 +632,7 @@ const Invoice = () => {
                         type="number"
                         placeholder="0.00"
                         className="amount-details amount-border"
-                        value={dueAmount && dueAmount.toFixed(2)} // Due Amount
+                        value={dueAmount !== null ? dueAmount.toFixed(2) : ''} // Due Amount
                         readOnly
                       />
                     </div>
@@ -739,10 +670,10 @@ const Invoice = () => {
       </div>
       <button
         className="download-btn"
-        onClick={handleDownloadPDF}
         style={{ display: "block", margin: "auto" }}
+        onClick={submitBillReport}
       >
-        Download PDF
+        Submit
       </button>
       {/* <button className="download-btn" onClick={handleReset} style={{ marginLeft :"13px"}}>
         Reset

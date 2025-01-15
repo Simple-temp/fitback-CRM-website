@@ -327,6 +327,13 @@ export const MENU_SIDEBAR = [
             { title: "Business Report Analysis", path: "/businessreport" },
           ],
         },
+        {
+          title: "Pending Billing Approval",
+          icon: "profile-circle",
+          children: [
+            { title: "Pending list", path: "/pendingbillinglist" },
+          ],
+        },
       ]
     : []),
 

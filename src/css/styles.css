@@ -30,3 +30,7 @@
 .custom-btn-all{
     background-color: rgb(251, 37, 115) !important;
 }
+.eye-icon{
+    cursor: pointer;
+    color: blue;
+}

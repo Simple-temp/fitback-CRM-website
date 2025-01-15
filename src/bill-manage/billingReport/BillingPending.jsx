@@ -1,8 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-
-// import BorderColorIcon from "@mui/icons-material/BorderColor";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import {
   Button,
@@ -15,8 +13,9 @@ import {
   TableRow,
 } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
+import Switch from "@mui/material/Switch";
 
-const BillingReport = () => {
+const BillingPending = () => {
   const [BillReport, BillReportsetGet] = useState([]);
 
   const GetsubmitBillReport = async () => {
@@ -24,8 +23,12 @@ const BillingReport = () => {
       const response = await axios.get(
         `https://qwikit1.pythonanywhere.com/billingReport`
       );
-      BillReportsetGet(response.data);
-      console.log("Get :", response.data);
+      const filteredData = response.data.filter(
+        (item) => item.dicountapprovestatus === false
+      );
+
+      BillReportsetGet(filteredData);
+      console.log("Filtered Data:", filteredData);
     } catch (err) {
       console.log(err);
     }
@@ -35,12 +38,6 @@ const BillingReport = () => {
     GetsubmitBillReport();
     console.log(BillReport);
   }, []);
-
-  //   const controlHandleClick = (id) => {
-  //     console.log(id);
-  //   };
-
-  // delete user
 
   const deleteUser = async (id) => {
     try {
@@ -60,58 +57,30 @@ const BillingReport = () => {
     }
   };
 
-  //   const deleteAllUsers = async () => {
-  //     try {
-  //       // Fetch all data
-  //       const response = await axios.get(
-  //         "https://qwikit1.pythonanywhere.com/billingReport/"
-  //       );
-  //       const allData = response.data;
-
-  //       console.log("Fetched Data for Deletion:", allData); // Debug log
-
-  //       // Ensure there is data to delete
-  //       if (!allData || allData.length === 0) {
-  //         toast.info("No data available to delete", { theme: "colored" });
-  //         return;
-  //       }
-
-  //       // Loop through and delete each record
-  //       for (const record of allData) {
-  //         try {
-  //           console.log(`Deleting record with id: ${record.id}`); // Debug log
-  //           await axios.delete(
-  //             `https://qwikit1.pythonanywhere.com/billingReport/${record.id}`
-  //           );
-  //         } catch (err) {
-  //           console.error(`Failed to delete record with id: ${record.id}`, err);
-  //         }
-  //       }
-
-  //       // Notify and refresh data
-  //       GetsubmitBillReport();
-  //       toast.success("All records deleted successfully", { theme: "colored" });
-  //     } catch (err) {
-  //       console.error("Error fetching or deleting data", err);
-  //       toast.error("Failed to delete all records", { theme: "colored" });
-  //     }
-  //   };
+  const handleToggleDiscountStatus = async (id, currentStatus) => {
+    try {
+      const updatedStatus = !currentStatus; // Toggle status value
+      await axios.put(`https://qwikit1.pythonanywhere.com/billingReport/${id}`, {
+        dicountapprovestatus: updatedStatus,
+      });
+  
+      // Update the local state after successful API call
+      BillReportsetGet(prevState =>
+        prevState.map(item =>
+          item.id === id ? { ...item, dicountapprovestatus: updatedStatus } : item
+        )
+      );
+      GetsubmitBillReport()
+      toast.success("Discount approval status updated", { theme: "colored" });
+    } catch (err) {
+      console.error("Error updating status:", err);
+      toast.error("Failed to update discount status", { theme: "colored" });
+    }
+  };
 
   return (
     <div>
-      <h1>Billing report</h1>
-      {/* <Button
-          color="error"
-          onClick={() => {
-            if (
-              window.confirm("Are you sure you want to delete all records?")
-            ) {
-              deleteAllUsers();
-            }
-          }}
-        >
-          <DeleteForeverIcon />
-        </Button> */}
+      <h1>Pending Billing report</h1>
       <ToastContainer
         position="bottom-center"
         autoClose={2000}
@@ -195,12 +164,19 @@ const BillingReport = () => {
                 <TableCell>{item.paidAmount || "N/A"}</TableCell>
                 <TableCell>{item.totalAmount || "N/A"}</TableCell>
                 <TableCell>
-                  {item.dicountapprovestatus 
-                    ? "Accepted"
-                    : "Pending.."}
+                  <Switch
+                    checked={item.dicountapprovestatus}
+                    onChange={() =>
+                      handleToggleDiscountStatus(
+                        item.id,
+                        item.dicountapprovestatus
+                      )
+                    }
+                    color="primary"
+                  />
                 </TableCell>
                 <TableCell>
-                  <VisibilityIcon className="eye-icon"/>
+                  <VisibilityIcon className="eye-icon" />
                 </TableCell>
                 <TableCell align="center">
                   <Button color="error" onClick={() => deleteUser(item.id)}>
@@ -216,4 +192,4 @@ const BillingReport = () => {
   );
 };
 
-export default BillingReport;
+export default BillingPending;
