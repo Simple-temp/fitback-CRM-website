@@ -16,6 +16,8 @@ const Invoice = () => {
   const [openModal, setOpenModal] = useState(false);
   //===================
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+  const [note, setNote] = useState("");
+  const [words, setwords ] = useState("")
   //===================
   const [phoneNumber, setPhoneNumber] = useState("");
   const [filterData, setFilterData] = useState([]);
@@ -293,7 +295,7 @@ const Invoice = () => {
         totalAmount: totalAmount && totalAmount.toFixed(2),
         paidAmount: paid || 0,
         dueAmount: dueAmount && dueAmount.toFixed(2),
-        billing_notes: "Thank you for your purchase",
+        billing_notes: words,
         branchName: selectBranch,
         biller_id: JSON.stringify(userParse?.id),
         biller_name: userParse?.name,
@@ -318,7 +320,13 @@ const Invoice = () => {
             getOrderDataByCUstermerID?.userid
         ),
         packageItem,
-        dicountapprovestatus : discountPercent && parseInt(discountPercent) <= 40 ? true : false
+        dicountapprovestatus : discountPercent && parseInt(discountPercent) <= 40 ? true : false,
+        note: note,
+        subtotal: subtotal,
+        paymentmethod: selectedPaymentMethod,
+        preparedBy: "",
+        customerSign: "",
+        AuthorizedSine: "",
       };
       const response = await axios.post(
         `https://qwikit1.pythonanywhere.com/billingReport/new`,
@@ -562,6 +570,7 @@ const Invoice = () => {
                   <textarea
                     placeholder="Enter amount in words"
                     className="text custom-border"
+                    onChange={(e)=> setwords(e.target.value)}
                   ></textarea>
                 </div>
                 <div className="disclaimer">
@@ -591,15 +600,6 @@ const Invoice = () => {
                         readOnly
                       />
                     </div>
-                    {/* <div className="input-div">
-                      <input
-                        type="number"
-                        placeholder="0.00"
-                        className="amount-details amount-border"
-                        value={discount && discount.toFixed(2)} // Total Discount
-                        readOnly
-                      />
-                    </div> */}
                     <div className="input-div">
                       <input
                         type="number"
@@ -663,6 +663,7 @@ const Invoice = () => {
               <textarea
                 className="note custom-border"
                 placeholder="Add any notes"
+                onChange={(e)=> setNote(e.target.value)}
               ></textarea>
             </div>
           </div>

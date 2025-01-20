@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 // import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -15,6 +15,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const BillingReport = () => {
   const [BillReport, BillReportsetGet] = useState([]);
@@ -168,10 +169,13 @@ const BillingReport = () => {
               <TableCell>biller_id</TableCell>
               <TableCell>branchName</TableCell>
               <TableCell>billing_notes</TableCell>
+              <TableCell>subtotal</TableCell>
               <TableCell>discount</TableCell>
               <TableCell>dueAmount</TableCell>
               <TableCell>paidAmount</TableCell>
               <TableCell>totalAmount</TableCell>
+              <TableCell>note</TableCell>
+              <TableCell>paymentmethod</TableCell>
               <TableCell>dicountapprovestatus</TableCell>
               <TableCell>view</TableCell>
               <TableCell>Delete</TableCell>
@@ -190,17 +194,20 @@ const BillingReport = () => {
                 <TableCell>{item.biller_id || "N/A"}</TableCell>
                 <TableCell>{item.branchName || "N/A"}</TableCell>
                 <TableCell>{item.billing_notes || "N/A"} </TableCell>
+                <TableCell>{item.subtotal || "N/A"}</TableCell>
                 <TableCell>{item.maxservicediscount || "N/A"}%</TableCell>
                 <TableCell>{item.dueAmount || "N/A"}</TableCell>
                 <TableCell>{item.paidAmount || "N/A"}</TableCell>
                 <TableCell>{item.totalAmount || "N/A"}</TableCell>
+                <TableCell>{item.note || "N/A"}</TableCell>
+                <TableCell>{item.paymentmethod || "N/A"}</TableCell>
                 <TableCell>
-                  {item.dicountapprovestatus 
-                    ? "Accepted"
-                    : "Pending.."}
+                  {item.dicountapprovestatus ? "Accepted" : "Pending.."}
                 </TableCell>
                 <TableCell>
-                  <VisibilityIcon className="eye-icon"/>
+                  <Link to={`/billingdetails/${item.id}`}>
+                    <VisibilityIcon className="eye-icon" />
+                  </Link>
                 </TableCell>
                 <TableCell align="center">
                   <Button color="error" onClick={() => deleteUser(item.id)}>

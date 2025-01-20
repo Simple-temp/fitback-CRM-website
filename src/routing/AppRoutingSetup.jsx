@@ -55,6 +55,7 @@ import CreateDoctors from '@/Doctor/CreateDoctors';
 import Prescription from '@/Doctor/Prescription';
 import ShowDoctorss from '@/Doctor/ShowDoctorss';
 import BillingPending from '@/bill-manage/billingReport/BillingPending';
+import BillingDetails from '@/bill-manage/billingReport/BillingDetails';
 
 
 
@@ -171,6 +172,7 @@ const AppRoutingSetup = () => {
               <Route path="/asthetic/form/page" element={<AstheticForm />} />
               <Route path="/desk/billing/report" element={<BillingReport />} />
               <Route path="/pendingbillinglist" element={<BillingPending />} />
+              <Route path="/billingdetails/:id" element={<BillingDetails />} />
 
               {/* This is Products Routes */}
               <Route path="/product/create/page" element={<ProductsCreatePage />} />
