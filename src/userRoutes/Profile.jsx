@@ -36,72 +36,6 @@ const Profile = () => {
       .required("Password is required"),
   });
 
-  // const formik = useFormik({
-  //   initialValues: {
-  //     name: "",
-  //     phonenumber: "",
-  //     password: "",
-  //     email: "",
-  //     address: "",
-  //     user_FUId: "",
-  //     nickname: "",
-  //     city: "",
-  //     gender: "",
-  //     bloodgroup: "",
-  //     image: "",
-  //     sign_image: "",
-  //     dateofbirth: "",
-  //     about: "",
-  //   },
-  //   validationSchema,
-  //   onSubmit: async (values) => {
-  //     try {
-  //       const updatedUserData = {
-  //         name: values.name,
-  //         phonenumber: values.phonenumber,
-  //         password: values.password,
-  //         email: values.email,
-  //         address: values.address,
-  //         experience: values.experience,
-  //       };
-  //       console.log(updatedUserData);
-
-  //       const formData = new FormData();
-  //       formData.append("name", values.name);
-  //       formData.append("nickname", values.nickname);
-  //       formData.append("phonenumber", values.phonenumber);
-  //       formData.append("password", values.password);
-  //       formData.append("email", values.email);
-  //       formData.append("address", values.address);
-  //       formData.append("city", values.city);
-  //       formData.append("gender", values.gender);
-  //       formData.append("dateofbirth", values.dateofbirth);
-  //       formData.append("address", values.address);
-  //       formData.append("bloodgroup", values.bloodgroup);
-  //       formData.append("about", values.about);
-  //       // Check if a new file is selected
-  //       if (values.image && values.image instanceof File) {
-  //         formData.append("image", values.image);
-  //       }
-  //       if (values.sign_image && values.sign_image instanceof File) {
-  //         formData.append("sign_image", values.sign_image);
-  //       }
-
-  //       const response = await axios.put(
-  //         `https://qwikit1.pythonanywhere.com/adminProfile/${userParse.id}`,
-  //         formData,
-  //         { headers: { "Content-Type": "multipart/form-data" } }
-  //       );
-  //       console.log("User updated successfully:", response.data);
-  //       toast.success("User updated successfully", { theme: "colored" });
-  //       updatingUserId();
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   },
-  // });
-
-
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -269,37 +203,6 @@ const Profile = () => {
             variant="outlined"
             value={formik.values.name}
             onChange={formik.handleChange}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="phonenumber"
-            label="Phonenumber"
-            name="phonenumber"
-            variant="outlined"
-            value={formik.values.phonenumber}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.phonenumber && Boolean(formik.errors.phonenumber)
-            }
-            helperText={formik.touched.phonenumber && formik.errors.phonenumber}
-            fullWidth
-            margin="normal"
-            className="w-full"
-          />
-          <TextField
-            id="password"
-            label="Password"
-            name="password"
-            variant="outlined"
-            type="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
             fullWidth
             margin="normal"
             className="w-full"

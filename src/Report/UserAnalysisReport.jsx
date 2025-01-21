@@ -14,7 +14,7 @@ const UserAnalysisReport = () => {
     Aesthetic: [],
   });
   const [totalUsers, setTotalUsers] = useState(0);
-  const [last7DaysUsers, setLast7DaysUsers] = useState(0);
+  const [last7DaysUsers, setLast7DaysUsers] = useState([]);
   const [last1HourUsers, setLast1HourUsers] = useState(0);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const UserAnalysisReport = () => {
         return userDate >= oneHourAgo;
       });
 
-    setLast7DaysUsers(usersLast7Days.length);
+    setLast7DaysUsers(usersLast7Days);
     setLast1HourUsers(usersLast1Hour.length);
 
     renderTimeBasedCharts(usersLast7Days.length, usersLast1Hour.length);
@@ -155,6 +155,12 @@ const UserAnalysisReport = () => {
     });
   };
 
+  const [showTable, setShowTable] = useState(false);
+
+  const toggleTableVisibility = () => {
+    setShowTable((prevState) => !prevState);
+  };
+
   return (
     <div>
       <h1 style={{ marginLeft: "20px" }}>User Analysis Report</h1>
@@ -193,13 +199,44 @@ const UserAnalysisReport = () => {
       <div className="row">
         <div className="chart-container">
           <canvas id="last7DaysChart"></canvas>
-          <p>New Users (Last 7 Days): {last7DaysUsers}</p>
+          <p>New Users (Last 7 Days): {last7DaysUsers.length}</p>
         </div>
         <div className="chart-container">
           <canvas id="last1HourChart"></canvas>
           <p>New Users (Last 1 Hour): {last1HourUsers}</p>
         </div>
       </div>
+      <div className="table-container">
+      {/* <h3>Last 7 Days User List</h3> */}
+      <button onClick={toggleTableVisibility} className="toggle-button">
+        {showTable ? "Hide" : "Last 7 Days User List"}
+      </button>
+
+      {showTable && (
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>UserType</th>
+              <th>Phonenumber</th>
+              <th>Email</th>
+              <th>System Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {last7DaysUsers.map((user, index) => (
+              <tr key={index}>
+                <td>{user.name}</td>
+                <td>{user.usertype}</td>
+                <td>{user.phonenumber}</td>
+                <td>{user.email}</td>
+                <td>{new Date(user.systemdate).toLocaleDateString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
     </div>
   );
 };

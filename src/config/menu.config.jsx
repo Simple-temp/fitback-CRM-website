@@ -344,12 +344,12 @@ export const MENU_SIDEBAR = [
           title: "Bill Management",
           icon: "profile-circle",
           children: [
-            {
-              title: "User Form",
-              children: [
-                { title: "Create a User", path: "/admin/create/kycpage" },
-              ],
-            },
+            // {
+            //   title: "User Form",
+            //   children: [
+            //     { title: "Create a User", path: "/admin/create/kycpage" },
+            //   ],
+            // },
             {
               title: "Fitback",
               children: [

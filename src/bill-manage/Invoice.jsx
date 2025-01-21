@@ -17,7 +17,7 @@ const Invoice = () => {
   //===================
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [note, setNote] = useState("");
-  const [words, setwords ] = useState("")
+  const [words, setwords] = useState("");
   //===================
   const [phoneNumber, setPhoneNumber] = useState("");
   const [filterData, setFilterData] = useState([]);
@@ -281,17 +281,22 @@ const Invoice = () => {
 
   const submitBillReport = async () => {
     try {
-
-      const packageItem = rows.map(row => ({
+      const packageItem = rows.map((row) => ({
         name: row.itemname || "",
         quantity: row.quantity || 0,
-        price: row.total || 0,  // Assuming row.total represents the item price
+        price: row.total || 0, // Assuming row.total represents the item price
       }));
 
       const billData = {
+        user_type:
+          getOldUserByNumber?.usertype ||
+          customerData?.usertype ||
+          getFilteredNumber?.usertype ||
+          newUserByNumber?.usertype ||
+          "",
         dietitian_id: selectAdvisor,
         dietitian_name: selectAdvisor,
-        maxservicediscount : discountPercent,
+        maxservicediscount: discountPercent,
         totalAmount: totalAmount && totalAmount.toFixed(2),
         paidAmount: paid || 0,
         dueAmount: dueAmount && dueAmount.toFixed(2),
@@ -320,7 +325,8 @@ const Invoice = () => {
             getOrderDataByCUstermerID?.userid
         ),
         packageItem,
-        dicountapprovestatus : discountPercent && parseInt(discountPercent) <= 40 ? true : false,
+        dicountapprovestatus:
+          discountPercent && parseInt(discountPercent) <= 40 ? true : false,
         note: note,
         subtotal: subtotal,
         paymentmethod: selectedPaymentMethod,
@@ -570,7 +576,7 @@ const Invoice = () => {
                   <textarea
                     placeholder="Enter amount in words"
                     className="text custom-border"
-                    onChange={(e)=> setwords(e.target.value)}
+                    onChange={(e) => setwords(e.target.value)}
                   ></textarea>
                 </div>
                 <div className="disclaimer">
@@ -632,7 +638,7 @@ const Invoice = () => {
                         type="number"
                         placeholder="0.00"
                         className="amount-details amount-border"
-                        value={dueAmount !== null ? dueAmount.toFixed(2) : ''} // Due Amount
+                        value={dueAmount !== null ? dueAmount.toFixed(2) : ""} // Due Amount
                         readOnly
                       />
                     </div>
@@ -663,7 +669,7 @@ const Invoice = () => {
               <textarea
                 className="note custom-border"
                 placeholder="Add any notes"
-                onChange={(e)=> setNote(e.target.value)}
+                onChange={(e) => setNote(e.target.value)}
               ></textarea>
             </div>
           </div>

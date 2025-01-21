@@ -63,7 +63,7 @@ const BillingDetails = () => {
                 </tr>
               </thead>
               <tbody>
-                {getBillInformation.packageItem.map((row, index) => (
+                {getBillInformation?.packageItem?.map((row, index) => (
                   <tr key={row.id}>
                     <td>{index + 1}</td>
                     <td>{row.name} </td>
