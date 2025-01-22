@@ -25,6 +25,9 @@
 .bill-header-section-left p{
     margin-bottom: 10px;
 }
+.bill-header-section-right p{
+    margin-bottom:10px;
+}
 .authorization-section{
     margin-top:30px
 }
@@ -47,4 +50,13 @@
     /* border: 1px solid #888888; */
     background-color: #f0fffe;
     padding: 1px;
+}
+.bill-table{
+    background-color: #f0fffe;
+}
+.billing-payment-details{
+    background-color: #f0fffe;
+    border: 1px solid #888888;
+    padding-left: 2px;
+    margin-bottom:7px;
 }
