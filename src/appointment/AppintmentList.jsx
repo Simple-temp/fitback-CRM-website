@@ -76,7 +76,7 @@ const AppintmentList = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  const [existingAppointments, setExistingAppointments] = useState([]);
+  // const [existingAppointments, setExistingAppointments] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -99,7 +99,8 @@ const AppintmentList = () => {
       const response = await axios.get(
         `https://qwikit1.pythonanywhere.com/appointment`
       );
-      setExistingAppointments(response.data);
+      // setExistingAppointments(response.data);
+      console.log(response)
     } catch (err) {
       console.error(err);
     }
@@ -108,21 +109,21 @@ const AppintmentList = () => {
   const loggedInUser = localStorage.getItem("loggedInUser");
   const userParse = loggedInUser ? JSON.parse(loggedInUser) : null;
 
-  const isAppointmentOverlapping = () => {
-    const newStart = new Date(startDate).getTime();
-    const newEnd = new Date(endDate).getTime();
+  // const isAppointmentOverlapping = () => {
+  //   const newStart = new Date(startDate).getTime();
+  //   const newEnd = new Date(endDate).getTime();
 
-    return existingAppointments.some((appointment) => {
-      const existingStart = new Date(appointment.starTime).getTime();
-      const existingEnd = new Date(appointment.endTime).getTime();
+  //   return existingAppointments.some((appointment) => {
+  //     const existingStart = new Date(appointment.starTime).getTime();
+  //     const existingEnd = new Date(appointment.endTime).getTime();
 
-      return (
-        (newStart >= existingStart && newStart < existingEnd) ||
-        (newEnd > existingStart && newEnd <= existingEnd) ||
-        (newStart <= existingStart && newEnd >= existingEnd)
-      );
-    });
-  };
+  //     return (
+  //       (newStart >= existingStart && newStart < existingEnd) ||
+  //       (newEnd > existingStart && newEnd <= existingEnd) ||
+  //       (newStart <= existingStart && newEnd >= existingEnd)
+  //     );
+  //   });
+  // };
 
   const handleSubmitAppointment = async () => {
     if (!startDate || !endDate) {
@@ -135,12 +136,12 @@ const AppintmentList = () => {
       return;
     }
 
-    if (isAppointmentOverlapping()) {
-      toast.error("Already Selected Please choose a different time.", {
-        theme: "colored",
-      });
-      return;
-    }
+    // if (isAppointmentOverlapping()) {
+    //   toast.error("Already Selected Please choose a different time.", {
+    //     theme: "colored",
+    //   });
+    //   return;
+    // }
 
     try {
       const appointmentDate = new Date().toISOString().split("T")[0]; // Current date in YYYY-MM-DD format
@@ -172,7 +173,11 @@ const AppintmentList = () => {
       alert("Failed to submit appointment.");
     }
 
-    let msg = `Hello ${getData.name} Sir/Ma'am Your Appointment Book Successfully Thank you.`;
+    let msg = `Hello ${getData.name} Sir/Ma'am Your Appointment Book Successfully. 
+Start Time: ${new Date(startDate).toLocaleString()}
+End Time: ${new Date(endDate).toLocaleString()}
+    Thank you
+    `;
 
     const greenwebsms = "token=93630134011681068841df511ded432a8875de6a3912a716da89&to=" + getData.phonenumber + "&message=" + msg;
     axios
@@ -209,7 +214,7 @@ const AppintmentList = () => {
             onSubmit={(e) => {
               e.preventDefault();
               handleSubmitAppointment();
-              isAppointmentOverlapping();
+              // isAppointmentOverlapping();
             }}
             style={styles.form}
           >
