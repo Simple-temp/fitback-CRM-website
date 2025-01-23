@@ -42,11 +42,9 @@ const Setting = () => {
       .min(4, "Password must be at least 4 characters")
       .required("Old password is required"),
     newpassword: Yup.string()
-      .min(4, "Password must be at least 4 characters")
-      .required("New password is required"),
+      .min(4, "Password must be at least 4 characters"),
     retypepassword: Yup.string()
       .oneOf([Yup.ref("newpassword")], "Passwords must match")
-      .required("Please retype your new password"),
   });
 
   const formik = useFormik({

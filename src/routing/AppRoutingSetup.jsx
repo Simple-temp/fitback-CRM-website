@@ -56,6 +56,7 @@ import Prescription from '@/Doctor/Prescription';
 import ShowDoctorss from '@/Doctor/ShowDoctorss';
 import BillingPending from '@/bill-manage/billingReport/BillingPending';
 import BillingDetails from '@/bill-manage/billingReport/BillingDetails';
+import CreatePrescription from '@/Doctor/CreatePrescription';
 
 
 
@@ -140,6 +141,7 @@ const AppRoutingSetup = () => {
               <Route path="/create/doctors/page" element={<CreateDoctors />} />
               <Route path="/doctor/Prescription" element={<Prescription />} />
               <Route path="/doctors/page" element={<ShowDoctorss />} />
+              <Route path="/doctor/prescription/:id" element={<CreatePrescription />} />
 
 
               {/* This is User Routes */}

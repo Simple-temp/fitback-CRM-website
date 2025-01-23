@@ -136,10 +136,10 @@ const AppintmentList = () => {
     }
 
     if (isAppointmentOverlapping()) {
-
-      toast.error("Already Selected Please choose a different time.", { theme: "colored" });
-      return ;
-
+      toast.error("Already Selected Please choose a different time.", {
+        theme: "colored",
+      });
+      return;
     }
 
     try {
@@ -164,11 +164,22 @@ const AppintmentList = () => {
       );
 
       console.log("Appointment Submitted:", response.data);
-      toast.success("Appointment successfully submitted!", { theme: "colored" });
+      toast.success("Appointment successfully submitted!", {
+        theme: "colored",
+      });
     } catch (err) {
       console.log(err);
       alert("Failed to submit appointment.");
     }
+
+    let msg = `Hello ${getData.name} Sir/Ma'am Your Appointment Book Successfully Thank you.`;
+
+    const greenwebsms = "token=93630134011681068841df511ded432a8875de6a3912a716da89&to=" + getData.phonenumber + "&message=" + msg;
+    axios
+      .post("https://api.greenweb.com.bd/api.php", greenwebsms)
+      .then((response) => {
+        console.log(response)
+      });
   };
 
   return (
