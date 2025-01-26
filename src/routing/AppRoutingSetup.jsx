@@ -57,6 +57,10 @@ import ShowDoctorss from '@/Doctor/ShowDoctorss';
 import BillingPending from '@/bill-manage/billingReport/BillingPending';
 import BillingDetails from '@/bill-manage/billingReport/BillingDetails';
 import CreatePrescription from '@/Doctor/CreatePrescription';
+import CreateExcer from '@/Content/CreateExcer';
+import CreateHealth from '@/Content/CreateHealth';
+import CreateRecipe from '@/Content/CreateRecipe';
+import CreateReviewVideo from '@/Content/CreateReviewVideo';
 
 
 
@@ -199,6 +203,13 @@ const AppRoutingSetup = () => {
               <Route path="/review" element={<UserReview />} />
               <Route path="/reviewvideo" element={<UserReviewVideo />} />
               <Route path="/recipevideo" element={<RecipeVideo />} />
+
+              <Route path="/create/exercise" element={<CreateExcer />} />
+              <Route path="/create/health" element={<CreateHealth />} />
+              <Route path="/create/reviewvideo" element={<CreateReviewVideo />} />
+              <Route path="/create/recipevideo" element={<CreateRecipe />} />
+              {/* <Route path="/create/review" element={<CreateReviewVideo />} /> */}
+            
 
               {/* this is report Management */}
               <Route path="/userreport" element={<UserAnalysisReport />} />

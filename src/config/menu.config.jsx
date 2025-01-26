@@ -320,6 +320,17 @@ export const MENU_SIDEBAR = [
           ],
         },
         {
+          title: "Create Content",
+          icon: "profile-circle",
+          children: [
+            { title: "Exercise", path: "/create/exercise" },
+            { title: "Health Tips", path: "/create/health" },
+            // { title: "Review", path: "/create/review" },
+            { title: "Review Video", path: "/create/reviewvideo" },
+            { title: "Recipe Video", path: "/create/recipevideo" },
+          ],
+        },
+        {
           title: "Report Management",
           icon: "profile-circle",
           children: [
